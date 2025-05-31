@@ -1,21 +1,27 @@
-import { createFileRoute } from '@tanstack/react-router'
+// External libraries
+import { createFileRoute, useParams, useNavigate } from '@tanstack/react-router';
 import { useReactToPrint } from 'react-to-print';
-import ProfessionalTemplate from '../../Resumes/ProfessionalResume';
-import ModernTemplate from '../../Resumes/ModernResume';
-import TemplateCreative from '../../Resumes/CreativeResume';
-import  ResumeTemplate    from '../../Resumes/MCreativeResume';
 import { useRef } from 'react';
-import ResumeForm from '../../components/ResumeForm';
-import { useParams } from '@tanstack/react-router';
-import Navbar from '../../components/Navbar';
+import { FileUp, Download } from 'lucide-react';
+
+// Resume templates
+import {
+  ProfessionalTemplate,
+  ModernTemplate,
+  TemplateCreative,
+  ResumeTemplate,
+  MinimalDesign,
+  GraciousLook,
+  ModernLook
+} from '../../Resumes';
+
+// Components & UI
+import { ResumeForm, Navbar, ResumePreview, ThemeSelector } from '../../components';
+import  Button2  from '../../components/ui/Button2';
+
+// Store
 import { useAuthStore } from '../../store/authStore';
-import ResumePreview from '../../components/ResumePreview';
-import { useNavigate } from '@tanstack/react-router';
-import Button2 from '../../components/ui/Button2';
-import { FileUp, Download  } from 'lucide-react';
-import MinimalDesign from '../../Resumes/MinimalDesign';
-import GraciousLook from '../../Resumes/GraciousLook';
-import ModernLook from '../../Resumes/ModernLook';
+
 function Resumepage() {
   const {user} = useAuthStore()
   const { resumeID } = useParams({ from: '/Resume/$resumeID' });
@@ -75,6 +81,9 @@ const templates = [
      <div className="w-1/2 p-6 bg-white shadow-lg h-screen overflow-y-auto scroll-smooth">
   <div className="max-w-full mx-auto space-y-6">
     <ResumeForm />
+    <div className='flex justify-center items-center'>
+     <ThemeSelector />
+     </div>
 
     <div>
       <p className='text-center mt-8 mb-2 font-bold text-blue-500'>Choose another template</p>
