@@ -1,7 +1,7 @@
 import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import { LogIn, UserPlus, Book, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react';
-import { useAuthStore } from '../store/authStore'; // Adjust the import path as necessary
+import { useAuthStore } from '../store/auth/authStore'; // Adjust the import path as necessary
 import { logout } from '../Firebase/auth';
 import Logo from './Logo';
 

@@ -20,7 +20,7 @@ import { ResumeForm, Navbar, ResumePreview, ThemeSelector } from '../../componen
 import  Button2  from '../../components/ui/Button2';
 
 // Store
-import { useAuthStore } from '../../store/authStore';
+import { useAuthStore } from '../../store/auth/authStore';
 
 function Resumepage() {
   const {user} = useAuthStore()
@@ -71,6 +71,7 @@ const templates = [
         return <div className="text-center text-gray-500">No template selected</div>;
     }
   }
+
   
   return (
     <div>
@@ -82,7 +83,7 @@ const templates = [
   <div className="max-w-full mx-auto space-y-6">
     <ResumeForm />
     <div className='flex justify-center items-center'>
-     <ThemeSelector />
+     <ThemeSelector template={resumeID} />
      </div>
 
     <div>

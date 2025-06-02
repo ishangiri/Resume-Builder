@@ -1,6 +1,6 @@
 import React from "react";
 import { useResumeData } from "../hooks/useResumeData";
-import { useThemeStore } from "../store/themeStore";
+import { useThemeStore } from "../store/themeStores/GraciousthemeStore";
 
 const GraciousLook = React.forwardRef<HTMLDivElement>((_, ref) => {
   const resumeData = useResumeData();

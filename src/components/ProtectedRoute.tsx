@@ -1,7 +1,7 @@
 // Create: components/ProtectedRoute.jsx
 import { useEffect, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '../store/auth/authStore';
 import { auth } from '../Firebase/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 

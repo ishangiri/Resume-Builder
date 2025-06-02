@@ -1,20 +1,29 @@
-// components/ThemeSelector.tsx
-import { useThemeStore } from "../store/themeStore";
-import { defaultTheme, elegantDark } from "../themes/themes";
+import { useUnifiedThemeStore } from "../hooks/useUnifiedThemeStore";
 
-const presets = {
-  "Default Light": defaultTheme,
-  "Elegant Dark": elegantDark,
-};
+interface template{
+  template : string;
+}
 
-export const ThemeSelector = () => {
-  const { theme, setTheme } = useThemeStore();
+
+export const ThemeSelector = ({template} : template) => {
+  //if template doesnt match the theme store return null
+  const themeSetUp =  useUnifiedThemeStore(template);
+
+  if(!themeSetUp){
+    return;
+  }
+
+  //hook call to get the specific theme values in the templateselector UI 
+  const {store, presets} = themeSetUp;
+  const {theme , setTheme} = store
+
 
   const handleInput = (key: keyof typeof theme, value: string) => {
-    setTheme({ ...theme, [key]: value });
+    setTheme({ ...theme, [key]: value } as typeof theme);
   };
 
-  return (
+
+return   (
     <div className="bg-white border border-gray-200 rounded-lg shadow-sm max-w-md">
       <div className="px-4 py-3 border-b border-gray-100">
         <h2 className="text-sm font-semibold text-gray-900">Theme Settings</h2>
@@ -72,5 +81,5 @@ export const ThemeSelector = () => {
         </div>
       </div>
     </div>
-  );
+  )
 };

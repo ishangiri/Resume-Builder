@@ -1,99 +1,40 @@
-import { forwardRef } from 'react';
+// ModernTemplateDynamic.tsx - Fixed and Simplified
+import React, { forwardRef } from 'react';
 import { useResumeData } from '../hooks/useResumeData';
+import { useThemeStore } from '../store/themeStores/ModernResumethemeStore';
 
-// Section Title - bold left line style
-const SectionTitle = ({ children }: { children: React.ReactNode }) => (
-  <h2 className="text-sm font-semibold text-blue-800 border-l-4 border-blue-500 pl-2 mb-2">
-    {children}
-  </h2>
-);
-
-const ExperienceItem = ({
-  title,
-  company,
-  period,
-  location,
-  descriptions,
-}: {
-  title: string;
-  company: string;
-  period: string;
-  location: string;
-  descriptions: string[];
-}) => (
-  <div className="mb-4">
-    <div className="flex justify-between">
-      <div className="font-semibold text-gray-900">{title}</div>
-      <div className="text-sm text-gray-500">{period}</div>
-    </div>
-    <div className="flex justify-between mb-1">
-      <div className="text-sm text-gray-700">{company}</div>
-      <div className="text-sm text-gray-500">{location}</div>
-    </div>
-    <ul className="list-disc ml-5 space-y-1 text-sm text-gray-700">
-      {descriptions.map((desc, index) => (
-        <li key={index}>{desc}</li>
-      ))}
-    </ul>
-  </div>
-);
-
-const EducationItem = ({
-  degree,
-  institution,
-  period,
-  location,
-  details,
-}: {
-  degree: string;
-  institution: string;
-  period: string;
-  location: string;
-  details?: string;
-}) => (
-  <div className="mb-3">
-    <div className="flex justify-between">
-      <div className="font-medium text-gray-900">{degree}</div>
-      <div className="text-sm text-gray-500">{period}</div>
-    </div>
-    <div className="flex justify-between">
-      <div className="text-sm text-gray-700">{institution}</div>
-      <div className="text-sm text-gray-500">{location}</div>
-    </div>
-    {details && <p className="text-sm text-gray-600 mt-1">{details}</p>}
-  </div>
-);
-
-const SkillCategory = ({
-  skills,
-}: {
-  skills: string[];
-}) => (
-  <div className="mb-3">
-    <div className="text-sm text-gray-700 font-semibold">{skills.join(', ')}</div>
-  </div>
-);
 
 const ModernTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>(
   (props, ref) => {
-
     const resumeData = useResumeData();
-   
+    const { theme } = useThemeStore();
 
     return (
       <div
         {...props}
         ref={ref}
-   className="p-8 flex-1 w-full h-full mx-auto bg-white text-gray-800 text-sm font-sans"
-      style={{ width: "210mm", height: "297mm" }}
+        className="flex-1 w-full h-full mx-auto"
+        style={{
+          width: '210mm',
+          height: '297mm',
+          backgroundColor: theme.backgroundColor,
+          color: theme.textColor,
+          fontFamily: theme.fontFamily,
+          fontSize: theme.fontSize,
+          lineHeight: theme.lineHeight,
+          padding: theme.spacing,
+          boxSizing: 'border-box',
+        }}
       >
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold">{resumeData.personalInfo.name}</h1>
-            <div className="text-md">
+          <h1 className="font-bold" style={{ fontSize: theme.headingSize, color: theme.nameColor }}>
+            {resumeData.personalInfo.name}
+          </h1>
+          <div className="mt-0.5" style={{ color: theme.textColor }}>
             {resumeData.JobTitle}
           </div>
-          <div className="text-sm text-gray-600 mt-1 flex flex-wrap gap-x-4">
+          <div className="text-sm mt-1 flex flex-wrap gap-x-4 gap-y-1" style={{ color: theme.subtleTextColor }}>
             <span>{resumeData.personalInfo.email}</span>
             <span>{resumeData.personalInfo.phone}</span>
             <span>{resumeData.personalInfo.linkedin}</span>
@@ -101,68 +42,150 @@ const ModernTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement
           </div>
         </div>
 
+        {/* Summary */}
+        {resumeData.summary && (
+          <div className="mb-4">
+            <h2 
+              className="text-sm font-semibold pl-2 mb-3 border-l-4" 
+              style={{
+                color: theme.sectionTitleTextColor,
+                borderLeftColor: theme.accentColor,
+              }}
+            >
+              Summary
+            </h2>
+            <p className="text-sm">{resumeData.summary}</p>
+          </div>
+        )}
 
-           {/* Summary */}
-        <div className="mb-4">
-          <SectionTitle>Summary</SectionTitle>
-          <p className="text-sm text-gray-800">{resumeData.summary}</p>
-        </div>
-
-       
         {/* Projects */}
-        <div className="mb-4">
-          {resumeData.hasProjects && <SectionTitle>Projects</SectionTitle>}
-          {resumeData.projects.map((proj, i) => (
-            <div key={i} className="mb-1">
-              <span className="font-semibold">{proj.name}:</span>{' '}
-              <span className="text-sm">{proj.description}</span>
-            </div>
-          ))}
-        </div>
-
-          {/* Skills */}
-        <div>
-          <SectionTitle>Skills</SectionTitle>
-          <div className="grid grid-cols-2 gap-x-8">
-            {resumeData.skills.map((skill, i) => (
-              <SkillCategory key={i} {...skill} />
+        {resumeData.hasProjects && resumeData.projects && resumeData.projects.length > 0 && (
+          <div className="mb-4">
+            <h2 
+              className="text-sm font-semibold pl-2 mb-3 border-l-4" 
+              style={{
+                color: theme.sectionTitleTextColor,
+                borderLeftColor: theme.accentColor,
+              }}
+            >
+              Projects
+            </h2>
+            {resumeData.projects.map((proj, i) => (
+              <div key={i} className="mb-2 text-sm">
+                <span className="font-semibold" style={{ color: theme.textColor }}>{proj.name}:</span>{' '}
+                <span style={{ color: theme.mediumTextColor }}>{proj.description}</span>
+              </div>
             ))}
           </div>
-        </div>
-     
+        )}
 
+        {/* Skills */}
+        {resumeData.skills && resumeData.skills.length > 0 && (
+          <div className="mb-4">
+            <h2 
+              className="text-sm font-semibold pl-2 mb-3 border-l-4" 
+              style={{
+                color: theme.sectionTitleTextColor,
+                borderLeftColor: theme.accentColor,
+              }}
+            >
+              Skills
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
+              {resumeData.skills.map((skillItem, i) => (
+                <div key={i} className="mb-2">
+                  <div className="text-sm font-semibold" style={{ color: theme.mediumTextColor }}>
+                    {skillItem.skills?.join(', ')}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
-        {/* Show when user has Experience */}
-        <div className="mb-4">
-        {resumeData.hasExperience && <SectionTitle>EXPERIENCE</SectionTitle> } 
-          {resumeData.experience.map((exp, i) => (
-            <ExperienceItem key={i} {...exp} />
-          ))}
-        </div>
+        {/* Experience */}
+        {resumeData.hasExperience && resumeData.experience && resumeData.experience.length > 0 && (
+          <div className="mb-4">
+            <h2 
+              className="text-sm font-semibold pl-2 mb-3 border-l-4" 
+              style={{
+                color: theme.sectionTitleTextColor,
+                borderLeftColor: theme.accentColor,
+              }}
+            >
+              Experience
+            </h2>
+            {resumeData.experience.map((exp, i) => (
+              <div key={i} className="mb-4">
+                <div className="flex justify-between items-baseline">
+                  <div className="font-semibold" style={{ color: theme.textColor }}>{exp.title}</div>
+                  <div className="text-sm" style={{ color: theme.subtleTextColor }}>{exp.period}</div>
+                </div>
+                <div className="flex justify-between items-baseline mb-1">
+                  <div className="text-sm" style={{ color: theme.mediumTextColor }}>{exp.company}</div>
+                  <div className="text-sm" style={{ color: theme.subtleTextColor }}>{exp.location}</div>
+                </div>
+                <ul className="list-disc ml-5 space-y-1 text-sm" style={{ color: theme.mediumTextColor }}>
+                  {exp.descriptions?.map((desc, index) => (
+                    <li key={index}>{desc}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Education */}
-        <div className="mb-4">
-          <SectionTitle>Education</SectionTitle>
-          {resumeData.education.map((edu, index) => (
-            <EducationItem key={index} {...edu} />
-          ))}
-        </div>
-
-             {/* Show when user has Certifications */}
-        <div className="mb-4">
-         {resumeData.hasCerifications && <SectionTitle>CERTFICATIONS</SectionTitle>}
-          <ul className="list-disc ml-5 text-sm text-gray-700">
-            {resumeData.certifications.map((cert, i) => (
-              <li key={i}>{cert}</li>
+        {resumeData.education && resumeData.education.length > 0 && (
+          <div className="mb-4">
+            <h2 
+              className="text-sm font-semibold pl-2 mb-3 border-l-4" 
+              style={{
+                color: theme.sectionTitleTextColor,
+                borderLeftColor: theme.accentColor,
+              }}
+            >
+              Education
+            </h2>
+            {resumeData.education.map((edu, index) => (
+              <div key={index} className="mb-3">
+                <div className="flex justify-between items-baseline">
+                  <div className="font-medium" style={{ color: theme.textColor }}>{edu.degree}</div>
+                  <div className="text-sm" style={{ color: theme.subtleTextColor }}>{edu.period}</div>
+                </div>
+                <div className="flex justify-between items-baseline mb-0.5">
+                  <div className="text-sm" style={{ color: theme.mediumTextColor }}>{edu.institution}</div>
+                  <div className="text-sm" style={{ color: theme.subtleTextColor }}>{edu.location}</div>
+                </div>
+                {edu.details && <p className="text-sm mt-1" style={{ color: theme.mediumTextColor }}>{edu.details}</p>}
+              </div>
             ))}
-          </ul>
-        </div>
+          </div>
+        )}
 
- </div>
-      
+        {/* Certifications */}
+        {resumeData.hasCerifications && resumeData.certifications && resumeData.certifications.length > 0 && (
+          <div className="mb-4">
+            <h2 
+              className="text-sm font-semibold pl-2 mb-3 border-l-4" 
+              style={{
+                color: theme.sectionTitleTextColor,
+                borderLeftColor: theme.accentColor,
+              }}
+            >
+              Certifications
+            </h2>
+            <ul className="list-disc ml-5 text-sm space-y-0.5" style={{ color: theme.mediumTextColor }}>
+              {resumeData.certifications.map((cert, i) => (
+                <li key={i}>{cert}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
     );
   }
 );
 
-ModernTemplate.displayName = 'ResumeTemplate2';
+ModernTemplate.displayName = 'ModernTemplate';
 export default ModernTemplate;

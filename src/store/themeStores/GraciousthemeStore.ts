@@ -1,6 +1,9 @@
-import type { ResumeTheme } from '../types/themes';
+import { create } from 'zustand';
 
-export const defaultTheme: ResumeTheme = {
+import  type { GenericTheme } from '../../types/GenericTheme';
+
+
+export const defaultGraciousTheme: GenericTheme = {
   fontSize: "1rem", // text-sm
   fontFamily: "sans-serif",
   textColor: "#1f2937", // gray-900
@@ -12,14 +15,19 @@ export const defaultTheme: ResumeTheme = {
   lineHeight: "1.25",
 };
 
-export const elegantDark: ResumeTheme = {
+export const elegantGraciousDark: GenericTheme = {
   fontSize: "1rem",
   fontFamily: "Georgia, serif",
   textColor: "#f9fafb",
   backgroundColor: "#1f2937",
   sectionTitleBg: "#374151",
   sectionTitleTextColor: "#facc15",
-  spacing: "1rem",
-  headingSize: "1.5rem",
-  lineHeight: "1.5",
+  spacing: "0.75rem",
+  headingSize: "1.25rem",
+  lineHeight: "1.25",
 };
+
+export const useThemeStore = create<{theme: GenericTheme; setTheme: (theme: GenericTheme) => void;}>((set) => ({
+  theme: defaultGraciousTheme,
+  setTheme: (theme) => set({ theme }),
+}));

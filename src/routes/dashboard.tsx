@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useAuthStore } from '../store/authStore'
+import { useAuthStore } from '../store/auth/authStore'
 import { useNavigate } from '@tanstack/react-router';
 import Navbar from '../components/Navbar';
 import SavedResumeUI from '../components/SavedResumeUI';

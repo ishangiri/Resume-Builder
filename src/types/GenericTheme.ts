@@ -1,0 +1,1 @@
+export type GenericTheme = Record<string, string>;
