@@ -1,8 +1,10 @@
 // External libraries
 import { createFileRoute, useParams, useNavigate } from '@tanstack/react-router';
 import { useReactToPrint } from 'react-to-print';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { FileUp, Download } from 'lucide-react';
+import { Dialog } from '../../components/ui/Dialog';
+
 
 // Resume templates
 import {
@@ -23,6 +25,10 @@ import  Button2  from '../../components/ui/Button2';
 import { useAuthStore } from '../../store/auth/authStore';
 
 function Resumepage() {
+
+  //dialog state
+  const [showDialog, setShowDialog] = useState<boolean>(false);
+
   const {user} = useAuthStore()
   const { resumeID } = useParams({ from: '/Resume/$resumeID' });
   const navigate = useNavigate();
@@ -42,14 +48,13 @@ const templates = [
 
   const savePDF = () => {
     if(!user){
-      alert("Please Login to save pdf.")
+      setShowDialog(true)
     } else {
       //saving resume logic...
       console.log("Saving");
       
     }
   }
-
 
   const chooseResumeTemplate = () => {
     switch (resumeID) {
@@ -75,6 +80,19 @@ const templates = [
   
   return (
     <div>
+      <Dialog 
+       isOpen = {showDialog}
+       type='info'
+       closeOnBackdrop={true}
+       onClose={() => setShowDialog(false)}
+       title='User Required'
+       showCloseButton = {true}
+       primaryButtonText='Login'
+       onPrimaryClick={() => navigate({to : "/AuthRoutes/loginpage"})}
+       closeOnEscape = {true}
+      >
+      <p>Please Login to save resumes.</p>
+      </Dialog>
       <Navbar />
       {/* Main Container */}
     <div className="flex  bg-gray-100">
