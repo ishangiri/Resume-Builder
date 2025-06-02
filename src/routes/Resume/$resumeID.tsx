@@ -4,13 +4,12 @@ import { useReactToPrint } from 'react-to-print';
 import { useRef, useState } from 'react';
 import { FileUp, Download } from 'lucide-react';
 import { Dialog } from '../../components/ui/Dialog';
-
+import { templates } from '../../utils/constant';
 
 // Resume templates
 import {
   ProfessionalTemplate,
   ModernTemplate,
-  TemplateCreative,
   ResumeTemplate,
   MinimalDesign,
   GraciousLook,
@@ -36,16 +35,6 @@ function Resumepage() {
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
 
-const templates = [
-  { src: '/Professional.png', resumeID: 'Professional' },
-  { src: '/Modern.svg', resumeID: 'Modern' },
-  { src: '/Creative.svg', resumeID: 'Creative' },
-  { src: '/Bold.svg', resumeID: 'Bold' },
-  {src: '/Minimal.svg', resumeID: 'Minimal'},
-  {src : '/Gracious.svg', resumeID : 'Gracious'},
-  {src : '/ModernLook.svg', resumeID : 'ModernLook'}
-]
-
   const savePDF = () => {
     if(!user){
       setShowDialog(true)
@@ -62,8 +51,6 @@ const templates = [
         return <ProfessionalTemplate  ref={contentRef} />;
       case 'Modern':
         return <ModernTemplate ref={contentRef} />;
-      case 'Bold':
-        return <TemplateCreative ref={contentRef} />;
       case 'Creative':
         return <ResumeTemplate ref={contentRef} />;
       case 'Minimal':

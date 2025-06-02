@@ -2,22 +2,10 @@ import { createFileRoute } from '@tanstack/react-router'
 import ResumePreview from '../components/ResumePreview';
 import { useNavigate } from '@tanstack/react-router'
 import Navbar from '../components/Navbar';
-
+import { templates } from '../utils/constant';
 function App() {
 
   const navigate = useNavigate();
-
-  // Array of templates with their source paths and IDs
-const templates = [
-  { src: '/Professional.png', resumeID: 'Professional' },
-  { src: '/Modern.svg', resumeID: 'Modern' },
-  { src: '/Creative.svg', resumeID: 'Creative' },
-  { src: '/Bold.svg', resumeID: 'Bold' },
-  {src: '/Minimal.svg', resumeID: 'Minimal'},
-  {src : '/Gracious.svg', resumeID : 'Gracious'},
-  {src : '/ModernLook.svg', resumeID : 'ModernLook'}
-]
-
 
    return (
     <div className="min-h-screen bg-gray-100">

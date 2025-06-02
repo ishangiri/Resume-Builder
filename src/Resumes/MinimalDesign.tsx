@@ -1,21 +1,35 @@
-import { useResumeData } from "../hooks/useResumeData"
 import React from "react";
+import { useResumeData } from "../hooks/useResumeData";
+import { useMinimalThemeStore } from "../store/themeStores/MinimalDesignthemestore";
+
+
 
 const MinimalDesign = React.forwardRef<HTMLDivElement>((_, ref) => {
   const resumeData = useResumeData();
-  
+  const {theme} = useMinimalThemeStore();
+
+
   return (
     <div
       ref={ref}
-      className="p-6 mx-auto bg-white text-gray-900 font-sans"
-      style={{ width: "210mm", height: "297mm", fontSize: "12px", lineHeight: "1.6" }}
+      className="p-6 mx-auto  text-gray-900 font-sans"
+      style={{
+        width: "210mm",
+        height: "297mm",
+        fontSize: theme.fontSize,
+        lineHeight: theme.lineHeight,
+        backgroundColor : theme.backgroundColor
+      }}
     >
       {/* Header */}
-      <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold text-blue-600 uppercase tracking-wide mb-1">
+      <div className="text-center">
+        <h1
+          className="font-bold uppercase tracking-wide"
+          style={{ color: theme.headerColor, fontSize : theme.nameFontSize }}
+        >
           {resumeData.personalInfo.name}
         </h1>
-        <p className="text-gray-700 text-sm">
+        <p className="text-sm" style={{ color: theme.textColor }}>
           {resumeData.personalInfo.location && `${resumeData.personalInfo.location} | `}
           {resumeData.personalInfo.email}
           {` | ${resumeData.personalInfo.phone}`}
@@ -24,23 +38,35 @@ const MinimalDesign = React.forwardRef<HTMLDivElement>((_, ref) => {
       </div>
 
       {/* Summary */}
-      <section className="mb-5">
-        <h2 className="text-md font-semibold text-blue-600 uppercase mb-2">Summary</h2>
-        <p className="text-gray-800 text-sm">{resumeData.summary}</p>
+      <section style={{marginBottom : theme.sectionSpacing}}>
+        <h2
+          className="font-semibold uppercase mb-1"
+          style={{ color: theme.headerColor, fontSize : theme.headingSize}}
+        >
+          Summary
+        </h2>
+        <p  style={{ color: theme.textColor, fontSize : theme.fontSize }}>
+          {resumeData.summary}
+        </p>
       </section>
 
       {/* Experience */}
-      <section className="mb-5">
-        <h2 className="text-md font-semibold text-blue-600 uppercase mb-2">Work Experience</h2>
+      <section style={{marginBottom : theme.sectionSpacing}}>
+        <h2
+          className="font-semibold uppercase mb-1"
+          style={{ color: theme.headerColor,  fontSize : theme.headingSize }}
+        >
+          Work Experience
+        </h2>
         {resumeData.experience.map((job, idx) => (
           <div key={idx} className="mb-3">
             <div className="flex justify-between items-start mb-1">
-              <h3 className="font-bold text-gray-900 text-sm">
+              <h3 className="font-bold text-sm text-gray-900">
                 {job.title} | {job.company}
               </h3>
-              <span className="text-gray-600 text-xs">{job.period}</span>
+              <span className="text-xs text-gray-600">{job.period}</span>
             </div>
-            <ul className="list-disc ml-5 text-sm text-gray-700 space-y-1">
+            <ul className="list-disc ml-5  space-y-1" style={{ color: theme.textColor, fontSize : theme.fontSize}}>
               {job.descriptions.map((desc, i) => (
                 <li key={i}>{desc}</li>
               ))}
@@ -50,41 +76,43 @@ const MinimalDesign = React.forwardRef<HTMLDivElement>((_, ref) => {
       </section>
 
       {/* Skills */}
- <section className="mb-5">
-  <h2 className="text-md font-semibold text-blue-600 uppercase mb-2">Skills</h2>
-  <div className="space-y-3">
-    {resumeData.skills.map((group, i) => (
-      <div className="flex flex-row gap-2" key={i}>
-        <h3 className="text-sm font-semibold text-gray-700 mb-1">{group.category}</h3>
-        <div className="flex flex-wrap gap-2">
-          {group.skills.map((skill: string, j: number) => (
-            <span
-              key={j}
-              className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full"
-            >
-              {skill}
-            </span>
+      <section style={{marginBottom : theme.sectionSpacing}}>
+        <h2
+          className="font-semibold uppercase mb-1"
+          style={{ color: theme.headerColor,  fontSize : theme.headingSize }}
+        >
+          Skills
+        </h2>
+        <div className="space-y-3">
+          {resumeData.skills.map((group, i) => (
+            <div key={i}>
+              <h3 className="text-sm font-semibold text-gray-700">{group.category}</h3>
+              <div className="flex mt-1">
+                    {group.skills}
+              </div>
+            </div>
           ))}
         </div>
-      </div>
-    ))}
-  </div>
-</section>
-
+      </section>
 
       {/* Education */}
-      <section className="mb-5">
-        <h2 className="text-md font-semibold text-blue-600 uppercase mb-2">Education</h2>
+      <section style={{marginBottom : theme.sectionSpacing}}>
+        <h2
+          className="font-semibold uppercase mb-1"
+          style={{ color: theme.headerColor,  fontSize : theme.headingSize }}
+        >
+          Education
+        </h2>
         {resumeData.education.map((edu, i) => (
           <div key={i} className="mb-3">
             <div className="flex justify-between items-start mb-1">
-              <h3 className="font-bold text-gray-900 text-sm">
+              <h3 className="font-bold text-sm text-gray-900">
                 {edu.degree} | {edu.institution}
               </h3>
-              <span className="text-gray-600 text-xs">{edu.period}</span>
+              <span className="text-xs text-gray-600">{edu.period}</span>
             </div>
             {edu.details && (
-              <ul className="list-disc ml-5 text-sm text-gray-700 space-y-1">
+              <ul className="list-disc ml-5 space-y-1" style={{ color: theme.textColor, fontSize : theme.fontSize }}>
                 {Array.isArray(edu.details)
                   ? edu.details.map((detail, j) => <li key={j}>{detail}</li>)
                   : <li>{edu.details}</li>}
@@ -96,9 +124,14 @@ const MinimalDesign = React.forwardRef<HTMLDivElement>((_, ref) => {
 
       {/* Projects */}
       {resumeData.projects?.length > 0 && (
-        <section className="mb-5">
-          <h2 className="text-md font-semibold text-blue-600 uppercase mb-2">Projects</h2>
-          <ul className="list-disc ml-5 text-sm text-gray-700 space-y-1">
+        <section style={{marginBottom : theme.sectionSpacing}}>
+          <h2
+            className="font-semibold uppercase mb-1"
+            style={{ color: theme.headerColor,  fontSize : theme.headingSize }}
+          >
+            Projects
+          </h2>
+          <ul className="list-disc ml-5  space-y-1" style={{ color: theme.textColor, fontSize : theme.fontSize }}>
             {resumeData.projects.map((project, i) => (
               <li key={i}>{project.description}</li>
             ))}
@@ -108,9 +141,14 @@ const MinimalDesign = React.forwardRef<HTMLDivElement>((_, ref) => {
 
       {/* Certifications */}
       {resumeData.certifications?.length > 0 && (
-        <section className="mb-0">
-          <h2 className="text-md font-semibold text-blue-600 uppercase mb-2">Certifications</h2>
-          <ul className="list-disc ml-5 text-sm text-gray-700 space-y-1">
+        <section>
+          <h2
+            className="font-semibold uppercase mb-1"
+            style={{ color: theme.headerColor,  fontSize : theme.headingSize }}
+          >
+            Certifications
+          </h2>
+          <ul className="list-disc ml-5  space-y-1" style={{ color: theme.textColor, fontSize : theme.fontSize }}>
             {resumeData.certifications.map((cert, i) => (
               <li key={i}>{cert}</li>
             ))}
