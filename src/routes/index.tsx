@@ -13,7 +13,7 @@ function App() {
       {/* Header Section */}
       <div className="flex flex-row items-center justify-center bg-gray-100 gap-4 p-8">
         <div className="flex flex-col items-center gap-2">
-          <h1 className="text-3xl font-bold text-blue-500">Choose a template to get started</h1>
+          <h1 className="md:text-3xl text-md font-bold text-blue-500">Choose a template to get started</h1>
         </div>
       </div>
 

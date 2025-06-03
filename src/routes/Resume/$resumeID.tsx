@@ -2,7 +2,7 @@
 import { createFileRoute, useParams, useNavigate } from '@tanstack/react-router';
 import { useReactToPrint } from 'react-to-print';
 import { useRef, useState } from 'react';
-import { FileUp, Download } from 'lucide-react';
+import { FileUp, Download, Eye, Edit, Palette, Layout } from 'lucide-react';
 import { Dialog } from '../../components/ui/Dialog';
 import { templates } from '../../utils/constant';
 
@@ -24,9 +24,14 @@ import  Button2  from '../../components/ui/Button2';
 import { useAuthStore } from '../../store/auth/authStore';
 
 function Resumepage() {
-
-  //dialog state
+  // Dialog state for authentication
   const [showDialog, setShowDialog] = useState<boolean>(false);
+  
+  // Mobile view state - controls which view is active on mobile (form/theme/template/preview)
+  const [mobileActiveView, setMobileActiveView] = useState<'form' | 'theme' | 'template' | 'preview'>('form');
+  
+  // Desktop left panel state - controls which tab is active in desktop left panel (form/theme/template)
+  const [desktopLeftTab, setDesktopLeftTab] = useState<'form' | 'theme' | 'template'>('form');
 
   const {user} = useAuthStore()
   const { resumeID } = useParams({ from: '/Resume/$resumeID' });
@@ -41,7 +46,6 @@ function Resumepage() {
     } else {
       //saving resume logic...
       console.log("Saving");
-      
     }
   }
 
@@ -64,9 +68,79 @@ function Resumepage() {
     }
   }
 
-  
+  // Function to render the content based on active tab/view
+  const renderLeftPanelContent = () => {
+    // On mobile, use mobileActiveView; on desktop, use desktopLeftTab
+    const activeTab = window.innerWidth < 1024 ? mobileActiveView : desktopLeftTab;
+    
+    switch (activeTab) {
+      case 'form':
+        return <ResumeForm />;
+      
+      case 'theme':
+        return (
+          <div className="flex justify-center items-center">
+            <ThemeSelector template={resumeID} />
+          </div>
+        );
+      
+      case 'template':
+        return (
+          <div>
+            <p className='text-center mb-4 font-bold text-blue-500'>Choose a different template</p>
+            <div className='flex flex-col overflow-y-auto'>
+              {templates.map((template) => (
+                <ResumePreview
+                  key={template.resumeID}
+                  src={template.src}
+                  chooseResume={() => navigate({ to: `/Resume/${template.resumeID}` })}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      
+      default:
+        return <ResumeForm />;
+    }
+  };
+
   return (
-    <div>
+    <div className="min-h-screen bg-gray-100">
+      {/* CSS styles for resume preview scaling - unchanged from previous version */}
+      <style>{`
+        .resume-preview-container {
+          width: 100%;
+          transform-origin: top center;
+          transition: transform 0.2s ease-in-out;
+        }
+        
+        /* Mobile and tablet scaling */
+        @media (max-width: 1023px) {
+          .resume-preview-container {
+            transform: scale(0.80);
+            transform-origin: top center;
+          }
+        }
+        
+        /* Small mobile scaling */
+        @media (max-width: 480px) {
+          .resume-preview-container {
+            transform: scale(0.50);
+            transform-origin: top left;
+          }
+        }
+        
+        /* Desktop - no scaling */
+        @media (min-width: 1024px) {
+          .resume-preview-container {
+            transform: scale(1);
+            transform-origin: top center;
+          }
+        }
+      `}</style>
+
+      {/* Authentication Dialog - unchanged */}
       <Dialog 
        isOpen = {showDialog}
        type='info'
@@ -80,60 +154,174 @@ function Resumepage() {
       >
       <p>Please Login to save resumes.</p>
       </Dialog>
+      
       <Navbar />
-      {/* Main Container */}
-    <div className="flex  bg-gray-100">
-      {/* Left Side - Form */}
-     <div className="w-1/2 p-6 bg-white shadow-lg h-screen overflow-y-auto scroll-smooth">
-  <div className="max-w-full mx-auto space-y-6">
-    <ResumeForm />
-    <div className='flex justify-center items-center'>
-     <ThemeSelector template={resumeID} />
-     </div>
+      
+      {/* Mobile Navigation - Now includes all 4 options: Form, Theme, Template, Preview */}
+      <div className="lg:hidden bg-white border-b border-gray-200 px-2 py-3">
+        <div className="grid grid-cols-4 gap-1">
+          {/* Mobile Form Tab */}
+          <button
+            onClick={() => setMobileActiveView('form')}
+            className={`flex flex-col items-center justify-center px-2 py-2 rounded-lg font-medium transition-colors text-xs ${
+              mobileActiveView === 'form'
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            <Edit className="w-4 h-4 mb-1" />
+            Form
+          </button>
 
-    <div>
-      <p className='text-center mt-8 mb-2 font-bold text-blue-500'>Choose another template</p>
-      <div className='flex flex-row overflow-x-auto space-x-4 pb-4'>
-        {templates.map((template) => (
-          <ResumePreview
-            key={template.resumeID}
-            src={template.src}
-            chooseResume={() => navigate({ to: `/Resume/${template.resumeID}` })}
-          />
-        ))}
+          {/* Mobile Theme Tab */}
+          <button
+            onClick={() => setMobileActiveView('theme')}
+            className={`flex flex-col items-center justify-center px-2 py-2 rounded-lg font-medium transition-colors text-xs ${
+              mobileActiveView === 'theme'
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            <Palette className="w-4 h-4 mb-1" />
+            Theme
+          </button>
+
+          {/* Mobile Template Tab */}
+          <button
+            onClick={() => setMobileActiveView('template')}
+            className={`flex flex-col items-center justify-center px-2 py-2 rounded-lg font-medium transition-colors text-xs ${
+              mobileActiveView === 'template'
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            <Layout className="w-4 h-4 mb-1" />
+            Template
+          </button>
+
+          {/* Mobile Preview Tab */}
+          <button
+            onClick={() => setMobileActiveView('preview')}
+            className={`flex flex-col items-center justify-center px-2 py-2 rounded-lg font-medium transition-colors text-xs ${
+              mobileActiveView === 'preview'
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            <Eye className="w-4 h-4 mb-1" />
+            Preview
+          </button>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
 
-
-      {/* Right Side - Resume Preview */}
-      <div className="w-1/2 bg-gray-100 p-4">
-        <div className="max-h-full flex flex-col">
-          <div className='flex flex-row items-center justify-around p-2'>
-          <div>
-            <h2 className="text-lg font-semibold text-gray-700">Live Preview</h2>
-            <p className="text-xs text-gray-500">Changes will appear here in real-time</p>
-          </div>
-             <div>
-            <Button2 onSubmit={reactToPrintFn} text= {<><FileUp />PDF</>} />
-          </div>
-              <div>
-            <Button2 onSubmit={savePDF} text={<><Download />Save</>} />
-          </div>
-          </div>
+      {/* Main Container */}
+      <div className="flex flex-col lg:flex-row">
+        {/* Left Side - Form/Theme/Template Panel */}
+        <div className={`w-full lg:w-1/2 bg-white shadow-lg ${
+          mobileActiveView === 'preview' ? 'hidden lg:block' : 'block'
+        }`}>
           
-          {/* Resume Container - fits exactly in viewport */}
-          <div className="flex-1 bg-white rounded-lg shadow-xl h-screen overflow-y-auto flex items-center justify-center">
-            <div style={{ width: '100%', height: '100%' }}>
-              <div className="w-full h-screen items-center">
-              {chooseResumeTemplate()}
+          {/* Desktop Tabs - Only visible on desktop screens */}
+          <div className="hidden lg:block bg-gray-50 border-b border-gray-200">
+            <div className="flex">
+              {/* Desktop Form Tab */}
+              <button
+                onClick={() => setDesktopLeftTab('form')}
+                className={`flex-1 flex items-center justify-center px-4 py-3 font-medium transition-colors ${
+                  desktopLeftTab === 'form'
+                    ? 'bg-white text-blue-600 border-b-2 border-blue-600'
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                <Edit className="w-4 h-4 mr-2" />
+                Edit Resume
+              </button>
+
+              {/* Desktop Theme Tab */}
+              <button
+                onClick={() => setDesktopLeftTab('theme')}
+                className={`flex-1 flex items-center justify-center px-4 py-3 font-medium transition-colors ${
+                  desktopLeftTab === 'theme'
+                    ? 'bg-white text-blue-600 border-b-2 border-blue-600'
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                <Palette className="w-4 h-4 mr-2" />
+                Change Theme
+              </button>
+
+              {/* Desktop Template Tab */}
+              <button
+                onClick={() => setDesktopLeftTab('template')}
+                className={`flex-1 flex items-center justify-center px-4 py-3 font-medium transition-colors ${
+                  desktopLeftTab === 'template'
+                    ? 'bg-white text-blue-600 border-b-2 border-blue-600'
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                <Layout className="w-4 h-4 mr-2" />
+                Templates
+              </button>
+            </div>
+          </div>
+
+          {/* Scrollable Content Area */}
+          <div className="h-screen overflow-y-auto scroll-smooth">
+            <div className="p-4 sm:p-6 lg:max-w-full lg:mx-auto space-y-6">
+              {/* Render content based on active tab */}
+              {renderLeftPanelContent()}
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side - Resume Preview */}
+        <div className={`w-full lg:w-1/2 bg-gray-100 ${
+          mobileActiveView === 'preview' ? 'block' : 'hidden lg:block'
+        }`}>
+          <div className="h-screen flex flex-col">
+            {/* Header with PDF and Save controls */}
+            <div className='flex flex-col sm:flex-row items-center justify-between p-3 sm:p-4 bg-white border-b border-gray-200'>
+              <div className="mb-2 sm:mb-0">
+                <h2 className="text-lg font-semibold text-gray-700">Live Preview</h2>
+                <p className="text-xs text-gray-500">Changes will appear here in real-time</p>
+              </div>
+              
+              {/* Action buttons for PDF generation and saving */}
+              <div className="flex space-x-2">
+                <Button2 
+                  onSubmit={reactToPrintFn} 
+                  text={
+                    <div className="flex items-center space-x-1">
+                      <FileUp className="w-4 h-4" />
+                      <span className="hidden sm:inline">PDF</span>
+                    </div>
+                  } 
+                />
+                <Button2 
+                  onSubmit={savePDF} 
+                  text={
+                    <div className="flex items-center space-x-1">
+                      <Download className="w-4 h-4" />
+                      <span className="hidden sm:inline">Save</span>
+                    </div>
+                  } 
+                />
+              </div>
+            </div>
+            
+            {/* Resume Preview Container with responsive scaling */}
+            <div className="flex-1 bg-white mx-2 mb-2 rounded-lg shadow-xl overflow-y-auto">
+              <div className="w-full h-full flex items-start justify-center p-1 sm:p-4">
+                <div className="w-full max-w-full overflow-hidden">
+                  <div className="resume-preview-container">
+                    {chooseResumeTemplate()}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }

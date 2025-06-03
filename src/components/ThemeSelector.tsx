@@ -9,8 +9,16 @@ export const ThemeSelector = ({template} : template) => {
   //if template doesnt match the theme store return null
   const themeSetUp =  useUnifiedThemeStore(template);
 
+
   if(!themeSetUp){
-    return;
+
+    return (
+
+      <div className="bg-slate-100 p-5 text-red-500">
+       Themes not available for this template yet!
+      </div>
+      
+      )
   }
 
   //hook call to get the specific theme values in the templateselector UI 
@@ -24,7 +32,7 @@ export const ThemeSelector = ({template} : template) => {
 
 
 return   (
-    <div className="bg-white border border-gray-200 rounded-lg shadow-sm max-w-md">
+    <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
       <div className="px-4 py-3 border-b border-gray-100">
         <h2 className="text-sm font-semibold text-gray-900">Theme Settings</h2>
         <p className="text-xs text-gray-500 mt-1">Customize your resume appearance</p>
@@ -40,7 +48,7 @@ return   (
               <button
                 key={name}
                 onClick={() => setTheme(val)}
-                className="px-3 py-2 text-xs font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-md hover:bg-gray-100 hover:border-gray-300 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+                className="px-3 py-2 sm:text-sm font-medium text-gray-700 bg-gray-50 border border-gray-200 rounded-md hover:bg-gray-100 hover:border-gray-300 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
               >
                 {name}
               </button>
