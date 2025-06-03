@@ -16,6 +16,7 @@ import {
   ModernLook
 } from '../../Resumes';
 
+
 // Components & UI
 import { ResumeForm, Navbar, ResumePreview, ThemeSelector } from '../../components';
 import  Button2  from '../../components/ui/Button2';
@@ -24,6 +25,9 @@ import  Button2  from '../../components/ui/Button2';
 import { useAuthStore } from '../../store/auth/authStore';
 
 function Resumepage() {
+
+  
+
   // Dialog state for authentication
   const [showDialog, setShowDialog] = useState<boolean>(false);
   
