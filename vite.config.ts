@@ -8,5 +8,17 @@ export default defineConfig({
     // Add the TanStack Router plugin for file-based routing
     TanStackRouterVite(),
     tsconfigpaths()
+  
   ],
+  server : {
+    proxy : {
+      '/api': {
+        target: 'http://0.0.0.0:8000/',
+        changeOrigin: true,
+        secure: true,
+         rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    }
+  }
+  
 })

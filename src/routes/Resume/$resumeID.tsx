@@ -5,6 +5,7 @@ import { useRef, useState } from 'react';
 import { FileUp, Download, Eye, Edit, Palette, Layout } from 'lucide-react';
 import { Dialog } from '../../components/ui/Dialog';
 import { templates } from '../../utils/constant';
+import { LoadingSpinner } from '../../components/ui/LoadingSpinner';
 
 // Resume templates
 import {
@@ -23,11 +24,13 @@ import  Button2  from '../../components/ui/Button2';
 
 // Store
 import { useAuthStore } from '../../store/auth/authStore';
+import { useResumeData } from '../../hooks/useResumeData';
+import { useUnifiedThemeStore } from '../../hooks/useUnifiedThemeStore';
+
+//hooks
+import {useSaveResume} from '../../hooks/useSaveResume';
 
 function Resumepage() {
-
-  
-
   // Dialog state for authentication
   const [showDialog, setShowDialog] = useState<boolean>(false);
   
@@ -37,21 +40,64 @@ function Resumepage() {
   // Desktop left panel state - controls which tab is active in desktop left panel (form/theme/template)
   const [desktopLeftTab, setDesktopLeftTab] = useState<'form' | 'theme' | 'template'>('form');
 
-  const {user} = useAuthStore()
   const { resumeID } = useParams({ from: '/Resume/$resumeID' });
   const navigate = useNavigate();
 
+   const {user} = useAuthStore()
+  const resumeData  = useResumeData();
+  const theme = useUnifiedThemeStore(resumeID);
+  const settings = theme?.store.theme
+  const presets = theme?.presets
+//getting the themeName using Object.entries method in the presets of the themestore
+  const themeName : string | undefined = presets && 
+  Object.entries(presets).find(([_, theme]) => JSON.stringify(theme) === JSON.stringify(settings))?.[0] 
+   
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
+
+
+  //calling hook useSaveResume
+    const { mutate, isPending, } = useSaveResume();
+    const [showSavedDialog, setShowSavedDialog] = useState<boolean>(false);
+    const [showErrorDialog, setShowErrorDialog] = useState<boolean>(false);
+
+
+  const resumePayload = {
+      user : {
+        user_id : user?.uid,
+        email : user?.email,
+        },
+        resume : {
+          title : resumeData.JobTitle,
+          content : resumeData
+        } ,
+        theme : {
+               name : themeName,
+              settings : settings
+            }
+      }
 
   const savePDF = () => {
     if(!user){
       setShowDialog(true)
     } else {
-      //saving resume logic...
-      console.log("Saving");
+      try{
+        setShowErrorDialog(false)
+        setShowSavedDialog(false)
+        console.log(resumePayload)
+       mutate(resumePayload, {
+         onSuccess: () => setShowSavedDialog(true),
+         onError : () => setShowErrorDialog(true)
+       });
+      } catch(e){
+        console.log(e); 
+      }
+       
+       
     }
   }
+
+
 
   const chooseResumeTemplate = () => {
     switch (resumeID) {
@@ -144,7 +190,7 @@ function Resumepage() {
         }
       `}</style>
 
-      {/* Authentication Dialog - unchanged */}
+      {/* Authentication Dialog*/}
       <Dialog 
        isOpen = {showDialog}
        type='info'
@@ -157,6 +203,38 @@ function Resumepage() {
        closeOnEscape = {true}
       >
       <p>Please Login to save resumes.</p>
+      </Dialog>
+       {/*Save success Dialog*/}
+        <Dialog 
+       isOpen = {showSavedDialog}
+       type='success'
+       closeOnBackdrop={true}
+       onClose={() => setShowSavedDialog(false)}
+       title='Resume Saved Successfully'
+       showCloseButton = {false}
+       primaryButtonText='Ok'
+       primaryButtonVariant='green'
+       onPrimaryClick={() => navigate({to : "/dashboard"})}
+       closeOnEscape = {true}
+      >
+      <p>Resume Saved Successfully.</p>
+      </Dialog>
+      {/*Save error Dialog*/}
+         <Dialog 
+       isOpen = {showErrorDialog}
+       type='error'
+       closeOnBackdrop={true}
+       onClose={() => setShowErrorDialog(false)}
+       title='Error Saving Resume'
+       showCloseButton = {false}
+       primaryButtonVariant='red'
+       primaryButtonText='Ok'
+       secondaryButtonText='Try Again'
+       onSecondaryClick={() => savePDF()}
+       onPrimaryClick={() => setShowErrorDialog(false)}
+       closeOnEscape = {true}
+      >
+      <p>Something Went Wrong While Saving Resume</p>
       </Dialog>
       
       <Navbar />
@@ -303,12 +381,16 @@ function Resumepage() {
                 />
                 <Button2 
                   onSubmit={savePDF} 
-                  text={
-                    <div className="flex items-center space-x-1">
-                      <Download className="w-4 h-4" />
-                      <span className="hidden sm:inline">Save</span>
-                    </div>
-                  } 
+                   text={
+                           isPending === true ? (
+                             <LoadingSpinner size="sm" text="Saving..." />
+                                                         ) : (
+                                   <div className="flex items-center space-x-1">
+                                     <Download className="w-4 h-4" />
+                                   <span className="hidden sm:inline">Save</span>
+                                   </div>
+                                    )
+                        } 
                 />
               </div>
             </div>

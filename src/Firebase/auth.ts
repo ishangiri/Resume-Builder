@@ -1,36 +1,31 @@
 // lib/auth.ts
-import { auth, db } from './firebase';
+import { auth} from './firebase';
 import {
   createUserWithEmailAndPassword,
   updateProfile,
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
-import { doc, setDoc } from "firebase/firestore";
+
 
 
 export const register = async (email: string, password: string, username: string) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const {user} = userCredential;
+    const { user } = userCredential;
 
     await updateProfile(user, {
       displayName: username,
     });
-    // Save extra info in Firestore under 'users' collection
-    await setDoc(doc(db, "users", user.uid), {
-      uid: user.uid,
-      email,
-      username,
-      createdAt: new Date().toISOString(),
-    });
     return user;
   } catch (error: unknown) {
-    if(error instanceof Error) {
-    throw new Error(error.message);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error("An unknown error occurred during registration.");
+    }
   }
 };
-}
 
 export const login = async (email: string, password: string) => {
 

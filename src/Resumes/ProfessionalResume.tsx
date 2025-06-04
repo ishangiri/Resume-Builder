@@ -7,8 +7,6 @@ const ProfessionalTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivE
   (props, ref) => {
     const resumeData = useResumeData();
     const { theme } = useThemeStore();
-
-    console.log(resumeData.personalInfo);
     
     return (
       <div

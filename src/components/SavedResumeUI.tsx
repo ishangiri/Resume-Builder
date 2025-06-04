@@ -1,18 +1,16 @@
 import React from 'react';
-import { FileText, Calendar, Edit3 } from 'lucide-react';
+import { FileText, Edit3 } from 'lucide-react';
 
 type SavedResumeUIProps = {
   jobTitle: string;
   onClick?: () => void;
-  lastModified?: string;
   templateType?: string;
 };
 
 const SavedResumeUI: React.FC<SavedResumeUIProps> = ({ 
   jobTitle, 
   onClick, 
-  lastModified = "2 days ago",
-  templateType = "Professional"
+  templateType
 }) => {
   return (
     <div
@@ -58,15 +56,13 @@ const SavedResumeUI: React.FC<SavedResumeUIProps> = ({
             <div className="w-2/3 h-3 bg-gradient-to-r from-gray-200 to-gray-100 rounded-md animate-pulse"></div>
             <div className="w-3/4 h-3 bg-gradient-to-r from-gray-200 to-gray-100 rounded-md animate-pulse"></div>
             <div className="w-1/2 h-3 bg-gradient-to-r from-gray-200 to-gray-100 rounded-md animate-pulse"></div>
+            <div className="w-3/4 h-3 bg-gradient-to-r from-gray-200 to-gray-100 rounded-md animate-pulse"></div>
+            <div className="w-1/2 h-3 bg-gradient-to-r from-gray-200 to-gray-100 rounded-md animate-pulse"></div>
           </div>
         </div>
 
         {/* Footer with last modified */}
         <div className="flex items-center justify-between text-sm text-gray-500 pt-2 border-t border-gray-100">
-          <div className="flex items-center space-x-1">
-            <Calendar className="w-3.5 h-3.5" />
-            <span>Modified {lastModified}</span>
-          </div>
           <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             <span className="text-blue-500 font-medium">View →</span>
           </div>

@@ -13,23 +13,24 @@ const RegisterForm = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (e : React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-    
-    try {
-      const user = await register(email, password, username);
-      console.log("User registered:", user);
-       navigate({ to: "/AuthRoutes/loginpage" });
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      }
-    } finally {
-      setLoading(false);
+const handleSubmit = async (e : React.FormEvent) => {
+  e.preventDefault();
+  setError("");
+  setLoading(true);
+  try {
+    const user = await register(email, password, username);
+    console.log("User registered:", user);
+    navigate({ to: "/dashboard" });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      setError(err.message);
+    } else {
+      setError("Registration failed");
     }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4 py-12">
