@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import engine
 from models import Base, User, Resume, Theme
-from schemas import ResumePayload
+from schemas import ResumePayload, UserOnly
 from database import get_db
 
 
@@ -35,6 +35,27 @@ def test_save_resume_api(data: ResumePayload, db: Session = Depends(get_db)):
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
+    
+@app.get('/get-resumes')
+def get_resume(user : str,  db: Session = Depends(get_db)):
+    try:
+         userid = db.query(User).filter(User.user_id == user).first()
+         if not userid:
+            raise HTTPException(status_code=400, detail=str("No user found"))
+         resumes = db.query(Resume).filter(Resume.user_id == user).all()
+         result = []
+         for resume in resumes:
+             theme = db.query(Theme).filter(Theme.resume_id == resume.id).all()
+             result.append({
+                 "resume": resume,
+                 "theme" : theme
+             })
+         return result
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=str(e))
+    
+
 
 
 

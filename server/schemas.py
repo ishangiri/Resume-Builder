@@ -8,7 +8,7 @@ class ResumeSchema(BaseModel):
 
 class UserSchema(BaseModel):
     user_id : str
-    email: str
+    email : str
 
 class ThemeSchema(BaseModel):
     name: str
@@ -18,3 +18,6 @@ class ResumePayload(BaseModel):
     user : UserSchema
     resume : ResumeSchema
     theme : ThemeSchema
+
+class UserOnly(BaseModel):
+    user_id : str
