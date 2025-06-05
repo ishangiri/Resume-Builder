@@ -62,6 +62,8 @@ function Resumepage() {
     const [showErrorDialog, setShowErrorDialog] = useState<boolean>(false);
 
 
+  //add template value to save in resumedata so when the user clicks on resume to edit they can go back to the same template they saved with their resume data. 
+
   const resumePayload = {
       user : {
         user_id : user?.uid,
@@ -92,8 +94,6 @@ function Resumepage() {
       } catch(e){
         console.log(e); 
       }
-       
-       
     }
   }
 

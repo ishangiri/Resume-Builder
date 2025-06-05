@@ -16,7 +16,6 @@ import { Route as IndexImport } from './routes/index'
 import { Route as ResumeResumeIDImport } from './routes/Resume/$resumeID'
 import { Route as AuthRoutesRegisterpageImport } from './routes/AuthRoutes/registerpage'
 import { Route as AuthRoutesLoginpageImport } from './routes/AuthRoutes/loginpage'
-import { Route as ResumeEditResumeIDImport } from './routes/Resume/edit/$resumeID'
 
 // Create/Update Routes
 
@@ -47,12 +46,6 @@ const AuthRoutesRegisterpageRoute = AuthRoutesRegisterpageImport.update({
 const AuthRoutesLoginpageRoute = AuthRoutesLoginpageImport.update({
   id: '/AuthRoutes/loginpage',
   path: '/AuthRoutes/loginpage',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const ResumeEditResumeIDRoute = ResumeEditResumeIDImport.update({
-  id: '/Resume/edit/$resumeID',
-  path: '/Resume/edit/$resumeID',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -95,13 +88,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResumeResumeIDImport
       parentRoute: typeof rootRoute
     }
-    '/Resume/edit/$resumeID': {
-      id: '/Resume/edit/$resumeID'
-      path: '/Resume/edit/$resumeID'
-      fullPath: '/Resume/edit/$resumeID'
-      preLoaderRoute: typeof ResumeEditResumeIDImport
-      parentRoute: typeof rootRoute
-    }
   }
 }
 
@@ -113,7 +99,6 @@ export interface FileRoutesByFullPath {
   '/AuthRoutes/loginpage': typeof AuthRoutesLoginpageRoute
   '/AuthRoutes/registerpage': typeof AuthRoutesRegisterpageRoute
   '/Resume/$resumeID': typeof ResumeResumeIDRoute
-  '/Resume/edit/$resumeID': typeof ResumeEditResumeIDRoute
 }
 
 export interface FileRoutesByTo {
@@ -122,7 +107,6 @@ export interface FileRoutesByTo {
   '/AuthRoutes/loginpage': typeof AuthRoutesLoginpageRoute
   '/AuthRoutes/registerpage': typeof AuthRoutesRegisterpageRoute
   '/Resume/$resumeID': typeof ResumeResumeIDRoute
-  '/Resume/edit/$resumeID': typeof ResumeEditResumeIDRoute
 }
 
 export interface FileRoutesById {
@@ -132,7 +116,6 @@ export interface FileRoutesById {
   '/AuthRoutes/loginpage': typeof AuthRoutesLoginpageRoute
   '/AuthRoutes/registerpage': typeof AuthRoutesRegisterpageRoute
   '/Resume/$resumeID': typeof ResumeResumeIDRoute
-  '/Resume/edit/$resumeID': typeof ResumeEditResumeIDRoute
 }
 
 export interface FileRouteTypes {
@@ -143,7 +126,6 @@ export interface FileRouteTypes {
     | '/AuthRoutes/loginpage'
     | '/AuthRoutes/registerpage'
     | '/Resume/$resumeID'
-    | '/Resume/edit/$resumeID'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -151,7 +133,6 @@ export interface FileRouteTypes {
     | '/AuthRoutes/loginpage'
     | '/AuthRoutes/registerpage'
     | '/Resume/$resumeID'
-    | '/Resume/edit/$resumeID'
   id:
     | '__root__'
     | '/'
@@ -159,7 +140,6 @@ export interface FileRouteTypes {
     | '/AuthRoutes/loginpage'
     | '/AuthRoutes/registerpage'
     | '/Resume/$resumeID'
-    | '/Resume/edit/$resumeID'
   fileRoutesById: FileRoutesById
 }
 
@@ -169,7 +149,6 @@ export interface RootRouteChildren {
   AuthRoutesLoginpageRoute: typeof AuthRoutesLoginpageRoute
   AuthRoutesRegisterpageRoute: typeof AuthRoutesRegisterpageRoute
   ResumeResumeIDRoute: typeof ResumeResumeIDRoute
-  ResumeEditResumeIDRoute: typeof ResumeEditResumeIDRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -178,7 +157,6 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoutesLoginpageRoute: AuthRoutesLoginpageRoute,
   AuthRoutesRegisterpageRoute: AuthRoutesRegisterpageRoute,
   ResumeResumeIDRoute: ResumeResumeIDRoute,
-  ResumeEditResumeIDRoute: ResumeEditResumeIDRoute,
 }
 
 export const routeTree = rootRoute
@@ -195,8 +173,7 @@ export const routeTree = rootRoute
         "/dashboard",
         "/AuthRoutes/loginpage",
         "/AuthRoutes/registerpage",
-        "/Resume/$resumeID",
-        "/Resume/edit/$resumeID"
+        "/Resume/$resumeID"
       ]
     },
     "/": {
@@ -213,9 +190,6 @@ export const routeTree = rootRoute
     },
     "/Resume/$resumeID": {
       "filePath": "Resume/$resumeID.tsx"
-    },
-    "/Resume/edit/$resumeID": {
-      "filePath": "Resume/edit/$resumeID.tsx"
     }
   }
 }

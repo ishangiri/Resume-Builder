@@ -5,39 +5,45 @@ import Navbar from '../components/Navbar';
 import SavedResumeUI from '../components/SavedResumeUI';
 import CreateNewResume from '../components/CreateNewResume';
 import { ProtectedRoute } from '../components/ProtectedRoute';
-import useFetchResume from '../hooks/useFetchResume';
+import {useFetchResume, fetchResumeById} from '../hooks/useFetchResume';
 import type { AxiosError, AxiosResponse } from 'axios';
+import { useResumeStore } from '../store/ResumeStore';
+import type { fetchedResumes } from '../types/fetchedData';
+import type { ResumeData } from '../types/fetchedData';
+import type { fetchedData } from '../types/fetchedData';
 
 
-
-interface ResumeContent {
-  JobTitle?: string;
-  // add other properties as needed
-}
-
-interface ResumeData {
-  resume: {
-    title: string,
-    content: ResumeContent,
-    id: string
-  },
-  theme: [
-    {
-     name: string,
-    settings: object
-    }
-  ],
-}
 
 function RouteComponent() {
   const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
 
+
+  //fetch the resume data by id then navigate to choose template
+  //send to the same template page after including resume template name  in the db.
+  const fetchAndRoute = async (id : string) => {
+    try{
+       const data   =    await fetchResumeById(id)
+       const resumes: ResumeData[] = (data && typeof data === 'object' && data !== null && 'data' in data) ? (data as AxiosResponse).data : [];
+       const content = resumes[0]?.resume.content as fetchedData
+       if(content){
+        useResumeStore.getState().loadResume(content);
+        navigate({to : "/"})
+       }
+      }catch(error : unknown){
+       console.log(error);
+      }
+}
+
+  
+
+  const resetData = useResumeStore((state) => state.resetResume)
+
   const userId = user?.uid;
   const { data, isLoading, isError, error, isFetched } = useFetchResume(userId);
 
   // Extract resumes array from API response
-  const resumes: ResumeData[] = (data && 'data' in data) ? (data as AxiosResponse).data : [];
+  const resumes: fetchedResumes[] = (data && typeof data === 'object' && data !== null && 'data' in data) ? (data as AxiosResponse).data : [];
 
   // Handle loading state
   if (isLoading) {
@@ -51,7 +57,7 @@ function RouteComponent() {
     );
   }
 
-  const status = (error && 'response' in error && (error as AxiosError).response) ? (error as unknown).response.status : undefined
+  const status = (error && 'response' in error && (error as AxiosError).response) ? (error as any).response.status : undefined
 //if error is not 404 (missing user in db) then show this UI
  if (isError && status !== 404){
   return(
@@ -67,10 +73,8 @@ function RouteComponent() {
  if(isFetched){
      for(let i = 0; i < resumes.length; i ++){
          console.log(resumes[i].resume.content)
-         console.log(resumes[i].theme[i].settings);
-         
-     }
-  
+         console.log(resumes[i].theme[0].settings);   
+     }  
  }
 
   // Normal UI (no error)
@@ -105,12 +109,16 @@ return (
 
               {/* Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-                <CreateNewResume onClick={() => navigate({ to: "/" })} />
+                 <CreateNewResume onClick={
+                () => {
+                  navigate({ to: "/" })
+                   resetData();  
+                }} />
                 {resumes.map((resume) => (
                   <SavedResumeUI
                     key={resume.resume.id}    
-                    jobTitle={resume.resume.content.JobTitle || 'Untitled'}
-                    onClick={() => navigate({ to: `/Resume/edit/${resume.resume.id}` })}
+                    jobTitle={resume.resume.title || 'Untitled'}
+                    onClick={() => fetchAndRoute(resume.resume.id)}
                     templateType={resume?.theme?.[0]?.name || 'Default'}
                   />
                 ))}
@@ -121,7 +129,11 @@ return (
             <div className="col-span-full text-center py-12">
               <h3 className="text-xl font-semibold text-gray-900 mb-2">No resumes yet</h3>
               <p className="text-gray-600 mb-6">Create your first resume to get started!</p>
-              <CreateNewResume onClick={() => navigate({ to: "/" })} />
+              <CreateNewResume onClick={
+                () => {
+                  navigate({ to: "/" })
+                   resetData();  
+                }} />
             </div>
           )}
         </div>
