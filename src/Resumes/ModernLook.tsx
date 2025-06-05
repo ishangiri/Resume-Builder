@@ -71,7 +71,7 @@ const ModernLook = React.forwardRef<HTMLDivElement, ModernLookProps>(({ sectionS
                 </span>
               </div>
               <ul className="list-disc pl-4 mt-1 space-y-0.5 leading-tight">
-                {job.descriptions.map((desc, i) => (
+                {job.description.map((desc, i) => (
                   <li key={i}>{desc}</li>
                 ))}
               </ul>

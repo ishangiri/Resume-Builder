@@ -123,7 +123,7 @@ const GraciousLook = React.forwardRef<HTMLDivElement>((_, ref) => {
             </div>
             <p style={{ fontSize: "0.75rem", fontStyle: "italic" }}>{job.title}</p>
             <ul style={{ marginLeft: "1rem", paddingLeft: "1rem", listStyleType: "disc" }}>
-              {job.descriptions.slice(0, 3).map((desc, i) => (
+              {job.description.slice(0, 3).map((desc, i) => (
                 <li key={i} style={{ marginBottom: "0.25rem" }}>{desc}</li>
               ))}
             </ul>

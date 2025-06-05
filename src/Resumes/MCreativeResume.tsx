@@ -80,9 +80,9 @@ const ResumeTemplate =  React.forwardRef<HTMLDivElement>((_, ref) => {
                     {job.location && <p>{job.location}</p>}
                   </div>
                 </div>
-                {job.descriptions && (
+                {job.description && (
                   <ul className="space-y-1 ml-3">
-                    {job.descriptions.map((achievement, achIndex) => (
+                    {job.description.map((achievement, achIndex) => (
                       <li key={achIndex} className="flex items-start">
                         <span className="text-green-600 mr-2 mt-0.5 text-xs">•</span>
                         <span className="text-gray-700 text-xs leading-tight">{achievement}</span>

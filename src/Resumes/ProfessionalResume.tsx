@@ -92,7 +92,9 @@ const ProfessionalTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivE
                   </span>
                 </div>
                 <ul className="list-disc ml-4">
-                  <li>{exp.descriptions}</li>
+              {exp.description?.map((desc, index) => (
+                    <li key={index}>{desc}</li>
+                  ))}
                 </ul>
               </div>
             ))}

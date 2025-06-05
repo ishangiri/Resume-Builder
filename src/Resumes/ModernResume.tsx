@@ -126,7 +126,7 @@ const ModernTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement
                   <div className="text-sm" style={{ color: theme.subtleTextColor }}>{exp.location}</div>
                 </div>
                 <ul className="list-disc ml-5 space-y-1 text-sm" style={{ color: theme.mediumTextColor }}>
-                  {exp.descriptions?.map((desc, index) => (
+                  {exp.description?.map((desc, index) => (
                     <li key={index}>{desc}</li>
                   ))}
                 </ul>

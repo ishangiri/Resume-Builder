@@ -67,7 +67,7 @@ const MinimalDesign = React.forwardRef<HTMLDivElement>((_, ref) => {
               <span className="text-xs text-gray-600">{job.period}</span>
             </div>
             <ul className="list-disc ml-5  space-y-1" style={{ color: theme.textColor, fontSize : theme.fontSize}}>
-              {job.descriptions.map((desc, i) => (
+              {job.description.map((desc, i) => (
                 <li key={i}>{desc}</li>
               ))}
             </ul>

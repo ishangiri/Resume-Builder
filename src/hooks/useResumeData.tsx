@@ -45,7 +45,7 @@
             company: exp.company || 'Tech Company',
             period: `${exp.startDate || 'Jan 2020'} - ${exp.endDate || 'Present'}`,
             location: exp.location || 'Remote',
-            descriptions: exp.description?.length
+            description: exp.description?.length
               ? exp.description
               : ['Worked on multiple client projects using React and Node.js']
           }))
@@ -67,7 +67,7 @@
               company: 'Tech Solutions Inc.',
               period: 'Jan 2021 - Present',
               location: 'New York, NY',
-              descriptions: [
+              description: [
                 'Lead development of a React-based dashboard used by 50,000+ monthly active users',
                 'Implemented responsive design principles, improving mobile user engagement by 35%',
                 'Architected state management solution using Redux, reducing UI bugs by 40%',
@@ -79,7 +79,7 @@
               company: 'Tech Solutions Inc.',
               period: 'Jan 2021 - Present',
               location: 'New York, NY',
-              descriptions: [
+              description: [
                 'Lead development of a React-based dashboard used by 50,000+ monthly active users',
                 'Implemented responsive design principles, improving mobile user engagement by 35%',
                 'Architected state management solution using Redux, reducing UI bugs by 40%',
