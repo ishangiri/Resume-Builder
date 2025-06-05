@@ -142,12 +142,14 @@ return (
             className="w-1/2 px-3 py-2 border rounded"
             value={exp.startDate}
             onChange={e => updateExperience(idx, 'startDate', e.target.value)}
+            placeholder='Start-Date'
           />
           <input
             type="month"
             className="w-1/2 px-3 py-2 border rounded"
             value={exp.endDate}
             onChange={e => updateExperience(idx, 'endDate', e.target.value)}
+            placeholder='End-Date'
           />
         </div>
 

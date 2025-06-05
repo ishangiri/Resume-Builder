@@ -17,6 +17,7 @@ class Resume(Base):
 
     id = Column(Integer, primary_key=True, index=True, nullable=False, autoincrement=True)
     title = Column(String(100), nullable=False)
+    template = Column(String, nullable=False)
     content = Column(JSON, nullable=False)
     user_id = Column(String, ForeignKey('users.user_id'), nullable=False)
 

@@ -7,9 +7,6 @@ from database import get_db
 from fastapi.middleware.cors import CORSMiddleware
 
 
-
-
-
 app = FastAPI()
 
 app.add_middleware(
@@ -36,7 +33,7 @@ def test_save_resume_api(data: ResumePayload, db: Session = Depends(get_db)):
             user_obj = User(user_id=data.user.user_id, email=data.user.email)
             db.add(user_obj)
 
-        resume_obj = Resume(title=data.resume.title, content=data.resume.content, owner=user_obj)
+        resume_obj = Resume(title=data.resume.title, content=data.resume.content, owner=user_obj, template=data.resume.template)
         db.add(resume_obj)
 
         theme_obj = Theme(name=data.theme.name, settings=data.theme.settings, resume=resume_obj)

@@ -55,7 +55,7 @@
               company: 'Tech Solutions Inc.',
               period: 'Jan 2021 - Present',
               location: 'New York, NY',
-              descriptions: [
+              description: [
                 'Lead development of a React-based dashboard used by 50,000+ monthly active users',
                 'Implemented responsive design principles, improving mobile user engagement by 35%',
                 'Architected state management solution using Redux, reducing UI bugs by 40%',

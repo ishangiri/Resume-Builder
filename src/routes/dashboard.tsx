@@ -18,29 +18,10 @@ function RouteComponent() {
   const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
 
-
-  //fetch the resume data by id then navigate to choose template
-  //send to the same template page after including resume template name  in the db.
-  const fetchAndRoute = async (id : string) => {
-    try{
-       const data   =    await fetchResumeById(id)
-       const resumes: ResumeData[] = (data && typeof data === 'object' && data !== null && 'data' in data) ? (data as AxiosResponse).data : [];
-       const content = resumes[0]?.resume.content as fetchedData
-       if(content){
-        useResumeStore.getState().loadResume(content);
-        navigate({to : "/"})
-       }
-      }catch(error : unknown){
-       console.log(error);
-      }
-}
-
-  
-
   const resetData = useResumeStore((state) => state.resetResume)
 
   const userId = user?.uid;
-  const { data, isLoading, isError, error, isFetched } = useFetchResume(userId);
+  const { data, isLoading, isError, error } = useFetchResume(userId);
 
   // Extract resumes array from API response
   const resumes: fetchedResumes[] = (data && typeof data === 'object' && data !== null && 'data' in data) ? (data as AxiosResponse).data : [];
@@ -70,12 +51,23 @@ function RouteComponent() {
   )
  }
 
- if(isFetched){
-     for(let i = 0; i < resumes.length; i ++){
-         console.log(resumes[i].resume.content)
-         console.log(resumes[i].theme[0].settings);   
-     }  
- }
+  const fetchAndRoute = async (id : string) => {
+    try{
+       const data   =    await fetchResumeById(id)
+       const oneResume: ResumeData[] = (data && typeof data === 'object' && data !== null && 'data' in data) ? (data as AxiosResponse).data : [];
+       const content = oneResume[0]?.resume.content as fetchedData
+       const template = oneResume[0]?.resume.template
+       console.log(template);
+       
+       if(content){
+        useResumeStore.getState().loadResume(content);
+        navigate({to : `/Resume/${template}`})
+       }
+      }catch(error : unknown){
+       console.log(error);
+      }
+}
+
 
   // Normal UI (no error)
 return (
@@ -119,7 +111,8 @@ return (
                     key={resume.resume.id}    
                     jobTitle={resume.resume.title || 'Untitled'}
                     onClick={() => fetchAndRoute(resume.resume.id)}
-                    templateType={resume?.theme?.[0]?.name || 'Default'}
+                    templateDesign={resume?.theme?.[0]?.name || 'Default'}
+                    template = {resume?.resume.template}
                   />
                 ))}
               </div>

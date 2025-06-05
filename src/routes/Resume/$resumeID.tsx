@@ -41,6 +41,8 @@ function Resumepage() {
   const [desktopLeftTab, setDesktopLeftTab] = useState<'form' | 'theme' | 'template'>('form');
 
   const { resumeID } = useParams({ from: '/Resume/$resumeID' });
+  console.log(resumeID);
+  
   const navigate = useNavigate();
 
    const {user} = useAuthStore()
@@ -71,7 +73,8 @@ function Resumepage() {
         },
         resume : {
           title : resumeData.JobTitle,
-          content : resumeData
+          content : resumeData,
+          template : resumeID,
         } ,
         theme : {
                name : themeName,

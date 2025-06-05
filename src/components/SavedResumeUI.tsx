@@ -4,13 +4,15 @@ import { FileText, Edit3 } from 'lucide-react';
 type SavedResumeUIProps = {
   jobTitle: string;
   onClick?: () => void;
-  templateType?: string;
+  templateDesign?: string;
+  template: string;
 };
 
 const SavedResumeUI: React.FC<SavedResumeUIProps> = ({ 
   jobTitle, 
   onClick, 
-  templateType
+  templateDesign,
+  template
 }) => {
   return (
     <div
@@ -32,7 +34,7 @@ const SavedResumeUI: React.FC<SavedResumeUIProps> = ({
                 {jobTitle}
               </h3>
               <span className="inline-block px-2 py-1 text-xs font-medium text-blue-600 bg-blue-50 rounded-md">
-                {templateType}
+                {templateDesign}
               </span>
             </div>
           </div>
@@ -64,7 +66,7 @@ const SavedResumeUI: React.FC<SavedResumeUIProps> = ({
         {/* Footer with last modified */}
         <div className="flex items-center justify-between text-sm text-gray-500 pt-2 border-t border-gray-100">
           <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            <span className="text-blue-500 font-medium">View →</span>
+            <span className="text-blue-500 font-medium">View →{template}</span>
           </div>
         </div>
       </div>

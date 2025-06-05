@@ -1,3 +1,6 @@
+import type { GenericTheme } from "./GenericTheme"
+
+
 type Experience = {
   title: string
   company: string
@@ -54,7 +57,8 @@ export type fetchedResumes = {
   resume: {
     title: string,
     content: ResumeContent,
-    id: string
+    id: string,
+    template : string
   },
   theme: [
     {
@@ -63,3 +67,17 @@ export type fetchedResumes = {
     }
   ],
 }
+
+
+export type ResumeData = {
+    
+        resume : {
+          title : string,
+          content : object,
+          template : string,
+        } ,
+        theme : [{
+               name : string | undefined,
+              settings : GenericTheme | undefined
+            }]
+          }

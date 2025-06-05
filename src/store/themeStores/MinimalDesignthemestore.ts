@@ -19,9 +19,7 @@ export const defaultTheme : GenericTheme =  {
   headingSize : "1rem",
 }
 
-
 export const useMinimalThemeStore = create<theme>((set) =>({
   theme: defaultTheme,
   setTheme: (theme) => set({ theme }),
 }));
-
