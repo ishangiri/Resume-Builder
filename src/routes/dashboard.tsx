@@ -11,6 +11,7 @@ import { useResumeStore } from '../store/ResumeStore';
 import type { fetchedResumes } from '../types/fetchedData';
 import type { ResumeData } from '../types/fetchedData';
 import type { fetchedData } from '../types/fetchedData';
+import { getTemplateTheme } from '../utils/getTemplatesTheme';
 
 
 
@@ -57,10 +58,15 @@ function RouteComponent() {
        const oneResume: ResumeData[] = (data && typeof data === 'object' && data !== null && 'data' in data) ? (data as AxiosResponse).data : [];
        const content = oneResume[0]?.resume.content as fetchedData
        const template = oneResume[0]?.resume.template
-       console.log(template);
-       
-       if(content){
-        useResumeStore.getState().loadResume(content);
+       const theme = oneResume[0]?.theme[0].settings
+       console.log(theme);
+       const updateTheme = getTemplateTheme(template) as any;
+       if(!content || !template || !theme || !updateTheme){
+             console.log("Could not fetch data");
+             throw new Error("Could not fetch data")
+       }else {
+          useResumeStore.getState().loadResume(content);
+        updateTheme.getState().loadTheme(theme)
         navigate({to : `/Resume/${template}`})
        }
       }catch(error : unknown){

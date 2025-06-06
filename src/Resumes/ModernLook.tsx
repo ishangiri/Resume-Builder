@@ -35,7 +35,7 @@ const ModernLook = React.forwardRef<HTMLDivElement, ModernLookProps>(({ sectionS
         </h2>
         <p className="text-gray-700 text-sm mt-1">
           {resumeData.personalInfo.email} | {resumeData.personalInfo.phone} |{" "}
-          {resumeData.personalInfo.location}
+          {resumeData.personalInfo.location} | {resumeData.personalInfo.linkedin}
         </p>
 
       </div>
@@ -59,7 +59,7 @@ const ModernLook = React.forwardRef<HTMLDivElement, ModernLookProps>(({ sectionS
           </div>
         </Section>
 
-        <Section title="Work Experience" headerColor={effectiveHeaderColor} accentColor={effectiveAccentColor} theme={theme}>
+        {resumeData.hasExperience && <Section title="Work Experience" headerColor={effectiveHeaderColor} accentColor={effectiveAccentColor} theme={theme}>
           {resumeData.experience.map((job, idx) => (
             <div key={idx} className="mb-2">
               <div className="flex justify-between items-baseline">
@@ -77,7 +77,7 @@ const ModernLook = React.forwardRef<HTMLDivElement, ModernLookProps>(({ sectionS
               </ul>
             </div>
           ))}
-        </Section>
+        </Section>}
 
         <Section title="Education" headerColor={effectiveHeaderColor} accentColor={effectiveAccentColor} theme={theme}>
           {resumeData.education.map((edu, i) => (

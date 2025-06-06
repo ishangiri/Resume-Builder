@@ -4,6 +4,7 @@ import type { GenericTheme } from "../../types/GenericTheme";
 interface theme {
   theme : GenericTheme,
   setTheme : (theme : GenericTheme) => void
+  loadTheme : (theme : GenericTheme) => void
 }
 
 export const defaultModerntheme: GenericTheme = {
@@ -52,5 +53,10 @@ export const elegantGrayTheme: GenericTheme = {
 
 export const useModernLookthemeStore = create<theme>((set) => ({
    theme : defaultModerntheme,
-   setTheme: (theme) => set({ theme })
+   setTheme: (theme) => set({ theme }),
+   loadTheme : (data : GenericTheme) => set({
+    ...data
+   })
 }))
+
+export const modernLookStore = useModernLookthemeStore;

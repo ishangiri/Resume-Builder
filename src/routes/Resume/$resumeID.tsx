@@ -77,7 +77,7 @@ function Resumepage() {
           template : resumeID,
         } ,
         theme : {
-               name : themeName,
+               name : themeName || "Custom Theme",
               settings : settings
             }
       }

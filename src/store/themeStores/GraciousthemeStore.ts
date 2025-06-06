@@ -27,7 +27,13 @@ export const elegantGraciousDark: GenericTheme = {
   lineHeight: "1.25",
 };
 
-export const useThemeStore = create<{theme: GenericTheme; setTheme: (theme: GenericTheme) => void;}>((set) => ({
+export const useThemeStore = create<{theme: GenericTheme; setTheme: (theme: GenericTheme) => void; loadTheme: (theme : GenericTheme) => void}>((set) => ({
   theme: defaultGraciousTheme,
   setTheme: (theme) => set({ theme }),
+  loadTheme : (data : GenericTheme) => set({
+    ...data
+  })
 }));
+
+
+export const graciousStore = useThemeStore;

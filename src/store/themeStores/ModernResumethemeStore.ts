@@ -76,7 +76,13 @@ export const modernCharcoalTheme: GenericTheme = {
 export const useThemeStore = create<{
   theme: GenericTheme;
   setTheme: (theme: GenericTheme) => void;
+  loadTheme : (theme : GenericTheme) => void;
 }>((set) => ({
   theme: defaultTheme,
   setTheme: (theme) => set({ theme }),
+  loadTheme : (data : GenericTheme) => set({
+    theme : { ...data }
+  })
 }));
+
+export const modernStore = useThemeStore;

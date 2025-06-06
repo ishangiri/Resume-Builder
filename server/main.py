@@ -88,6 +88,12 @@ def get_resume_byID(id : str, db : Session = Depends(get_db)):
         raise http_exc 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Server Error : {str(e)}")
+    
+    
+# @app.put('/update-resumeById')
+# def update_resume_byId(id : str, db : Session = Depends(get_db)):
+
+                       
 
   
 @app.delete("/resumes/{resume_id}")

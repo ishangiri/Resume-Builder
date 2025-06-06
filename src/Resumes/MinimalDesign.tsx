@@ -51,7 +51,7 @@ const MinimalDesign = React.forwardRef<HTMLDivElement>((_, ref) => {
       </section>
 
       {/* Experience */}
-      <section style={{marginBottom : theme.sectionSpacing}}>
+     {resumeData.hasExperience &&  <section style={{marginBottom : theme.sectionSpacing}}>
         <h2
           className="font-semibold uppercase mb-1"
           style={{ color: theme.headerColor,  fontSize : theme.headingSize }}
@@ -73,7 +73,7 @@ const MinimalDesign = React.forwardRef<HTMLDivElement>((_, ref) => {
             </ul>
           </div>
         ))}
-      </section>
+      </section>}
 
       {/* Skills */}
       <section style={{marginBottom : theme.sectionSpacing}}>

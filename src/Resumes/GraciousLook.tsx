@@ -100,7 +100,7 @@ const GraciousLook = React.forwardRef<HTMLDivElement>((_, ref) => {
 
       {/* Experience */}
       <section style={{ marginBottom: "0.75rem" }}>
-        <h3
+       {resumeData.hasExperience &&  <h3
           style={{
             backgroundColor: theme.sectionTitleBg,
             color: theme.sectionTitleTextColor,
@@ -114,7 +114,7 @@ const GraciousLook = React.forwardRef<HTMLDivElement>((_, ref) => {
           }}
         >
           Professional Experience
-        </h3>
+        </h3>}
         {resumeData.experience.map((job, idx) => (
           <div key={idx} style={{ marginBottom: "0.75rem" }}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
