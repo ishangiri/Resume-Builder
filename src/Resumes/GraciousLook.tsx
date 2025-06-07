@@ -26,7 +26,7 @@ const GraciousLook = React.forwardRef<HTMLDivElement>((_, ref) => {
       <div
         style={{
           textAlign: "center",
-          marginBottom: "1rem",
+          marginBottom: theme.sectionSpacing || "1rem",
           borderBottom: "1px solid #d1d5db",
           paddingBottom: "0.5rem",
         }}
@@ -34,8 +34,8 @@ const GraciousLook = React.forwardRef<HTMLDivElement>((_, ref) => {
         <h1
           style={{
             fontSize: theme.headingSize,
-            fontWeight: "bold",
-            textTransform: "uppercase",
+            fontWeight: theme.titleWeight || "bold",
+            textTransform: (theme.titleCase as React.CSSProperties['textTransform']) || "uppercase",
             letterSpacing: "0.05em",
             color: theme.textColor,
           }}
@@ -51,39 +51,39 @@ const GraciousLook = React.forwardRef<HTMLDivElement>((_, ref) => {
 
       {/* Summary */}
       {resumeData.summary && (
-        <section style={{ marginBottom: "1rem" }}>
+        <section style={{ marginBottom: theme.sectionSpacing || "1rem" }}>
           <h3
             style={{
               backgroundColor: theme.sectionTitleBg,
               color: theme.sectionTitleTextColor,
-              textAlign: "center",
+              textAlign: theme.alignment as React.CSSProperties['textAlign'],
               padding: "0.25rem",
-              textTransform: "uppercase",
+              textTransform: (theme.titleCase as React.CSSProperties['textTransform']) || "uppercase",
               fontSize: theme.fontSize,
               letterSpacing: "0.05em",
               marginBottom: "0.5rem",
-              fontWeight: "bold",
+              fontWeight: theme.titleWeight || "bold",
             }}
           >
             Professional Summary
           </h3>
-          <p style={{ textAlign: "center" }}>{resumeData.summary}</p>
+          <p style={{  textAlign: theme.alignment as React.CSSProperties['textAlign'] || "center" }}>{resumeData.summary}</p>
         </section>
       )}
 
       {/* Skills */}
-      <section style={{ marginBottom: "0.75rem" }}>
+      <section style={{ marginBottom: theme.sectionSpacing || "0.75rem" }}>
         <h3
           style={{
             backgroundColor: theme.sectionTitleBg,
             color: theme.sectionTitleTextColor,
-            textAlign: "center",
+             textAlign: theme.alignment as React.CSSProperties['textAlign'] || "center",
             padding: "0.25rem",
-            textTransform: "uppercase",
+             textTransform: (theme.titleCase as React.CSSProperties['textTransform']) || "uppercase",
             fontSize: theme.fontSize,
             letterSpacing: "0.05em",
             marginBottom: "0.5rem",
-            fontWeight: "bold",
+            fontWeight: theme.titleWeight || "bold",
           }}
         >
           Core Competencies
@@ -99,59 +99,69 @@ const GraciousLook = React.forwardRef<HTMLDivElement>((_, ref) => {
       </section>
 
       {/* Experience */}
-      <section style={{ marginBottom: "0.75rem" }}>
-       {resumeData.hasExperience &&  <h3
-          style={{
-            backgroundColor: theme.sectionTitleBg,
-            color: theme.sectionTitleTextColor,
-            textAlign: "center",
-            padding: "0.25rem",
-            textTransform: "uppercase",
-            fontSize: theme.fontSize,
-            letterSpacing: "0.05em",
-            marginBottom: "0.5rem",
-            fontWeight: "bold",
-          }}
-        >
-          Professional Experience
-        </h3>}
-        {resumeData.experience.map((job, idx) => (
-          <div key={idx} style={{ marginBottom: "0.75rem" }}>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <h4 style={{ fontWeight: 600 }}>{job.company}</h4>
-              <span style={{ fontSize: "0.75rem" }}>{job.period}</span>
-            </div>
-            <p style={{ fontSize: "0.75rem", fontStyle: "italic" }}>{job.title}</p>
-            <ul style={{ marginLeft: "1rem", paddingLeft: "1rem", listStyleType: "disc" }}>
-              {job.description.slice(0, 3).map((desc, i) => (
-                <li key={i} style={{ marginBottom: "0.25rem" }}>{desc}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </section>
-
-      {/* Projects */}
-      {resumeData.projects?.length > 0 && (
-        <section style={{ marginBottom: "0.75rem" }}>
+      {resumeData.hasExperience && (
+        <section style={{ marginBottom: theme.sectionSpacing || "0.75rem" }}>
           <h3
             style={{
               backgroundColor: theme.sectionTitleBg,
               color: theme.sectionTitleTextColor,
-              textAlign: "center",
+              textAlign: theme.alignment as React.CSSProperties['textAlign'] || "center",
               padding: "0.25rem",
-              textTransform: "uppercase",
+              textTransform: (theme.titleCase as React.CSSProperties['textTransform']) || "uppercase",
               fontSize: theme.fontSize,
               letterSpacing: "0.05em",
               marginBottom: "0.5rem",
-              fontWeight: "bold",
+              fontWeight: theme.titleWeight || "bold",
+            }}
+          >
+            Professional Experience
+          </h3>
+          {resumeData.experience.map((job, idx) => (
+            <div key={idx} style={{ marginBottom: "0.75rem" }}>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <h4 style={{ fontWeight: 600 }}>{job.company}</h4>
+                <span style={{ fontSize: "0.75rem" }}>{job.period}</span>
+              </div>
+              <p style={{ fontSize: "0.75rem", fontStyle: "italic" }}>{job.title}</p>
+              <ul
+                style={{
+                  marginLeft: "1rem",
+                  paddingLeft: "1rem",
+                  listStyleType: theme.bulletStyle || "disc",
+                }}
+              >
+                {job.description.slice(0, 3).map((desc, i) => (
+                  <li key={i} style={{ marginBottom: "0.25rem" }}>{desc}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </section>
+      )}
+
+      {/* Projects */}
+      {resumeData.projects?.length > 0 && (
+        <section style={{ marginBottom: theme.sectionSpacing || "0.75rem" }}>
+          <h3
+            style={{
+              backgroundColor: theme.sectionTitleBg,
+              color: theme.sectionTitleTextColor,
+           textAlign: theme.alignment as React.CSSProperties['textAlign'] || "center",
+              padding: "0.25rem",
+             textTransform: (theme.titleCase as React.CSSProperties['textTransform']) || "uppercase",
+              fontSize: theme.fontSize,
+              letterSpacing: "0.05em",
+              marginBottom: "0.5rem",
+              fontWeight: theme.titleWeight || "bold",
             }}
           >
             Relevant Projects
           </h3>
           {resumeData.projects.map((project, i) => (
             <div key={i} style={{ marginBottom: "0.5rem" }}>
-              <h4 style={{ fontWeight: 600 }}>{project.name || `Project ${i + 1}`}</h4>
+              <h4 style={{ fontWeight: 600, color: theme.projectNameColor || theme.textColor }}>
+                {project.name || `Project ${i + 1}`}
+              </h4>
               <p style={{ fontSize: "0.75rem" }}>{project.description}</p>
             </div>
           ))}
@@ -159,30 +169,36 @@ const GraciousLook = React.forwardRef<HTMLDivElement>((_, ref) => {
       )}
 
       {/* Education */}
-      <section style={{ marginBottom: "0.75rem" }}>
+      <section style={{ marginBottom: theme.sectionSpacing || "0.75rem" }}>
         <h3
           style={{
             backgroundColor: theme.sectionTitleBg,
             color: theme.sectionTitleTextColor,
-            textAlign: "center",
+             textAlign: theme.alignment as React.CSSProperties['textAlign'] || "center",
             padding: "0.25rem",
-            textTransform: "uppercase",
+         textTransform: (theme.titleCase as React.CSSProperties['textTransform']) || "uppercase",
             fontSize: theme.fontSize,
             letterSpacing: "0.05em",
             marginBottom: "0.5rem",
-            fontWeight: "bold",
+            fontWeight: theme.titleWeight || "bold",
           }}
         >
           Education
         </h3>
         {resumeData.education.map((edu, i) => (
           <div key={i} style={{ marginBottom: "0.5rem" }}>
-            <h4 style={{ fontWeight: 600 }}>
+            <h4 style={{ fontWeight: 600, color: theme.educationTitleColor || theme.textColor }}>
               {edu.period} | {edu.institution}
             </h4>
             <p style={{ fontSize: "0.75rem", fontStyle: "italic" }}>{edu.degree}</p>
             {edu.details && (
-              <ul style={{ marginLeft: "1rem", paddingLeft: "1rem", listStyleType: "disc" }}>
+              <ul
+                style={{
+                  marginLeft: "1rem",
+                  paddingLeft: "1rem",
+                  listStyleType: theme.bulletStyle || "disc",
+                }}
+              >
                 <li>{edu.details}</li>
               </ul>
             )}
@@ -192,23 +208,29 @@ const GraciousLook = React.forwardRef<HTMLDivElement>((_, ref) => {
 
       {/* Certifications */}
       {resumeData.certifications?.length > 0 && (
-        <section style={{ marginBottom: "0.75rem" }}>
+        <section style={{ marginBottom: theme.sectionSpacing || "0.75rem" }}>
           <h3
             style={{
               backgroundColor: theme.sectionTitleBg,
               color: theme.sectionTitleTextColor,
-              textAlign: "center",
+            textAlign: theme.alignment as React.CSSProperties['textAlign'] || "center",
               padding: "0.25rem",
-              textTransform: "uppercase",
+                textTransform: (theme.titleCase as React.CSSProperties['textTransform']) || "uppercase",
               fontSize: theme.fontSize,
               letterSpacing: "0.05em",
               marginBottom: "0.5rem",
-              fontWeight: "bold",
+              fontWeight: theme.titleWeight || "bold",
             }}
           >
             Certifications
           </h3>
-          <ul style={{ marginLeft: "1rem", paddingLeft: "1rem", listStyleType: "disc" }}>
+          <ul
+            style={{
+              marginLeft: "1rem",
+              paddingLeft: "1rem",
+              listStyleType: theme.certificationBulletStyle || "disc",
+            }}
+          >
             {resumeData.certifications.map((cert, i) => (
               <li key={i}>{cert}</li>
             ))}

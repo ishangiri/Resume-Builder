@@ -1,91 +1,278 @@
 import React from 'react';
 import { useResumeData } from '../hooks/useResumeData';
+import { useThemeStore } from '../store/themeStores/CreativeResumethemestore';
 
-const ResumeTemplate =  React.forwardRef<HTMLDivElement>((_, ref) => {
- 
+const ResumeTemplate = React.forwardRef<HTMLDivElement>((_, ref) => {
   const resumeData = useResumeData();
+  const { theme } = useThemeStore();
 
- return( <div ref={ref} className="flex w-full h-full bg-gray-100 font-sans text-xs" style={{ width: '210mm', height: '297mm' }}>
+  return (
+    <div 
+      ref={ref} 
+      className="flex w-full h-full font-sans" 
+      style={{ 
+        width: '210mm', 
+        height: '297mm',
+        backgroundColor: theme.backgroundColor,
+        fontFamily: theme.fontFamily,
+        fontSize: theme.fontSize,
+        lineHeight: theme.lineHeight
+      }}
+    >
       {/* Left Sidebar */}
-      <div className="w-2/5 bg-green-700 text-white p-4 space-y-4">
-        <div className="text-2xl font-bold tracking-wider">
+      <div 
+        className="w-2/5 text-white space-y-4" 
+        style={{ 
+          backgroundColor: theme.accentColor,
+          padding: theme.spacing
+        }}
+      >
+        <div 
+          className="font-bold tracking-wider"
+          style={{
+            fontSize: theme.headingSize,
+            fontFamily: theme.headingFontFamily,
+            color: theme.sectionTitleTextColor || '#ffffff'
+          }}
+        >
           {resumeData.personalInfo.name}
         </div>
         
-        <section>
-         {resumeData.hasProjects &&  <h3 className="text-sm font-bold mb-2 tracking-wide">Projects</h3>}
+        <section style={{ marginBottom: theme.sectionSpacing }}>
+          {resumeData.hasProjects && (
+            <h3 
+              className="font-bold mb-2 tracking-wide"
+              style={{
+                fontSize: theme.fontSize,
+                fontFamily: theme.headingFontFamily,
+                color: theme.sectionTitleTextColor || '#ffffff'
+              }}
+            >
+              Projects
+            </h3>
+          )}
           <div className="space-y-3">
             {resumeData.projects.map((achievement, index) => (
               <div key={index}>
-                <h4 className="font-semibold mb-1 text-green-100 text-xs">{achievement.name}</h4>
-                <p className="text-xs leading-tight text-green-50">{achievement.description}</p>
+                <h4 
+                  className="font-semibold mb-1"
+                  style={{
+                    fontSize: theme.fontSize,
+                    color: theme.subtleTextColor || '#e0f2fe'
+                  }}
+                >
+                  {achievement.name}
+                </h4>
+                <p 
+                  className="leading-tight"
+                  style={{
+                    fontSize: theme.fontSize,
+                    color: theme.mediumTextColor || '#f0f9ff'
+                  }}
+                >
+                  {achievement.description}
+                </p>
               </div>
             ))}
           </div>
         </section>
 
-        <section>
-          <h3 className="text-sm font-bold mb-2 tracking-wide">SKILLS</h3>
+        <section style={{ marginBottom: theme.sectionSpacing }}>
+          <h3 
+            className="font-bold mb-2 tracking-wide"
+            style={{
+              fontSize: theme.fontSize,
+              fontFamily: theme.headingFontFamily,
+              color: theme.sectionTitleTextColor || '#ffffff'
+            }}
+          >
+            SKILLS
+          </h3>
           <div className="space-y-1">
             {resumeData.skills.map((skill, index) => (
-              <div key={index} className="text-xs text-green-100 font-semibold">{skill.category}
-              <div  className="text-xs text-green-50">{skill.skills}</div>
+              <div key={index}>
+                <div 
+                  className="font-semibold"
+                  style={{
+                    fontSize: theme.fontSize,
+                    color: theme.subtleTextColor || '#e0f2fe'
+                  }}
+                >
+                  {skill.category}
+                </div>
+                <div 
+                  style={{
+                    fontSize: theme.fontSize,
+                    color: theme.mediumTextColor || '#f0f9ff'
+                  }}
+                >
+                  {skill.skills}
+                </div>
               </div>
             ))}
           </div>
         </section>
 
-        <section>
-        {  resumeData.hasCerifications && <h3 className="text-sm font-bold mb-2 tracking-wide">CERTIFICATION</h3>}
+        <section style={{ marginBottom: theme.sectionSpacing }}>
+          {resumeData.hasCerifications && (
+            <h3 
+              className="font-bold mb-2 tracking-wide"
+              style={{
+                fontSize: theme.fontSize,
+                fontFamily: theme.headingFontFamily,
+                color: theme.sectionTitleTextColor || '#ffffff'
+              }}
+            >
+              CERTIFICATION
+            </h3>
+          )}
           <div className="space-y-2">
             <div>
-              <h4 className="font-semibold text-green-100 text-xs">{...resumeData.certifications}</h4>
+              <h4 
+                className="font-semibold"
+                style={{
+                  fontSize: theme.fontSize,
+                  color: theme.subtleTextColor || '#e0f2fe'
+                }}
+              >
+                {...resumeData.certifications}
+              </h4>
             </div>
-    
           </div>
         </section>
       </div>
 
       {/* Right Main Content */}
-      <div className="w-3/5 bg-white p-4 text-gray-800 space-y-4">
-        <div className="border-b border-gray-200 pb-2">
-          <h1 className="text-lg font-bold text-blue-600 mb-1">{resumeData.JobTitle}</h1>
-          <div className="flex items-center space-x-3 text-xs text-gray-600">
+      <div 
+        className="w-3/5 space-y-4" 
+        style={{ 
+          backgroundColor: theme.backgroundColor,
+          padding: theme.spacing,
+          color: theme.textColor
+        }}
+      >
+        <div 
+          className="border-b pb-2"
+          style={{ borderColor: theme.dividerColor || '#e5e7eb' }}
+        >
+          <h1 
+            className="font-bold mb-1"
+            style={{
+              fontSize: theme.headingSize,
+              color: theme.accentColor,
+              fontFamily: theme.headingFontFamily
+            }}
+          >
+            {resumeData.JobTitle}
+          </h1>
+          <div 
+            className="flex items-center space-x-3"
+            style={{
+              fontSize: theme.fontSize,
+              color: theme.secondaryTextColor || theme.textColor
+            }}
+          >
             <span>📧 Email</span>
             <span>🔗 {resumeData.personalInfo.email}</span>
             <span>📍 {resumeData.personalInfo.location}</span>
-             <span>🌐 {resumeData.personalInfo.linkedin}</span>
+            <span>🌐 {resumeData.personalInfo.linkedin}</span>
           </div>
         </div>
 
-        <section>
-          <h2 className="text-sm font-bold mb-2 text-gray-800">SUMMARY</h2>
-          <p className="text-xs text-gray-700 leading-tight">{resumeData.summary}</p>
+        <section style={{ marginBottom: theme.sectionSpacing }}>
+          <h2 
+            className="font-bold mb-2"
+            style={{
+              fontSize: theme.fontSize,
+              color: theme.sectionHeadingColor || theme.textColor,
+              fontFamily: theme.headingFontFamily
+            }}
+          >
+            SUMMARY
+          </h2>
+          <p 
+            className="leading-tight"
+            style={{
+              fontSize: theme.fontSize,
+              color: theme.textColor
+            }}
+          >
+            {resumeData.summary}
+          </p>
         </section>
 
-        <section>
-         {resumeData.hasExperience ? <h2 className="text-sm font-bold mb-3 text-gray-800">EXPERIENCE</h2> : "" } 
+        <section style={{ marginBottom: theme.sectionSpacing }}>
+          {resumeData.hasExperience && (
+            <h2 
+              className="font-bold mb-3"
+              style={{
+                fontSize: theme.fontSize,
+                color: theme.sectionHeadingColor || theme.textColor,
+                fontFamily: theme.headingFontFamily
+              }}
+            >
+              EXPERIENCE
+            </h2>
+          )}
           <div className="space-y-4">
             {resumeData.experience.map((job, index) => (
               <div key={index} className="space-y-1">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-sm font-semibold text-gray-800">{job.title}</h3>
+                    <h3 
+                      className="font-semibold"
+                      style={{
+                        fontSize: theme.fontSize,
+                        color: theme.textColor
+                      }}
+                    >
+                      {job.title}
+                    </h3>
                     {job.company && (
-                      <p className="text-blue-600 font-medium text-xs">{job.company}</p>
+                      <p 
+                        className="font-medium"
+                        style={{
+                          fontSize: theme.fontSize,
+                          color: theme.accentColor
+                        }}
+                      >
+                        {job.company}
+                      </p>
                     )}
                   </div>
-                  <div className="text-right text-xs text-gray-600">
+                  <div 
+                    className="text-right"
+                    style={{
+                      fontSize: theme.fontSize,
+                      color: theme.secondaryTextColor || theme.textColor
+                    }}
+                  >
                     <p>{job.period}</p>
                     {job.location && <p>{job.location}</p>}
                   </div>
                 </div>
                 {job.description && (
-                  <ul className="space-y-1 ml-3">
+                  <ul className="space-y-1 ml-3" style={{ listStyleType: theme.bulletStyle || 'disc' }}>
                     {job.description.map((achievement, achIndex) => (
                       <li key={achIndex} className="flex items-start">
-                        <span className="text-green-600 mr-2 mt-0.5 text-xs">•</span>
-                        <span className="text-gray-700 text-xs leading-tight">{achievement}</span>
+                        <span 
+                          className="mr-2 mt-0.5"
+                          style={{
+                            color: theme.accentColor,
+                            fontSize: theme.fontSize
+                          }}
+                        >
+                          •
+                        </span>
+                        <span 
+                          className="leading-tight"
+                          style={{
+                            fontSize: theme.fontSize,
+                            color: theme.textColor
+                          }}
+                        >
+                          {achievement}
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -94,31 +281,72 @@ const ResumeTemplate =  React.forwardRef<HTMLDivElement>((_, ref) => {
             ))}
           </div>
         </section>
+
         <section>
-           <h2 className="text-sm font-bold mb-3 text-gray-800">EDUCATION</h2>
-            {resumeData.education.map((edu, index) => (
-          <div key={index} className="mb-4">
-            <div className="flex justify-between items-start mb-1">
-              <div>
-                <h3 className="text-sm font-semibold text-gray-800">{edu.degree}</h3>
-                {edu.institution && (
-                  <p className="text-blue-600 font-medium text-xs">{edu.institution}</p>
-                )}
+          <h2 
+            className="font-bold mb-3"
+            style={{
+              fontSize: theme.fontSize,
+              color: theme.sectionHeadingColor || theme.textColor,
+              fontFamily: theme.headingFontFamily
+            }}
+          >
+            EDUCATION
+          </h2>
+          {resumeData.education.map((edu, index) => (
+            <div key={index} className="mb-4">
+              <div className="flex justify-between items-start mb-1">
+                <div>
+                  <h3 
+                    className="font-semibold"
+                    style={{
+                      fontSize: theme.fontSize,
+                      color: theme.textColor
+                    }}
+                  >
+                    {edu.degree}
+                  </h3>
+                  {edu.institution && (
+                    <p 
+                      className="font-medium"
+                      style={{
+                        fontSize: theme.fontSize,
+                        color: theme.accentColor
+                      }}
+                    >
+                      {edu.institution}
+                    </p>
+                  )}
+                </div>
+                <div 
+                  className="text-right"
+                  style={{
+                    fontSize: theme.fontSize,
+                    color: theme.secondaryTextColor || theme.textColor
+                  }}
+                >
+                  <p>{edu.period}</p>
+                  {edu.location && <p>{edu.location}</p>}
+                </div>
               </div>
-              <div className="text-right text-xs text-gray-600">
-                <p>{edu.period}</p>
-                {edu.location && <p>{edu.location}</p>}
-              </div>
+              {edu.details && (
+                <p 
+                  className="leading-tight"
+                  style={{
+                    fontSize: theme.fontSize,
+                    color: theme.textColor
+                  }}
+                >
+                  {edu.details}
+                </p>
+              )}
             </div>
-            {edu.details && (
-              <p className="text-xs text-gray-700 leading-tight">{edu.details}</p>
-            )}
-          </div>
-            ))}
-          </section>
+          ))}
+        </section>
       </div>
     </div>
   );
 });
 
+ResumeTemplate.displayName = 'ResumeTemplate';
 export default ResumeTemplate;

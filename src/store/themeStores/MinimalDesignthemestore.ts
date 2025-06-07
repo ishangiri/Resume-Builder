@@ -9,16 +9,57 @@ interface theme {
 }
 
 export const defaultTheme : GenericTheme =  {
-  fontSize: "14px",
-  lineHeight: "1.25",
-  headerColor: "#2563eb", // Tailwind blue-600
-  textColor: "#374151", // Tailwind gray-700
-  sectionSpacing: "1rem",
-  tagText: "#1e40af", // Tailwind blue-800
-  backgroundColor : "white",
-  nameFontSize : "2rem",
-  headingSize : "1rem",
+  fontFamily: "sans-serif",
+  fontSize: "12px",
+  lineHeight: "1.4",
+  backgroundColor: "#ffffff",
+  headerColor: "#0d47a1",
+  nameFontSize: "24px",
+  headingSize: "16px",
+  textColor: "#333333",
+  sectionSpacing: "2px",
+  bulletStyle: "disc"
 }
+
+export const softGreenTheme: GenericTheme = {
+  fontFamily: "'Segoe UI', 'Arial', sans-serif",
+  fontSize: "13px",
+  lineHeight: "1.4",
+  backgroundColor: "#f4fbf6",
+  headerColor: "#388e3c",         // Deep green
+  nameFontSize: "26px",
+  headingSize: "17px",
+  textColor: "#2e473b",           // Muted green-black
+  sectionSpacing: "2px",
+  bulletStyle: "circle"
+};
+
+export const warmSandTheme: GenericTheme = {
+  fontFamily: "'Roboto', 'Verdana', sans-serif",
+  fontSize: "13px",
+  lineHeight: "1.4",
+  backgroundColor: "#f9f6f2",
+  headerColor: "#b08968",         // Warm brown
+  nameFontSize: "25px",
+  headingSize: "16px",
+  textColor: "#5c4327",           // Rich brown
+  sectionSpacing: "2px",
+  bulletStyle: "square"
+};
+
+export const elegantNightTheme: GenericTheme = {
+  fontFamily: "'Merriweather', 'Georgia', serif",
+  fontSize: "12px",
+  lineHeight: "1.4",
+  backgroundColor: "#23272f",
+  headerColor: "#fbc02d",         // Gold
+  nameFontSize: "24px",
+  headingSize: "16px",
+  textColor: "#e0e0e0",           // Soft light gray
+  sectionSpacing: "2px",
+  bulletStyle: "disc"
+};
+
 
 export const useMinimalThemeStore = create<theme>((set) =>({
   theme: defaultTheme,

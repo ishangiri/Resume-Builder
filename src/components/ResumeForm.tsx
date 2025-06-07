@@ -8,6 +8,7 @@ import ExperienceSection from './FormSections/ExperienceSection';
 import EducationSection from './FormSections/EducationSection';
 import ProjectsSection from './FormSections/ProjectSection';
 import CertificationsSection from './FormSections/CertificateSection';
+import JobTitleSection from './FormSections/JobTitleSection';
 
 const ResumeForm = () => {
   const [openItems, setOpenItems] = useState(['personal-details']);
@@ -29,6 +30,10 @@ const ResumeForm = () => {
         <div className="bg-white rounded-xl shadow-xl p-8 border border-gray-100 space-y-8">
           <AccordionItem value="personal-details" title="Personal Details" icon={User} openItems={openItems} toggleItem={toggleItem}>
             <PersonalDetails />
+          </AccordionItem>
+
+             <AccordionItem value="Job Title" title="Job Title" icon={Briefcase} openItems={openItems} toggleItem={toggleItem}>
+           <JobTitleSection />
           </AccordionItem>
 
           <AccordionItem value="summary" title="Professional Summary" icon={FileText} openItems={openItems} toggleItem={toggleItem}>

@@ -8,6 +8,7 @@ const ProfessionalTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivE
     const resumeData = useResumeData();
     const { theme } = useThemeStore();
     
+ 
     return (
       <div
         {...props}
@@ -22,17 +23,28 @@ const ProfessionalTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivE
           fontSize: theme.fontSize,
           lineHeight: theme.lineHeight,
           padding: theme.spacing,
+          borderRadius: theme.borderRadius,
         }}
       >
         {/* Header */}
         <div className="flex flex-col gap-2 mb-4 text-center">
-          <h1 className="font-bold" style={{ fontSize: theme.headingSize, color: theme.textColor }}>
+          <h1
+            className="font-bold"
+            style={{
+              fontSize: theme.headingSize,
+              color: theme.textColor,
+              fontFamily: theme.headingFontFamily,
+            }}
+          >
             {resumeData.personalInfo.name}
           </h1>
           <h2 className="font-mono" style={{ fontSize: theme.fontSize, color: theme.textColor }}>
             {resumeData.JobTitle}
           </h2>
-          <div className="flex justify-center gap-4 text-xs" style={{ color: theme.secondaryTextColor }}>
+          <div
+            className="flex justify-center gap-4 text-xs"
+            style={{ color: theme.secondaryTextColor }}
+          >
             <span>{resumeData.personalInfo.email}</span>
             <span>•</span>
             <span>{resumeData.personalInfo.phone}</span>
@@ -43,31 +55,33 @@ const ProfessionalTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivE
           </div>
         </div>
 
-        <hr className="mb-4" style={{ borderTop: `1px solid ${theme.accentColor}` }} />
+        <hr className="mb-4" style={{ borderTop: `1px solid ${theme.dividerColor}` }} />
 
         {/* Professional Summary */}
-        <section className="mb-4">
-          <h3 
+        <section style={{ marginBottom: theme.sectionSpacing }}>
+          <h3
             className="font-bold uppercase tracking-wider pb-1 mb-2"
             style={{
               fontSize: theme.fontSize,
-              color: theme.textColor,
+              fontFamily: theme.headingFontFamily,
+              color: theme.sectionHeadingColor,
               borderBottom: `2px solid ${theme.accentColor}`,
             }}
           >
-          Summary
+            Summary
           </h3>
           <p>{resumeData.summary}</p>
         </section>
 
         {/* Experience */}
         {resumeData.hasExperience && (
-          <section className="mb-4">
-            <h3 
+          <section style={{ marginBottom: theme.sectionSpacing }}>
+            <h3
               className="font-bold uppercase tracking-wider pb-1 mb-2"
               style={{
                 fontSize: theme.fontSize,
-                color: theme.textColor,
+                fontFamily: theme.headingFontFamily,
+                color: theme.sectionHeadingColor,
                 borderBottom: `2px solid ${theme.accentColor}`,
               }}
             >
@@ -91,8 +105,8 @@ const ProfessionalTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivE
                     {exp.location}
                   </span>
                 </div>
-                <ul className="list-disc ml-4">
-              {exp.description?.map((desc, index) => (
+                <ul className="ml-4" style={{ listStyleType: theme.bulletStyle }}>
+                  {exp.description?.map((desc, index) => (
                     <li key={index}>{desc}</li>
                   ))}
                 </ul>
@@ -102,12 +116,13 @@ const ProfessionalTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivE
         )}
 
         {/* Education */}
-        <section className="mb-4">
-          <h3 
+        <section style={{ marginBottom: theme.sectionSpacing }}>
+          <h3
             className="font-bold uppercase tracking-wider pb-1 mb-2"
             style={{
               fontSize: theme.fontSize,
-              color: theme.textColor,
+              fontFamily: theme.headingFontFamily,
+              color: theme.sectionHeadingColor,
               borderBottom: `2px solid ${theme.accentColor}`,
             }}
           >
@@ -137,12 +152,13 @@ const ProfessionalTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivE
         </section>
 
         {/* Skills */}
-        <section className="mb-4">
-          <h3 
+        <section style={{ marginBottom: theme.sectionSpacing }}>
+          <h3
             className="font-bold uppercase tracking-wider pb-1 mb-2"
             style={{
               fontSize: theme.fontSize,
-              color: theme.textColor,
+              fontFamily: theme.headingFontFamily,
+              color: theme.sectionHeadingColor,
               borderBottom: `2px solid ${theme.accentColor}`,
             }}
           >
@@ -154,9 +170,7 @@ const ProfessionalTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivE
                 <span className="font-medium text-sm" style={{ color: theme.textColor }}>
                   {skill.category}:
                 </span>
-                <span className="ml-1">
-                  {skill.skills.join(', ')}
-                </span>
+                <span className="ml-1">{skill.skills.join(', ')}</span>
               </div>
             ))}
           </div>
@@ -164,18 +178,19 @@ const ProfessionalTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivE
 
         {/* Certifications */}
         {resumeData.hasCerifications && (
-          <section className="mb-4">
-            <h3 
+          <section style={{ marginBottom: theme.sectionSpacing }}>
+            <h3
               className="font-bold uppercase tracking-wider pb-1 mb-2"
               style={{
                 fontSize: theme.fontSize,
-                color: theme.textColor,
+                fontFamily: theme.headingFontFamily,
+                color: theme.sectionHeadingColor,
                 borderBottom: `2px solid ${theme.accentColor}`,
               }}
             >
               Certifications
             </h3>
-            <ul className="list-disc ml-4">
+            <ul className="ml-4" style={{ listStyleType: theme.bulletStyle }}>
               {resumeData.certifications.map((cert, index) => (
                 <li key={index}>{cert}</li>
               ))}
@@ -186,11 +201,12 @@ const ProfessionalTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivE
         {/* Projects */}
         {resumeData.hasProjects && (
           <section>
-            <h3 
+            <h3
               className="font-bold uppercase tracking-wider pb-1 mb-2"
               style={{
                 fontSize: theme.fontSize,
-                color: theme.textColor,
+                fontFamily: theme.headingFontFamily,
+                color: theme.sectionHeadingColor,
                 borderBottom: `2px solid ${theme.accentColor}`,
               }}
             >

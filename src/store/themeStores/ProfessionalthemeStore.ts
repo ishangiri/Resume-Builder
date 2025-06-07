@@ -12,6 +12,11 @@ export const defaultTheme: GenericTheme = {
   spacing: "2rem", // p-8
   headingSize: "1.5rem", // text-2xl
   lineHeight: "1.1",
+  sectionSpacing: "1.5rem",
+  headingFontFamily: "sans-serif",
+  sectionHeadingColor: "#111827", // dark text
+  bulletStyle: "disc", // 'circle', 'square' etc.
+  dividerColor: "#d1d5db"
 };
 
 
@@ -25,6 +30,11 @@ export const elegantTheme: GenericTheme = {
   spacing: "2rem",
   headingSize: "1.5rem",
   lineHeight: "1.2",
+    sectionSpacing: "1.5rem",
+  headingFontFamily: "sans-serif",
+  sectionHeadingColor: "#111827", // dark text
+  bulletStyle: "disc", // 'circle', 'square' etc.
+  dividerColor: "#d1d5db"
 };
 
 export const freshTheme: GenericTheme = {
@@ -37,6 +47,11 @@ export const freshTheme: GenericTheme = {
   spacing: "1rem",
   headingSize: "1rem",
   lineHeight: "1.2",
+    sectionSpacing: "1.5rem",
+  headingFontFamily: "sans-serif",
+  sectionHeadingColor: "#111827", // dark text
+  bulletStyle: "disc", // 'circle', 'square' etc.
+  dividerColor: "#d1d5db"
 };
 
 export const Soothing: GenericTheme = {
@@ -49,6 +64,11 @@ export const Soothing: GenericTheme = {
   spacing: "2rem",
   headingSize: "1.5rem",
   lineHeight: "1.3",
+    sectionSpacing: "1.5rem",
+  headingFontFamily: "sans-serif",
+  sectionHeadingColor: "#111827", // dark text
+  bulletStyle: "disc", // 'circle', 'square' etc.
+  dividerColor: "#d1d5db"
 };
 
 
