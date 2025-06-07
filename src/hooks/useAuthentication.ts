@@ -14,8 +14,6 @@ export const useAuthListener = () => {
           email: firebaseUser.email,
           username: firebaseUser.displayName || undefined,
         });
-        console.log(firebaseUser);
-        
       } else {
         setUser(null);
       }
