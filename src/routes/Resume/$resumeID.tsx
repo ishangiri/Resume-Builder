@@ -55,7 +55,10 @@ function Resumepage() {
   Object.entries(presets).find(([_, theme]) => JSON.stringify(theme) === JSON.stringify(settings))?.[0] 
    
   const contentRef = useRef<HTMLDivElement>(null);
-  const reactToPrintFn = useReactToPrint({ contentRef });
+  const reactToPrintFn = useReactToPrint({ 
+    contentRef: contentRef,
+    documentTitle : 'Resume'
+   });
 
 
   //calling hook useSaveResume
@@ -105,17 +108,17 @@ function Resumepage() {
   const chooseResumeTemplate = () => {
     switch (resumeID) {
       case 'Professional':
-        return <ProfessionalTemplate  ref={contentRef} />;
+        return <ProfessionalTemplate ref={contentRef} />;
       case 'Modern':
         return <ModernTemplate ref={contentRef} />;
       case 'Creative':
         return <ResumeTemplate ref={contentRef} />;
       case 'Minimal':
-        return <MinimalDesign ref={contentRef} />;
+        return <MinimalDesign ref={contentRef}/>;
       case 'Gracious':
-        return <GraciousLook ref={contentRef} />;
+        return <GraciousLook ref={contentRef}/>;
       case 'ModernLook':
-        return <ModernLook ref={contentRef} />
+        return <ModernLook ref={contentRef}/>
         default:
         return <div className="text-center text-gray-500">No template selected</div>;
     }

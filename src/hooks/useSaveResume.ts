@@ -16,12 +16,9 @@ export interface ResumeData{
                name : string | undefined,
               settings : GenericTheme | undefined
             }
-      
 }
 
 type SaveResumeResponse = { message: string };
-
-
 export const useSaveResume = (options?: UseMutationOptions<SaveResumeResponse, unknown, ResumeData>) => {
    return useMutation({
         mutationFn: (resumePayload : ResumeData) => 
