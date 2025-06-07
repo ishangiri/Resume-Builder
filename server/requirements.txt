@@ -6,5 +6,5 @@ pydantic
 requests
 python-dotenv
 sqlalchemy
-sqlalchemy.orm
 gunicorn
+psycopg2-binary==2.9.9
