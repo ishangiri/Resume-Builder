@@ -7,4 +7,3 @@ requests
 python-dotenv
 sqlalchemy
 sqlalchemy.orm
-os
