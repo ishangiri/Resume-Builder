@@ -11,8 +11,12 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
-    allow_credentials=True,
+   origins = [
+    "https://resume-builder-4f9ra96ee-ishan-giris-projects.vercel.app",
+    "http://localhost:3000",
+    "http://localhost:5173",
+],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
