@@ -12,7 +12,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[  # Changed from 'origins' to 'allow_origins'
-        "https://resume-builder-ishan-giris-projects.vercel.app/",
+        "https://resume-builder-ishan-giris-projects.vercel.app",
         "http://localhost:3000",
         "http://localhost:5173",
     ],
@@ -164,6 +164,9 @@ def update_resume_by_id(
         "resume": resume,
         "theme": theme
         }
+
+
+
 
 
 
