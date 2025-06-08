@@ -5,14 +5,14 @@ from models import Base, User, Resume, Theme
 from schemas import ResumePayload
 from database import get_db
 from fastapi.middleware.cors import CORSMiddleware
-
+from schemas import UpdatePayLoad
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[  # Changed from 'origins' to 'allow_origins'
-        "https://resume-builder-4f9ra96ee-ishan-giris-projects.vercel.app",
+        "https://resume-builder-ishan-giris-projects.vercel.app/",
         "http://localhost:3000",
         "http://localhost:5173",
     ],
@@ -77,7 +77,7 @@ def get_resume(user: str, db: Session = Depends(get_db)):
 
 
 @app.get('/get-resumeById')
-def get_resume_byID(id : str, db : Session = Depends(get_db)):
+def get_resume_byID(id : int, db : Session = Depends(get_db)):
     try:
         resume = db.query(Resume).filter(Resume.id == id).first()
         if not resume:
@@ -130,6 +130,40 @@ def delete_resume_by_id(resume_id: int, user_id: str, db: Session = Depends(get_
 
                 
  
+@app.put("/resumes/{resume_id}")
+def update_resume_by_id(
+    resume_id: int,
+    user_id: str,
+    data: UpdatePayLoad,
+    db: Session = Depends(get_db)
+):
+    user = db.query(User).filter(User.user_id == user_id).first()
+    resume = db.query(Resume).filter(Resume.id == resume_id).first()
+
+    if not user or not resume:
+        raise HTTPException(status_code=404, detail="User or Resume not found")
+    if resume.user_id != user.user_id:
+        raise HTTPException(status_code=403, detail="Unauthorized to update this resume")
+
+    # Update resume fields
+    resume.title = data.resume.title
+    resume.content = data.resume.content
+    resume.template = data.resume.template
+
+    # Update the associated theme
+    theme = db.query(Theme).filter(Theme.resume_id == resume.id).first()
+    if not theme:
+        raise HTTPException(status_code=404, detail="Theme not found for this resume")
+    theme.name = data.theme.name
+    theme.settings = data.theme.settings
+
+    db.commit()
+    db.refresh(resume)
+    db.refresh(theme)
+    return {
+        "resume": resume,
+        "theme": theme
+        }
 
 
 

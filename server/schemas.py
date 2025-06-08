@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import  Dict, Any
+from typing import  Dict
 
 
 class ResumeSchema(BaseModel):
@@ -17,5 +17,9 @@ class ThemeSchema(BaseModel):
 
 class ResumePayload(BaseModel):
     user : UserSchema
+    resume : ResumeSchema
+    theme : ThemeSchema
+
+class UpdatePayLoad(BaseModel):
     resume : ResumeSchema
     theme : ThemeSchema
