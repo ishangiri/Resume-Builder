@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useUnifiedThemeStore } from "../hooks/useUnifiedThemeStore";
-import { defaultResumeTheme } from "../store/themeStores/CreativeResumethemestore";
+import { harvardTheme } from "../store/themeStores/CreativeResumethemestore";
 import { defaultTheme as defaultPro } from "../store/themeStores/ProfessionalthemeStore";
 import { defaultTheme as defaultModern } from "../store/themeStores/ModernResumethemeStore";
 import { defaultTheme as defaultLook } from "../store/themeStores/MinimalDesignthemestore";
@@ -13,7 +13,7 @@ const allThemes = [
   defaultModern,
   defaultModerntheme,
   defaultPro,
-  defaultResumeTheme,
+  harvardTheme,
 ];
 
 function getOptionsForKey(key: string): (string | number)[] {

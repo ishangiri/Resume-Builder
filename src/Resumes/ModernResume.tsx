@@ -2,7 +2,7 @@
 import React, { forwardRef } from 'react';
 import { useResumeData } from '../hooks/useResumeData';
 import { useThemeStore } from '../store/themeStores/ModernResumethemeStore';
-
+import { Phone, Link, Locate, Mail } from 'lucide-react';
 
 const ModernTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>(
   (props, ref) => {
@@ -34,10 +34,14 @@ const ModernTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement
           <div className="mt-0.5" style={{ color: theme.textColor }}>
             {resumeData.JobTitle}
           </div>
-          <div className="text-sm mt-1 flex flex-wrap gap-x-4 gap-y-1" style={{ color: theme.subtleTextColor }}>
+          <div className="text-sm mt-1 flex flex-wrap gap-x-2 gap-y-1" style={{ color: theme.subtleTextColor }}>
+            <span><Mail className='w-4 h-4' /></span>
             <span>{resumeData.personalInfo.email}</span>
+            <span><Phone className='w-4 h-4' /></span>
             <span>{resumeData.personalInfo.phone}</span>
-            <span>{resumeData.personalInfo.linkedin}</span>
+            {resumeData.personalInfo.linkedin && <div className='flex justify-center gap-x-2 gap-y-1 text-sm'> <span><Link className='w-4 h-4' /></span>
+            <span>{resumeData.personalInfo.linkedin}</span> </div> }
+            <span><Locate className='w-4 h-4' /></span>
             <span>{resumeData.personalInfo.location}</span>
           </div>
         </div>
@@ -119,7 +123,7 @@ const ModernTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement
               <div key={i} className="mb-4">
                 <div className="flex justify-between items-baseline">
                   <div className="font-semibold" style={{ color: theme.textColor }}>{exp.title}</div>
-                  <div className="text-sm" style={{ color: theme.subtleTextColor }}>{exp.period}</div>
+                  <div className="text-sm" style={{ color: theme.subtleTextColor }}> {`${exp.startDate} - ${exp.endDate}`}</div>
                 </div>
                 <div className="flex justify-between items-baseline mb-1">
                   <div className="text-sm" style={{ color: theme.mediumTextColor }}>{exp.company}</div>

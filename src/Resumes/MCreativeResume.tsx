@@ -1,278 +1,166 @@
-import React from 'react';
+import React, { type CSSProperties } from 'react';
 import { useResumeData } from '../hooks/useResumeData';
 import { useThemeStore } from '../store/themeStores/CreativeResumethemestore';
+import { Link, Locate, Mail, Phone } from 'lucide-react';
 
-const ResumeTemplate = React.forwardRef<HTMLDivElement>((_, ref) => {
+const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
   const resumeData = useResumeData();
-  const { theme } = useThemeStore();
+  const theme = useThemeStore((state) => state.theme);
+
+  // CSS variables for dynamic theme and spacing
+  const cssVars: React.CSSProperties = {
+    '--background-color': theme.backgroundColor,
+    '--text-color': theme.textColor,
+    '--secondary-text-color': theme.secondaryTextColor,
+    '--accent-color': theme.accentColor,
+    '--divider-color': theme.dividerColor,
+    '--padding': theme.padding,
+    '--section-spacing': theme.sectionSpacing,
+    '--gap': theme.gap,
+    '--item-spacing': theme.itemSpacing,
+    fontFamily: theme.fontFamily,
+    fontSize: theme.fontSize,
+    lineHeight: theme.lineHeight,
+    backgroundColor: 'var(--background-color)',
+    color: 'var(--text-color)',
+    padding: 'var(--padding)',
+    width: '210mm',
+    height: '297mm',
+  } as CSSProperties;
 
   return (
-    <div 
-      ref={ref} 
-      className="flex w-full h-full font-sans" 
-      style={{ 
-        width: '210mm', 
-        height: '297mm',
-        backgroundColor: theme.backgroundColor,
-        fontFamily: theme.fontFamily,
-        fontSize: theme.fontSize,
-        lineHeight: theme.lineHeight
-      }}
+    <div
+      ref={ref}
+      className="mx-auto shadow-lg font-sans"
+      style={cssVars}
     >
-      {/* Left Sidebar */}
-      <div 
-        className="w-2/5 text-white space-y-4" 
-        style={{ 
-          backgroundColor: theme.accentColor,
-          padding: theme.spacing
-        }}
-      >
-        <div 
-          className="font-bold tracking-wider"
-          style={{
-            fontSize: theme.headingSize,
-            fontFamily: theme.headingFontFamily,
-            color: theme.sectionTitleTextColor || '#ffffff'
-          }}
-        >
-          {resumeData.personalInfo.name}
-        </div>
-        
-        <section style={{ marginBottom: theme.sectionSpacing }}>
-          {resumeData.hasProjects && (
-            <h3 
-              className="font-bold mb-2 tracking-wide"
+      {/* Header */}
+      <header style={{ marginBottom: 'var(--section-spacing)' }}>
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between">
+          <div>
+            <h1
+              className="font-extrabold tracking-tight"
               style={{
-                fontSize: theme.fontSize,
+                fontSize: theme.headingSize,
+                color: theme.accentColor,
                 fontFamily: theme.headingFontFamily,
-                color: theme.sectionTitleTextColor || '#ffffff'
               }}
             >
-              Projects
-            </h3>
-          )}
-          <div className="space-y-3">
-            {resumeData.projects.map((achievement, index) => (
-              <div key={index}>
-                <h4 
-                  className="font-semibold mb-1"
-                  style={{
-                    fontSize: theme.fontSize,
-                    color: theme.subtleTextColor || '#e0f2fe'
-                  }}
-                >
-                  {achievement.name}
-                </h4>
-                <p 
-                  className="leading-tight"
-                  style={{
-                    fontSize: theme.fontSize,
-                    color: theme.mediumTextColor || '#f0f9ff'
-                  }}
-                >
-                  {achievement.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section style={{ marginBottom: theme.sectionSpacing }}>
-          <h3 
-            className="font-bold mb-2 tracking-wide"
-            style={{
-              fontSize: theme.fontSize,
-              fontFamily: theme.headingFontFamily,
-              color: theme.sectionTitleTextColor || '#ffffff'
-            }}
-          >
-            SKILLS
-          </h3>
-          <div className="space-y-1">
-            {resumeData.skills.map((skill, index) => (
-              <div key={index}>
-                <div 
-                  className="font-semibold"
-                  style={{
-                    fontSize: theme.fontSize,
-                    color: theme.subtleTextColor || '#e0f2fe'
-                  }}
-                >
-                  {skill.category}
-                </div>
-                <div 
-                  style={{
-                    fontSize: theme.fontSize,
-                    color: theme.mediumTextColor || '#f0f9ff'
-                  }}
-                >
-                  {skill.skills}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section style={{ marginBottom: theme.sectionSpacing }}>
-          {resumeData.hasCerifications && (
-            <h3 
-              className="font-bold mb-2 tracking-wide"
-              style={{
-                fontSize: theme.fontSize,
-                fontFamily: theme.headingFontFamily,
-                color: theme.sectionTitleTextColor || '#ffffff'
-              }}
-            >
-              CERTIFICATION
-            </h3>
-          )}
-          <div className="space-y-2">
-            <div>
-              <h4 
-                className="font-semibold"
-                style={{
-                  fontSize: theme.fontSize,
-                  color: theme.subtleTextColor || '#e0f2fe'
-                }}
-              >
-                {...resumeData.certifications}
-              </h4>
+              {resumeData.personalInfo.name}
+            </h1>
+            <div className="mt-1 flex flex-wrap gap-x-2 gap-y-1 text-sm justify-center items-center"
+                 style={{ color: 'var(--secondary-text-color)' }}>
+              <span><Locate className='w-4 h-4' style={{color : theme.accentColor}}/></span><span>{resumeData.personalInfo.location}</span>
+               <span><Mail className='w-4 h-4' style={{color : theme.accentColor}}/></span> <span>{resumeData.personalInfo.email}</span>
+              {resumeData.personalInfo.phone &&  <div className='flex mt-1 flex-wrap gap-x-2 gap-y-1 text-sm justify-center items-center'> <span><Phone className='w-4 h-4 ' style={{color : theme.accentColor}}/></span> <span>{resumeData.personalInfo.phone}</span> </div>}
+              {resumeData.personalInfo.linkedin && <div className='flex mt-1 flex-wrap gap-x-2 gap-y-1 text-sm items-center justify-center'>  <span><Link className='w-4 h-4 'style={{color : theme.accentColor}}/></span> <span>{resumeData.personalInfo.linkedin}</span> </div>}
             </div>
           </div>
-        </section>
-      </div>
-
-      {/* Right Main Content */}
-      <div 
-        className="w-3/5 space-y-4" 
-        style={{ 
-          backgroundColor: theme.backgroundColor,
-          padding: theme.spacing,
-          color: theme.textColor
-        }}
-      >
-        <div 
-          className="border-b pb-2"
-          style={{ borderColor: theme.dividerColor || '#e5e7eb' }}
-        >
-          <h1 
-            className="font-bold mb-1"
-            style={{
-              fontSize: theme.headingSize,
-              color: theme.accentColor,
-              fontFamily: theme.headingFontFamily
-            }}
-          >
-            {resumeData.JobTitle}
-          </h1>
-          <div 
-            className="flex items-center space-x-3"
-            style={{
-              fontSize: theme.fontSize,
-              color: theme.secondaryTextColor || theme.textColor
-            }}
-          >
-            <span>📧 Email</span>
-            <span>🔗 {resumeData.personalInfo.email}</span>
-            <span>📍 {resumeData.personalInfo.location}</span>
-            <span>🌐 {resumeData.personalInfo.linkedin}</span>
+          <div className="mt-3 md:mt-0 text-right">
+            <span
+              className="text-xs font-medium tracking-wide uppercase"
+              style={{ color: 'var(--accent-color)', letterSpacing: '0.08em' }}
+            >
+              {resumeData.JobTitle}
+            </span>
           </div>
         </div>
+      </header>
 
-        <section style={{ marginBottom: theme.sectionSpacing }}>
-          <h2 
-            className="font-bold mb-2"
-            style={{
-              fontSize: theme.fontSize,
-              color: theme.sectionHeadingColor || theme.textColor,
-              fontFamily: theme.headingFontFamily
-            }}
-          >
-            SUMMARY
-          </h2>
-          <p 
-            className="leading-tight"
-            style={{
-              fontSize: theme.fontSize,
-              color: theme.textColor
-            }}
-          >
-            {resumeData.summary}
-          </p>
-        </section>
-
-        <section style={{ marginBottom: theme.sectionSpacing }}>
-          {resumeData.hasExperience && (
-            <h2 
-              className="font-bold mb-3"
-              style={{
-                fontSize: theme.fontSize,
-                color: theme.sectionHeadingColor || theme.textColor,
-                fontFamily: theme.headingFontFamily
-              }}
+      {/* Education at Top */}
+      <section style={{ marginBottom: 'var(--section-spacing)' }}>
+        <h2
+          className="font-bold uppercase tracking-widest mb-2"
+          style={{
+            fontSize: theme.sectionTitleSize,
+            color: theme.accentColor,
+            fontFamily: theme.headingFontFamily,
+          }}
+        >
+          Education
+        </h2>
+        <div>
+          {resumeData.education.map((edu, i) => (
+            <div key={i}
+              className="flex justify-between items-baseline"
+              style={{ marginBottom: i < resumeData.education.length - 1 ? 'var(--item-spacing)' : 0 }}
             >
-              EXPERIENCE
-            </h2>
-          )}
-          <div className="space-y-4">
-            {resumeData.experience.map((job, index) => (
-              <div key={index} className="space-y-1">
-                <div className="flex justify-between items-start">
+              <div>
+                <span className="font-semibold">{edu.degree}</span>
+                <span className="ml-2" style={{ color: 'var(--secondary-text-color)' }}>
+                  {edu.institution}
+                </span>
+                {edu.details && (
+                  <div className="text-xs mt-1" style={{ color: 'var(--secondary-text-color)' }}>
+                    {edu.details}
+                  </div>
+                )}
+              </div>
+              <div className="text-xs text-right" style={{ color: 'var(--secondary-text-color)' }}>
+                {edu.period}
+                {edu.location && <span className="ml-2">{edu.location}</span>}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Summary/Profile */}
+      <section style={{ marginBottom: 'var(--section-spacing)' }}>
+        <h2
+          className="font-bold uppercase tracking-widest mb-2"
+          style={{
+            fontSize: theme.sectionTitleSize,
+            color: theme.accentColor,
+            fontFamily: theme.headingFontFamily,
+          }}
+        >
+          Profile
+        </h2>
+        <p className="text-sm" style={{ color: 'var(--text-color)' }}>
+          {resumeData.summary}
+        </p>
+      </section>
+
+      {/* Experience */}
+      {resumeData.hasExperience && (
+        <section style={{ marginBottom: 'var(--section-spacing)' }}>
+          <h2
+            className="font-bold uppercase tracking-widest mb-2"
+            style={{
+              fontSize: theme.sectionTitleSize,
+              color: theme.accentColor,
+              fontFamily: theme.headingFontFamily,
+            }}
+          >
+            Experience
+          </h2>
+          <div>
+            {resumeData.experience.map((exp, i) => (
+              <div key={i}
+                style={{ marginBottom: i < resumeData.experience.length - 1 ? 'var(--item-spacing)' : 0 }}
+              >
+                <div className="flex justify-between items-baseline">
                   <div>
-                    <h3 
-                      className="font-semibold"
-                      style={{
-                        fontSize: theme.fontSize,
-                        color: theme.textColor
-                      }}
-                    >
-                      {job.title}
-                    </h3>
-                    {job.company && (
-                      <p 
-                        className="font-medium"
-                        style={{
-                          fontSize: theme.fontSize,
-                          color: theme.accentColor
-                        }}
-                      >
-                        {job.company}
-                      </p>
+                    <span className="font-semibold">{exp.title}</span>
+                    <span className="ml-2" style={{ color: 'var(--secondary-text-color)' }}>
+                      {exp.company}
+                    </span>
+                    {exp.location && (
+                      <span className="ml-2" style={{ color: 'var(--secondary-text-color)' }}>
+                        {exp.location}
+                      </span>
                     )}
                   </div>
-                  <div 
-                    className="text-right"
-                    style={{
-                      fontSize: theme.fontSize,
-                      color: theme.secondaryTextColor || theme.textColor
-                    }}
-                  >
-                    <p>{job.period}</p>
-                    {job.location && <p>{job.location}</p>}
+                  <div className="text-xs text-right" style={{ color: 'var(--secondary-text-color)' }}>
+                    {`${exp.startDate} - ${exp.endDate}`}
                   </div>
                 </div>
-                {job.description && (
-                  <ul className="space-y-1 ml-3" style={{ listStyleType: theme.bulletStyle || 'disc' }}>
-                    {job.description.map((achievement, achIndex) => (
-                      <li key={achIndex} className="flex items-start">
-                        <span 
-                          className="mr-2 mt-0.5"
-                          style={{
-                            color: theme.accentColor,
-                            fontSize: theme.fontSize
-                          }}
-                        >
-                          •
-                        </span>
-                        <span 
-                          className="leading-tight"
-                          style={{
-                            fontSize: theme.fontSize,
-                            color: theme.textColor
-                          }}
-                        >
-                          {achievement}
-                        </span>
+                {exp.description && (
+                  <ul className="list-disc ml-6 mt-1 text-sm">
+                    {exp.description.map((desc, j) => (
+                      <li key={j} style={{ marginBottom: 'calc(var(--item-spacing) / 2)' }}>
+                        {desc}
                       </li>
                     ))}
                   </ul>
@@ -281,72 +169,81 @@ const ResumeTemplate = React.forwardRef<HTMLDivElement>((_, ref) => {
             ))}
           </div>
         </section>
+      )}
 
-        <section>
-          <h2 
-            className="font-bold mb-3"
-            style={{
-              fontSize: theme.fontSize,
-              color: theme.sectionHeadingColor || theme.textColor,
-              fontFamily: theme.headingFontFamily
-            }}
-          >
-            EDUCATION
-          </h2>
-          {resumeData.education.map((edu, index) => (
-            <div key={index} className="mb-4">
-              <div className="flex justify-between items-start mb-1">
-                <div>
-                  <h3 
-                    className="font-semibold"
-                    style={{
-                      fontSize: theme.fontSize,
-                      color: theme.textColor
-                    }}
-                  >
-                    {edu.degree}
-                  </h3>
-                  {edu.institution && (
-                    <p 
-                      className="font-medium"
-                      style={{
-                        fontSize: theme.fontSize,
-                        color: theme.accentColor
-                      }}
-                    >
-                      {edu.institution}
-                    </p>
-                  )}
-                </div>
-                <div 
-                  className="text-right"
-                  style={{
-                    fontSize: theme.fontSize,
-                    color: theme.secondaryTextColor || theme.textColor
-                  }}
-                >
-                  <p>{edu.period}</p>
-                  {edu.location && <p>{edu.location}</p>}
-                </div>
+      {/* Skills (Grouped) */}
+      <section style={{ marginBottom: 'var(--section-spacing)' }}>
+        <h2
+          className="font-bold uppercase tracking-widest mb-2"
+          style={{
+            fontSize: theme.sectionTitleSize,
+            color: theme.accentColor,
+            fontFamily: theme.headingFontFamily,
+          }}
+        >
+          Skills
+        </h2>
+        <div className="flex flex-wrap" style={{ gap: 'var(--gap)' }}>
+          {resumeData.skills.map((skill, i) => (
+            <div key={i} style={{ minWidth: 120 }}>
+              <div className="font-semibold text-xs uppercase tracking-wide"
+                style={{ color: 'var(--secondary-text-color)' }}>
+                {skill.category}
               </div>
-              {edu.details && (
-                <p 
-                  className="leading-tight"
-                  style={{
-                    fontSize: theme.fontSize,
-                    color: theme.textColor
-                  }}
-                >
-                  {edu.details}
-                </p>
-              )}
+              <div className="text-sm">{Array.isArray(skill.skills) ? skill.skills.join(', ') : skill.skills}</div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Certifications/Additional */}
+      {resumeData.hasCerifications && (
+        <section style={{ marginBottom: 'var(--section-spacing)' }}>
+          <h2
+            className="font-bold uppercase tracking-widest mb-2"
+            style={{
+              fontSize: theme.sectionTitleSize,
+              color: theme.accentColor,
+              fontFamily: theme.headingFontFamily,
+            }}
+          >
+            Certifications
+          </h2>
+          <ul className="list-disc ml-6 text-sm">
+            {resumeData.certifications.map((cert, i) => (
+              <li key={i} style={{ marginBottom: i < resumeData.certifications.length - 1 ? 'var(--item-spacing)' : 0 }}>
+                {cert}
+              </li>
+            ))}
+          </ul>
         </section>
-      </div>
+      )}
+
+      {/* Projects/Additional Sections */}
+      {resumeData.hasProjects && (
+        <section>
+          <h2
+            className="font-bold uppercase tracking-widest mb-2"
+            style={{
+              fontSize: theme.sectionTitleSize,
+              color: theme.accentColor,
+              fontFamily: theme.headingFontFamily,
+            }}
+          >
+            Projects
+          </h2>
+          <ul className="list-disc ml-6 text-sm">
+            {resumeData.projects.map((proj, i) => (
+              <li key={i} style={{ marginBottom: i < resumeData.projects.length - 1 ? 'var(--item-spacing)' : 0 }}>
+                <span className="font-semibold">{proj.name}:</span> {proj.description}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </div>
   );
 });
 
-ResumeTemplate.displayName = 'ResumeTemplate';
-export default ResumeTemplate;
+HarvardResume.displayName = 'HarvardResume';
+export default HarvardResume;

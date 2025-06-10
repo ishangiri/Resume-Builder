@@ -29,7 +29,7 @@ const PersonalDetails = () => {
         <input className={inputClasses} placeholder="Email Address" value={email} onChange={e => setEmail(e.target.value)} />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <input className={inputClasses} placeholder="Website / Portfolio Link" value={link} onChange={e => setLink(e.target.value)} />
+        <input className={inputClasses} placeholder="Website / Portfolio Link (Optional)" value={link} onChange={e => setLink(e.target.value)} />
         <input className={inputClasses} placeholder="Location" value={address} onChange={e => setAddress(e.target.value)} />
       </div>
     </div>

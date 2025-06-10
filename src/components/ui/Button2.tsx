@@ -1,18 +1,30 @@
-
 interface ButtonProps {
   onSubmit: () => void,
   text: React.ReactNode
 }
 
-const Button2 = ({onSubmit, text} : ButtonProps) => {
+const Button2 = ({ onSubmit, text }: ButtonProps) => {
   return (
-          <button
-            className="w-full flex gap-1 bg-gradient-to-r from-blue-500 to-blue-900 text-white font-semibold py-1 px-3 rounded-lg hover:bg-blue-700 transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            onClick={onSubmit}
-          >
-            {text}
-          </button>
-  )
-}
+    <button
+      type="button"
+      className="
+        flex items-center gap-1
+        bg-gradient-to-r from-blue-600 to-blue-800
+        text-white font-semibold
+        px-4 py-2
+        rounded-xl
+        shadow
+        transition-all duration-200
+        hover:from-blue-700 hover:to-blue-900 hover:shadow-lg
+        focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2
+        text-sm
+        min-h-[38px]
+      "
+      onClick={onSubmit}
+    >
+      {text}
+    </button>
+  );
+};
 
-export default Button2
+export default Button2;

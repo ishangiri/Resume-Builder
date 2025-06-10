@@ -94,7 +94,7 @@ const ModernLook = React.forwardRef<HTMLDivElement, ModernLookProps>(({ sectionS
                       {job.title}, {job.company}
                     </h4>
                     <span className="text-xs" style={{ color: theme.secondaryTextColor }}>
-                      {job.period}
+                      {`${job.startDate} - ${job.endDate}`}
                     </span>
                   </div>
                   <ul

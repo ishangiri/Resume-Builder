@@ -120,7 +120,7 @@ const GraciousLook = React.forwardRef<HTMLDivElement>((_, ref) => {
             <div key={idx} style={{ marginBottom: "0.75rem" }}>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <h4 style={{ fontWeight: 600 }}>{job.company}</h4>
-                <span style={{ fontSize: "0.75rem" }}>{job.period}</span>
+                <span style={{ fontSize: "0.75rem" }}> {`${job.startDate} - ${job.endDate}`}</span>
               </div>
               <p style={{ fontSize: "0.75rem", fontStyle: "italic" }}>{job.title}</p>
               <ul

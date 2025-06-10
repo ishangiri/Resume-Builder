@@ -3,7 +3,7 @@ import { useThemeStore as useModern, defaultTheme, executiveSlateTheme, corporat
 import { useThemeStore as useGracious, defaultGraciousTheme, elegantGraciousDark, minimalCleanLight, vibrantModern } from "../store/themeStores/GraciousthemeStore";
 import { useMinimalThemeStore, defaultTheme as defaultMinimal, softGreenTheme, warmSandTheme, elegantNightTheme} from "../store/themeStores/MinimalDesignthemestore";
 import { useModernLookthemeStore, defaultModerntheme, corporateBlueTheme, sophisticatedSerifTheme, elegantGrayTheme } from "../store/themeStores/ModernLookthemestore";
-import { useThemeStore as useGreenTheme, modernGreenTheme, elegantForestTheme, vibrantTealTheme, defaultResumeTheme } from "../store/themeStores/CreativeResumethemestore";
+import { useThemeStore as useHarvardTheme, harvardTheme, oxfordTheme, mitTheme, cambridgeTheme } from "../store/themeStores/CreativeResumethemestore";
 import { useThemeStore as useAcademic, minimalistGreenTheme, modernBlueTheme, elegantDarkTheme, defaultTheme as defaultAcademic  } from "../store/themeStores/AcademicThemeStore";
 //takes one template argument
 export function useUnifiedThemeStore(template : string) {
@@ -13,7 +13,7 @@ export function useUnifiedThemeStore(template : string) {
   const gracious = useGracious();
   const minimal = useMinimalThemeStore();
   const modernLook = useModernLookthemeStore();
-  const greenTheme = useGreenTheme();
+  const greenTheme = useHarvardTheme();
   const academicStore = useAcademic();
 
   //switch to select the theme according to template
@@ -22,10 +22,10 @@ export function useUnifiedThemeStore(template : string) {
     return{
       store : greenTheme,
       presets : {
-      "default Theme" : defaultResumeTheme,
-      "Modern Green" : modernGreenTheme,
-      "Modern Forest" : elegantForestTheme,
-      "Teal Theme" : vibrantTealTheme,
+      "default Theme" : harvardTheme,
+      "Oxford Theme" : oxfordTheme,
+      "MIT Theme" : mitTheme,
+      "Cambridge Theme" : cambridgeTheme,
       }
     }
     case 'Gracious':

@@ -4,7 +4,8 @@ import type { GenericTheme } from "./GenericTheme"
 type Experience = {
   title: string
   company: string
-  period : string
+  startDate : string
+  endDate : string
   description: string[]
   location: string
 }

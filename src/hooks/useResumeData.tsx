@@ -30,7 +30,7 @@
         name: `${firstName || 'John'} ${lastName || 'Doe'}`,
         email: email || 'abc@gmail.com',
         phone: phone || '+1 (123) 456-7890',
-        linkedin: link || "linkedin.com",
+        linkedin: link,
         location: address || 'New York, NY'
       },
       JobTitle : JobTitle || "Software Developer",
@@ -43,7 +43,8 @@
         ? experience.map((exp) => ({
             title: exp.title || 'Frontend Developer',
             company: exp.company || 'Tech Company',
-            period: `${exp.startDate || 'Jan 2020'} - ${exp.endDate || 'Present'}`,
+            startDate: `${exp.startDate || 'Jan 2020'}` ,
+            endDate : `${exp.endDate || 'Present'}`,
             location: exp.location || 'Remote',
             description: exp.description?.length
               ? exp.description
@@ -53,7 +54,8 @@
             {
               title: 'Senior Frontend Developer',
               company: 'Tech Solutions Inc.',
-              period: 'Jan 2021 - Present',
+              startDate: 'Jan 2021',
+              endDate : 'Present',
               location: 'New York, NY',
               description: [
                 'Lead development of a React-based dashboard used by 50,000+ monthly active users',
@@ -65,7 +67,8 @@
              {
               title: 'Senior Frontend Developer',
               company: 'Tech Solutions Inc.',
-              period: 'Jan 2021 - Present',
+             startDate: 'Jan 2021',
+              endDate : 'Present',
               location: 'New York, NY',
               description: [
                 'Lead development of a React-based dashboard used by 50,000+ monthly active users',
@@ -77,7 +80,8 @@
                    {
               title: 'Senior Frontend Developer',
               company: 'Tech Solutions Inc.',
-              period: 'Jan 2021 - Present',
+              startDate: 'Jan 2021',
+              endDate : 'Present',
               location: 'New York, NY',
               description: [
                 'Lead development of a React-based dashboard used by 50,000+ monthly active users',

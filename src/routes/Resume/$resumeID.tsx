@@ -2,7 +2,7 @@
 import { createFileRoute, useParams, useNavigate } from '@tanstack/react-router';
 import { useReactToPrint } from 'react-to-print';
 import { useRef, useState } from 'react';
-import { FileUp, Download, Eye, Edit, Palette, Layout } from 'lucide-react';
+import { FileUp, Download, Eye, Edit, Palette, Layout, UploadIcon } from 'lucide-react';
 import { Dialog } from '../../components/ui/Dialog';
 import { templates } from '../../utils/constant';
 import { LoadingSpinner } from '../../components/ui/LoadingSpinner';
@@ -446,51 +446,55 @@ function Resumepage() {
         }`}>
           <div className="h-screen flex flex-col">
             {/* Header with PDF and Save controls */}
-            <div className='flex flex-col sm:flex-row items-center justify-between p-3 sm:p-4 bg-white border-b border-gray-200'>
-              <div className="mb-2 sm:mb-0">
-                <h2 className="text-lg font-semibold text-gray-700">Live Preview</h2>
-                <p className="text-xs text-gray-500">Changes will appear here in real-time</p>
-              </div>
-              
-              {/* Action buttons for PDF generation and saving */}
-              <div className="flex space-x-2">
-                <Button2 
-                  onSubmit={reactToPrintFn} 
-                  text={
-                    <div className="flex items-center space-x-1">
-                      <FileUp className="w-4 h-4" />
-                      <span className="hidden sm:inline">PDF</span>
-                    </div>
-                  } 
-                />
-                <Button2 
-                  onSubmit={saveResume} 
-                   text={
-                           isPending === true ? (
-                             <LoadingSpinner size="sm" text="Saving..." />
-                                                         ) : (
-                                   <div className="flex items-center space-x-1">
-                                     <Download className="w-4 h-4" />
-                                   <span className="hidden sm:inline">Save New</span>
-                                   </div>
-                                    )
-                        } 
-                />
-            {updateID !== 0 && <Button2
-                  onSubmit = {updateResume}
-                  text = {
-                    pendingUpdate === true ? (
-                             <LoadingSpinner size="sm" text="Saving..." />
-                                                         ) : (
-                                   <div className="flex items-center space-x-1">
-                                     <Download className="w-4 h-4" />
-                                   <span className="hidden sm:inline">Update Resume</span>
-                                   </div>
-                                    )
-                  }
-                /> }
-              </div>
+         <div className="flex flex-col sm:flex-row items-center justify-between p-4 bg-white border-b border-gray-200">
+  {/* Left: Title and subtitle */}
+  <div className="mb-3 sm:mb-0 text-center sm:text-left">
+    <h2 className="text-lg font-semibold text-gray-700">Live Preview</h2>
+    <p className="text-xs text-gray-500">Changes will appear here in real-time</p>
+  </div>
+
+  {/* Right: Action buttons (always horizontal) */}
+  <div className="flex flex-row items-center gap-2">
+    <Button2 
+      onSubmit={reactToPrintFn} 
+      text={
+        <div className="flex items-center gap-1">
+          <FileUp className="w-4 h-4" />
+          <span className="hidden sm:inline">PDF</span>
+        </div>
+      } 
+    />
+    <Button2 
+      onSubmit={saveResume}
+      text={
+        isPending ? (
+          <LoadingSpinner size="sm" text="Saving..." />
+        ) : (
+          <div className="flex items-center gap-1">
+            <Download className="w-4 h-4" />
+            <span className="hidden sm:inline">Save New</span>
+          </div>
+        )
+      } 
+    />
+    {updateID !== 0 && user && (
+      <Button2
+        onSubmit={updateResume}
+        text={
+          pendingUpdate ? (
+            <LoadingSpinner size="sm" text="Updating..." />
+          ) : (
+            <div className="flex items-center gap-1">
+              <UploadIcon className="w-4 h-4" />
+              <span className="hidden sm:inline">Update Resume</span>
             </div>
+          )
+        }
+      />
+    )}
+  </div>
+</div>
+
             
             {/* Resume Preview Container with responsive scaling */}
             <div className="flex-1 bg-slate-200 mx-2 mb-2 rounded-lg shadow-xl overflow-y-auto">

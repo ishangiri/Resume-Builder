@@ -89,7 +89,7 @@ const AcademicResume = forwardRef<HTMLDivElement>((_, ref) => {
                   <div key={index} style={{ marginTop: index === 0 ? '1.25rem' : theme.itemSpacing }}>
                     <h3 className="font-bold" style={{ fontSize: theme.subHeadingSize }}>{exp.title}</h3>
                     <p className="text-[var(--secondary-text-color)]" style={{ fontSize: theme.fontSize }}>
-                      {exp.period}
+                      {`${exp.startDate} - ${exp.endDate}`}
                     </p>
                     <p className="font-semibold" style={{ fontSize: theme.fontSize }}>
                       {exp.company} / {exp.location}

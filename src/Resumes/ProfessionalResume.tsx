@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import { useResumeData } from '../hooks/useResumeData';
 import { useThemeStore } from '../store/themeStores/ProfessionalthemeStore';
+import { Phone, Link, Locate, Mail } from 'lucide-react';
 
 
 const ProfessionalTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>(
@@ -42,15 +43,16 @@ const ProfessionalTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivE
             {resumeData.JobTitle}
           </h2>
           <div
-            className="flex justify-center gap-4 text-xs"
+            className="flex justify-center gap-2 text-xs"
             style={{ color: theme.secondaryTextColor }}
           >
+           <span><Mail className='w-4 h-4' /></span> 
             <span>{resumeData.personalInfo.email}</span>
-            <span>•</span>
+            <span><Phone className='w-4 h-4' /></span>
             <span>{resumeData.personalInfo.phone}</span>
-            <span>•</span>
-            <span>{resumeData.personalInfo.linkedin}</span>
-            <span>•</span>
+            {resumeData.personalInfo.linkedin && <div className='flex justify-center gap-2 text-xs'> <span><Link className='w-4 h-4' /></span>
+            <span>{resumeData.personalInfo.linkedin}</span> </div> }
+            <span><Locate className='w-4 h-4' /></span>
             <span>{resumeData.personalInfo.location}</span>
           </div>
         </div>
@@ -94,7 +96,7 @@ const ProfessionalTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivE
                     {exp.title}
                   </h4>
                   <span className="text-xs" style={{ color: theme.secondaryTextColor }}>
-                    {exp.period}
+                    {`${exp.startDate} - ${exp.endDate}`}
                   </span>
                 </div>
                 <div className="flex justify-between items-baseline mb-1">

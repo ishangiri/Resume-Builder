@@ -72,7 +72,7 @@ const MinimalDesign = React.forwardRef<HTMLDivElement>((_, ref) => {
                 <h3 className="font-bold text-sm" style={{ color: theme.textColor }}>
                   {job.title} | {job.company}
                 </h3>
-                <span className="text-xs text-gray-600">{job.period}</span>
+                <span className="text-xs text-gray-600"> {`${job.startDate} - ${job.endDate}`}</span>
               </div>
               <ul
                 className="ml-5 space-y-1"
