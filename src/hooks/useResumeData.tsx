@@ -20,7 +20,7 @@
     const hasExperience = useResumeStore((state) => state.hasExperience);
     const hasCerifications = useResumeStore((state) => state.hasCerifications);
     const hasProjects = useResumeStore((state) => state.hasProjects)
-    const JobTitle  = useResumeStore((state) => state.jobTitle)
+    const JobTitle  = useResumeStore((state) => state.JobTitle)
   
 
 

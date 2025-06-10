@@ -1,7 +1,7 @@
 import { useResumeStore } from '../../store/ResumeStore';
 
 const JobTitleSection = () => {
-  const summary = useResumeStore(state => state.jobTitle);
+  const summary = useResumeStore(state => state.JobTitle);
   const setJobTitle = useResumeStore(state => state.setJobTitle);
 
   return (

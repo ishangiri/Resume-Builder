@@ -4,7 +4,7 @@ import { useThemeStore as useGracious, defaultGraciousTheme, elegantGraciousDark
 import { useMinimalThemeStore, defaultTheme as defaultMinimal, softGreenTheme, warmSandTheme, elegantNightTheme} from "../store/themeStores/MinimalDesignthemestore";
 import { useModernLookthemeStore, defaultModerntheme, corporateBlueTheme, sophisticatedSerifTheme, elegantGrayTheme } from "../store/themeStores/ModernLookthemestore";
 import { useThemeStore as useGreenTheme, modernGreenTheme, elegantForestTheme, vibrantTealTheme, defaultResumeTheme } from "../store/themeStores/CreativeResumethemestore";
-
+import { useThemeStore as useAcademic, minimalistGreenTheme, modernBlueTheme, elegantDarkTheme, defaultTheme as defaultAcademic  } from "../store/themeStores/AcademicThemeStore";
 //takes one template argument
 export function useUnifiedThemeStore(template : string) {
  
@@ -14,6 +14,7 @@ export function useUnifiedThemeStore(template : string) {
   const minimal = useMinimalThemeStore();
   const modernLook = useModernLookthemeStore();
   const greenTheme = useGreenTheme();
+  const academicStore = useAcademic();
 
   //switch to select the theme according to template
   switch (template) {
@@ -77,6 +78,16 @@ export function useUnifiedThemeStore(template : string) {
         "Blue Theme" : corporateBlueTheme,
         "Gray Theme" : elegantGrayTheme,
         "Serif Theme" : sophisticatedSerifTheme
+      }
+    }
+    case "Academic" : 
+    return{
+      store : academicStore,
+      presets : {
+        "Default theme" : defaultAcademic,
+        "Blue Theme" : modernBlueTheme,
+        "Green Theme" : minimalistGreenTheme,
+        "Dark Theme" : elegantDarkTheme
       }
     }
     default:

@@ -4,6 +4,7 @@ import { modernLookStore } from "../store/themeStores/ModernLookthemestore"
 import { minimalDesignStore } from "../store/themeStores/MinimalDesignthemestore"
 import { graciousStore } from "../store/themeStores/GraciousthemeStore"
 import { resumeThemeStore } from "../store/themeStores/CreativeResumethemestore"
+import { academicStore } from "../store/themeStores/AcademicThemeStore"
 export const getTemplateTheme = (template : string) => {
      switch(template){
         case "Professional":
@@ -18,5 +19,7 @@ export const getTemplateTheme = (template : string) => {
             return modernLookStore
         case "Creative" : 
             return resumeThemeStore
+        case "Academic":
+             return academicStore
      }         
 }

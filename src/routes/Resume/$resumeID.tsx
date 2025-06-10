@@ -6,6 +6,8 @@ import { FileUp, Download, Eye, Edit, Palette, Layout } from 'lucide-react';
 import { Dialog } from '../../components/ui/Dialog';
 import { templates } from '../../utils/constant';
 import { LoadingSpinner } from '../../components/ui/LoadingSpinner';
+import { useResumeStore } from '../../store/ResumeStore';
+import { useUpdateResume } from '../../hooks/useUpdateAndDelete';
 
 // Resume templates
 import {
@@ -14,7 +16,8 @@ import {
   ResumeTemplate,
   MinimalDesign,
   GraciousLook,
-  ModernLook
+  ModernLook,
+  Academic
 } from '../../Resumes';
 
 
@@ -62,12 +65,34 @@ function Resumepage() {
 
 
   //calling hook useSaveResume
-    const { mutate, isPending, } = useSaveResume();
+    const { mutate, isPending } = useSaveResume();
+    const {mutate : updateMutate, isPending : pendingUpdate} = useUpdateResume();
     const [showSavedDialog, setShowSavedDialog] = useState<boolean>(false);
     const [showErrorDialog, setShowErrorDialog] = useState<boolean>(false);
+    const [updateDialog, setShowUpdateDialog] = useState<boolean>(false);
+    const[updateErrordialog, setUpdateErrorDIalog] = useState<boolean>(false);
 
 
-  //add template value to save in resumedata so when the user clicks on resume to edit they can go back to the same template they saved with their resume data. 
+    //get resume id to update
+    const {id : updateID} = useResumeStore();
+
+
+    //update resume payload
+    const updateResumePayload = {
+      resume : {
+          title : resumeData.JobTitle,
+          content : resumeData,
+          template : resumeID,
+        } ,
+        theme : {
+               name : themeName || "Custom Theme",
+              settings : settings
+            }
+    }
+    
+
+
+  //save resume payload
 
   const resumePayload = {
       user : {
@@ -85,7 +110,8 @@ function Resumepage() {
             }
       }
 
-  const savePDF = () => {
+  //function to save the resume created by user
+  const saveResume = () => {
     if(!user){
       setShowDialog(true)
     } else {
@@ -103,7 +129,27 @@ function Resumepage() {
     }
   }
 
+//function to update resume
+  const updateResume = () => {
+    if(!user || !updateID){
+      setShowDialog(true)
+    }
+     updateMutate({
+      id : updateID,
+      userId : user?.uid,
+      resumePayLoad : updateResumePayload
+     },
+     {
+      onSuccess : () => setShowUpdateDialog(true),
+      onError : () => setShowErrorDialog(true)
+     }
+    
+    )
+    
+  }
 
+
+  //function to render the selected template
 
   const chooseResumeTemplate = () => {
     switch (resumeID) {
@@ -119,6 +165,8 @@ function Resumepage() {
         return <GraciousLook ref={contentRef}/>;
       case 'ModernLook':
         return <ModernLook ref={contentRef}/>
+      case 'Academic' : 
+        return <Academic ref={contentRef} />
         default:
         return <div className="text-center text-gray-500">No template selected</div>;
     }
@@ -190,7 +238,7 @@ function Resumepage() {
         /* Desktop - no scaling */
         @media (min-width: 1024px) {
           .resume-preview-container {
-            transform: scale(1);
+            transform: scale(0.72);
             transform-origin: top center;
           }
         }
@@ -236,11 +284,41 @@ function Resumepage() {
        primaryButtonVariant='red'
        primaryButtonText='Ok'
        secondaryButtonText='Try Again'
-       onSecondaryClick={() => savePDF()}
+       onSecondaryClick={() => saveResume()}
        onPrimaryClick={() => setShowErrorDialog(false)}
        closeOnEscape = {true}
       >
       <p>Something Went Wrong While Saving Resume</p>
+      </Dialog>
+        <Dialog 
+       isOpen = {updateDialog}
+       type='success'
+       closeOnBackdrop={true}
+       onClose={() => setShowUpdateDialog(false)}
+       title='Resume Updated'
+       showCloseButton = {false}
+       primaryButtonText='Ok'
+       primaryButtonVariant='green'
+       onPrimaryClick={() => navigate({to : "/dashboard"})}
+       closeOnEscape = {true}
+      >
+      <p>Resume Updated Successfully.</p>
+      </Dialog>
+         <Dialog 
+       isOpen = {updateErrordialog}
+       type='error'
+       closeOnBackdrop={true}
+       onClose={() => setUpdateErrorDIalog(false)}
+       title='Resume Updated'
+       showCloseButton = {false}
+       primaryButtonText='Ok'
+       secondaryButtonText='Try Again'
+       onSecondaryClick={() => updateResume()}
+       primaryButtonVariant='red'
+       onPrimaryClick={() => setUpdateErrorDIalog(false)}
+       closeOnEscape = {true}
+      >
+      <p>Something went wrong while updating resume.</p>
       </Dialog>
       
       <Navbar />
@@ -386,23 +464,36 @@ function Resumepage() {
                   } 
                 />
                 <Button2 
-                  onSubmit={savePDF} 
+                  onSubmit={saveResume} 
                    text={
                            isPending === true ? (
                              <LoadingSpinner size="sm" text="Saving..." />
                                                          ) : (
                                    <div className="flex items-center space-x-1">
                                      <Download className="w-4 h-4" />
-                                   <span className="hidden sm:inline">Save</span>
+                                   <span className="hidden sm:inline">Save New</span>
                                    </div>
                                     )
                         } 
                 />
+            {updateID !== 0 && <Button2
+                  onSubmit = {updateResume}
+                  text = {
+                    pendingUpdate === true ? (
+                             <LoadingSpinner size="sm" text="Saving..." />
+                                                         ) : (
+                                   <div className="flex items-center space-x-1">
+                                     <Download className="w-4 h-4" />
+                                   <span className="hidden sm:inline">Update Resume</span>
+                                   </div>
+                                    )
+                  }
+                /> }
               </div>
             </div>
             
             {/* Resume Preview Container with responsive scaling */}
-            <div className="flex-1 bg-white mx-2 mb-2 rounded-lg shadow-xl overflow-y-auto">
+            <div className="flex-1 bg-slate-200 mx-2 mb-2 rounded-lg shadow-xl overflow-y-auto">
               <div className="w-full h-full flex items-start justify-center p-1 sm:p-4">
                 <div className="w-full max-w-full overflow-hidden">
                   <div className="resume-preview-container">

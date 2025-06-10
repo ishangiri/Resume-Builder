@@ -18,7 +18,7 @@ const ResumePreview = ({ src, chooseResume} : ResumePreviewProps) => {
                 >
                <img 
                  src={src} 
-                 alt="Template 1" 
+                 alt="Templates" 
                  className="w-full h-full object-contain"
                />
              </div>

@@ -4,8 +4,7 @@ import type { GenericTheme } from "./GenericTheme"
 type Experience = {
   title: string
   company: string
-  startDate: string
-  endDate: string
+  period : string
   description: string[]
   location: string
 }
@@ -19,11 +18,11 @@ export type fetchedData = {
         phone: string | ""
         link: string | ""
         address: string | ""
-      },
-  hasExperience: boolean
-  hasCerifications : boolean
-  hasProjects : boolean
-  jobTitle : string | null
+      } | null,
+  hasExperience: boolean | null
+  hasCerifications : boolean | null
+  hasProjects : boolean | null
+  JobTitle : string | null
   summary: string | null
   skills: {
     category: string
@@ -42,7 +41,6 @@ export type fetchedData = {
     description: string
   }[] | null,
   certifications: string[] | null,
- 
 }
 
 
@@ -75,6 +73,7 @@ export type ResumeData = {
           title : string,
           content : object,
           template : string,
+          id : number
         } ,
         theme : [{
                name : string | undefined,

@@ -26,6 +26,8 @@ function RouteComponent() {
 
   // Extract resumes array from API response
   const resumes: fetchedResumes[] = (data && typeof data === 'object' && data !== null && 'data' in data) ? (data as AxiosResponse).data : [];
+  
+
 
   // Handle loading state
   if (isLoading) {
@@ -57,15 +59,22 @@ function RouteComponent() {
        const data   =    await fetchResumeById(id)
        const oneResume: ResumeData[] = (data && typeof data === 'object' && data !== null && 'data' in data) ? (data as AxiosResponse).data : [];
        const content = oneResume[0]?.resume.content as fetchedData
+       const resume_id = oneResume[0]?.resume.id
        const template = oneResume[0]?.resume.template
        const theme = oneResume[0]?.theme[0].settings
-       console.log(theme);
        const updateTheme = getTemplateTheme(template) as any;
+       console.log(content);
+       console.log(theme);
+       
+       
        if(!content || !template || !theme || !updateTheme){
              console.log("Could not fetch data");
              throw new Error("Could not fetch data")
+
        }else {
+          useResumeStore.persist.clearStorage();
           useResumeStore.getState().loadResume(content);
+          useResumeStore.getState().setId(resume_id)
         updateTheme.getState().loadTheme(theme)
         navigate({to : `/Resume/${template}`})
        }

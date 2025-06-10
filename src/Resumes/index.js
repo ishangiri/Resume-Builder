@@ -4,3 +4,4 @@ export { default as ResumeTemplate } from './MCreativeResume';
 export { default as MinimalDesign } from './MinimalDesign';
 export { default as GraciousLook } from './GraciousLook';
 export { default as ModernLook } from './ModernLook';
+export {default as Academic} from './AcademicResume'
