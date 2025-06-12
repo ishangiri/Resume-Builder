@@ -22,7 +22,7 @@ const fetchResumes = async (user : string | undefined) => {
 
 }
 
-export const fetchResumeById = async (id : string | undefined) => {
+export const fetchResumeById = async (id : number | undefined) => {
     try{
         const response = await fetchApi.get('/get-resumeById', {
             params : {id}

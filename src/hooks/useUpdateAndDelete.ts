@@ -21,6 +21,11 @@ interface UpdateResumeVariables {
     userId: string | undefined;
 }
 
+interface deleteResumeVariables{
+    id: number;
+    userId: string | undefined
+}
+
 const updateResume = async ({ resumePayLoad, id, userId }: UpdateResumeVariables) => {
     try {
         const response = await fetchApi.put(`/resumes/${id}`,  resumePayLoad, {
@@ -37,11 +42,33 @@ const updateResume = async ({ resumePayLoad, id, userId }: UpdateResumeVariables
     }
 };
 
+
+const deleteResume = async({id, userId} : deleteResumeVariables) => {
+    try{
+        const response = await fetchApi.delete(`/resumes/${id}`, 
+            {
+           params : {user_id : userId}
+         })
+           return response
+    }catch(e){
+        console.log(e);
+        
+    }
+}
+
 export const useUpdateResume = () => {
     return useMutation({
         mutationFn: (variables: UpdateResumeVariables) =>
             updateResume(variables)
     });
 };
+
+export const useDeleteResume = () => {
+    return useMutation({
+        mutationFn: (variables : deleteResumeVariables) => 
+            deleteResume(variables)
+    })
+}
+
 
 

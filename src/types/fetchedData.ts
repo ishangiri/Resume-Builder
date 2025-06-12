@@ -56,7 +56,7 @@ export type fetchedResumes = {
   resume: {
     title: string,
     content: ResumeContent,
-    id: string,
+    id: number,
     template : string
   },
   theme: [

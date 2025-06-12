@@ -12,6 +12,12 @@ import type { fetchedResumes } from '../types/fetchedData';
 import type { ResumeData } from '../types/fetchedData';
 import type { fetchedData } from '../types/fetchedData';
 import { getTemplateTheme } from '../utils/getTemplatesTheme';
+import { useDeleteResume } from '../hooks/useUpdateAndDelete';
+import { useState } from 'react';
+import { Dialog } from '../components/ui/Dialog';
+import { useQueryClient } from '@tanstack/react-query';
+import LoadingOverlay from '../components/ui/LoadingComponent';
+
 
 
 
@@ -23,11 +29,20 @@ function RouteComponent() {
 
   const userId = user?.uid;
   const { data, isLoading, isError, error } = useFetchResume(userId);
+  const {mutate, isPending} = useDeleteResume();
 
   // Extract resumes array from API response
   const resumes: fetchedResumes[] = (data && typeof data === 'object' && data !== null && 'data' in data) ? (data as AxiosResponse).data : [];
   
+  //dialog states
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [showErrorDialog, setShowErrorDialog] = useState<boolean>(false);
+  const[showWarningDialog, setShowWarningDialog] = useState<boolean>(false);
 
+  //loading state
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const queryClient = useQueryClient();
 
   // Handle loading state
   if (isLoading) {
@@ -54,9 +69,38 @@ function RouteComponent() {
   )
  }
 
-  const fetchAndRoute = async (id : string) => {
+ const confirmDelete = (id : number) => {
+  setSelectedId(id);
+  setShowWarningDialog(true);
+ }
+
+
+  const deleteResume = async() => {
+    setShowWarningDialog(false)
+    if(!selectedId || !user) return;
+    mutate({
+      id : selectedId,
+      userId : user?.uid
+    },
+{
+      onSuccess : () => {
+      queryClient.invalidateQueries( {queryKey : ['resumes', user?.uid]});
+      },
+      onError : () =>{
+          setShowErrorDialog(true)
+          setSelectedId(null)
+      } 
+} 
+  )
+}
+
+  
+
+  const fetchAndRoute = async (id : number) => {
     try{
-       const data   =    await fetchResumeById(id)
+
+       setLoading(true)
+       const data   =   await fetchResumeById(id)
        const oneResume: ResumeData[] = (data && typeof data === 'object' && data !== null && 'data' in data) ? (data as AxiosResponse).data : [];
        const content = oneResume[0]?.resume.content as fetchedData
        const resume_id = oneResume[0]?.resume.id
@@ -65,7 +109,7 @@ function RouteComponent() {
        const updateTheme = getTemplateTheme(template) as any;
        console.log(content);
        console.log(theme);
-       
+       setLoading(false);
        
        if(!content || !template || !theme || !updateTheme){
              console.log("Could not fetch data");
@@ -75,7 +119,7 @@ function RouteComponent() {
           useResumeStore.persist.clearStorage();
           useResumeStore.getState().loadResume(content);
           useResumeStore.getState().setId(resume_id)
-        updateTheme.getState().loadTheme(theme)
+          updateTheme.getState().loadTheme(theme)
         navigate({to : `/Resume/${template}`})
        }
       }catch(error : unknown){
@@ -89,9 +133,39 @@ return (
   <ProtectedRoute>
     <div className="min-h-screen bg-slate-50">
       <Navbar />
-
       {/* Main Content */}
       <div className="pt-4 pb-12">
+        <Dialog 
+       isOpen = {showErrorDialog}
+       type='error'
+       closeOnBackdrop={true}
+       onClose={() => setShowErrorDialog(false)}
+       title='Something went wrong while deleting resume'
+       showCloseButton = {false}
+       primaryButtonText='Ok'
+       primaryButtonVariant='red'
+       closeOnEscape = {true}
+      >
+      <p>Resume Deleted Successfully.</p>
+      </Dialog>
+      <Dialog 
+       isOpen = {showWarningDialog}
+       type='warning'
+       closeOnBackdrop={true}
+       onClose={() => setShowWarningDialog(false)}
+       title='Are you sure you want to delete this resume?'
+       showCloseButton = {false}
+       primaryButtonText='Yes'
+       primaryButtonVariant='red'
+       secondaryButtonText='Cancel Delete'
+       onSecondaryClick={() => setShowWarningDialog(false)}
+       onPrimaryClick={deleteResume}
+       closeOnEscape = {true}
+      >
+      <p>This cannot be undone.</p>
+      </Dialog>
+          <LoadingOverlay spinnerSize='small' message='Loading data...' isVisible={loading} />
+          <LoadingOverlay  spinnerSize='small' message='Deleting data...' isVisible={isPending} />
         {/* Header Section */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
           <div className="text-center sm:text-left">
@@ -128,7 +202,9 @@ return (
                     onClick={() => fetchAndRoute(resume.resume.id)}
                     templateDesign={resume?.theme?.[0]?.name || 'Default'}
                     template = {resume?.resume.template}
+                    onDelete={() => confirmDelete(resume.resume.id)}
                   />
+               
                 ))}
               </div>
             </>
