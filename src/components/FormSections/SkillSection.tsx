@@ -16,7 +16,6 @@ const SkillsSection = () => {
   };
 
   const addCategory = () => {
-    if (skills.length >= 4) return;
     setSkills([...skills, { category: '', skills: [''] }]);
   };
 
