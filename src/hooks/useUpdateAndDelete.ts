@@ -67,7 +67,8 @@ export const useDeleteResume = () => {
     return useMutation({
         mutationFn: (variables : deleteResumeVariables) => 
             deleteResume(variables)
-    })
+    }
+)
 }
 
 

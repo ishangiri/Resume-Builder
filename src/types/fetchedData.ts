@@ -18,7 +18,7 @@ export type fetchedData = {
         email: string | "",
         phone: string | ""
         link: string | ""
-        address: string | ""
+        location: string | ""
       } | null,
   hasExperience: boolean | null
   hasCerifications : boolean | null

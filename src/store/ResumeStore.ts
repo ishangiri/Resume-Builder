@@ -138,7 +138,7 @@ export const useResumeStore = create<ResumeStore>()(
           lastName: data.personalInfo?.name?.split(' ')[1] || '',
           email: data.personalInfo?.email || '',
           phone: data.personalInfo?.phone || '',
-          address: data.personalInfo?.address || '',
+          address: data.personalInfo?.location || '',
           link: data.personalInfo?.link || '',
           summary: data.summary || '',
           skills: data.skills || [],
