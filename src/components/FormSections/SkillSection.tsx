@@ -59,7 +59,7 @@ const SkillsSection = () => {
         </div>
       ))}
 
-      {skills.length < 4 && (
+        (
         <button
           type="button"
           onClick={addCategory}
@@ -67,7 +67,7 @@ const SkillsSection = () => {
         >
           + Add Skill Category
         </button>
-      )}
+      )
     </div>
   );
 };
