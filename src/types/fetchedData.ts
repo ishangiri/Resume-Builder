@@ -17,7 +17,7 @@ export type fetchedData = {
         name: string | "",
         email: string | "",
         phone: string | ""
-        link: string | ""
+        linkedin: string | ""
         location: string | ""
       } | null,
   hasExperience: boolean | null

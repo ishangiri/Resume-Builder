@@ -139,7 +139,7 @@ export const useResumeStore = create<ResumeStore>()(
           email: data.personalInfo?.email || '',
           phone: data.personalInfo?.phone || '',
           address: data.personalInfo?.location || '',
-          link: data.personalInfo?.link || '',
+          link: data.personalInfo?.linkedin || '',
           summary: data.summary || '',
           skills: data.skills || [],
           experience: data.experience || [],

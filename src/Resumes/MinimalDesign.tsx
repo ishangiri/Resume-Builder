@@ -163,7 +163,7 @@ const MinimalDesign = React.forwardRef<HTMLDivElement>((_, ref) => {
             }}
           >
             {resumeData.projects.map((project, i) => (
-              <li key={i}>{project.name = ": "}{project.description}</li>
+              <li key={i}><span className="font-bold">{project.name + " : "}</span>{project.description}</li>
             ))}
           </ul>
         </section>

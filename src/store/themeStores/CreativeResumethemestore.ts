@@ -1,19 +1,17 @@
 import { create } from 'zustand';
 import type { GenericTheme } from '../../types/GenericTheme';
 
-export const harvardTheme : GenericTheme = {
+export const harvardTheme: GenericTheme = {
   backgroundColor: "#f9fafb",
   textColor: "#21243d",
   secondaryTextColor: "#6b7280",
-  accentColor: "#a51c30",
+  accentColor: "#a51c30", // Harvard crimson
   dividerColor: "#e5e7eb",
   fontFamily: "'Merriweather', 'Georgia', serif",
   headingFontFamily: "'Montserrat', 'Arial', sans-serif",
-  fontSize: "14px",
+  fontSize: "13px",
   headingSize: "34px",
-  subHeadingSize: "22px",
   sectionTitleSize: "16px",
-  listItemSize: "14px",
   lineHeight: "1.65",
   padding: "1.5rem",
   sectionSpacing: "1rem",
@@ -22,65 +20,58 @@ export const harvardTheme : GenericTheme = {
 };
 
 export const oxfordTheme: GenericTheme = {
-  backgroundColor: "#f7f7f9", // light gray
-  textColor: "#22223b", // rich navy
-  secondaryTextColor: "#4a4e69", // muted purple
-  accentColor: "#9a8c98", // Oxford mauve
-  dividerColor: "#c9ada7", // soft divider
+  backgroundColor: "#f7f7f9",
+  textColor: "#1e1e2f",
+  secondaryTextColor: "#5c5470",
+  accentColor: "#002147", // Oxford blue
+  dividerColor: "#d1d5db",
   fontFamily: "'Lora', 'Georgia', serif",
   headingFontFamily: "'Oswald', 'Arial', sans-serif",
   fontSize: "13px",
   headingSize: "32px",
-  subHeadingSize: "20px",
   sectionTitleSize: "15px",
-  listItemSize: "13px",
   lineHeight: "1.7",
   padding: "1.3rem",
-  sectionSpacing: "1rem",
-  gap: "1.7rem",
-  itemSpacing: "0.5rem",
+  sectionSpacing: "0.9rem",
+  gap: "1.3rem",
+  itemSpacing: "6px",
 };
 
 export const mitTheme: GenericTheme = {
-  backgroundColor: "#ffffff", // bright white
-  textColor: "#1a202c", // almost black
-  secondaryTextColor: "#718096", // slate gray
+  backgroundColor: "#ffffff",
+  textColor: "#1a1a1a",
+  secondaryTextColor: "#4a5568",
   accentColor: "#ff6f00", // MIT orange
-  dividerColor: "#e2e8f0", // light blue-gray
-  fontFamily: "'Roboto', 'Inter', Arial, sans-serif",
+  dividerColor: "#d6d6d6",
+  fontFamily: "'Roboto', 'Helvetica Neue', sans-serif",
   headingFontFamily: "'Barlow Condensed', 'Arial', sans-serif",
   fontSize: "13px",
   headingSize: "30px",
-  subHeadingSize: "19px",
   sectionTitleSize: "14px",
-  listItemSize: "13px",
   lineHeight: "1.6",
   padding: "1.1rem",
-  sectionSpacing: "1rem",
+  sectionSpacing: "0.8rem",
   gap: "1.4rem",
-  itemSpacing: "0.5rem",
+  itemSpacing: "5px",
 };
 
 export const cambridgeTheme: GenericTheme = {
-  backgroundColor: "#f5f5ef", // parchment white
-  textColor: "#22333b", // classic ink
-  secondaryTextColor: "#5e6472", // Cambridge blue-gray
+  backgroundColor: "#f0f4f8",
+  textColor: "#22333b",
+  secondaryTextColor: "#5e6472",
   accentColor: "#006d5b", // Cambridge green
-  dividerColor: "#b7b7a4", // soft divider
+  dividerColor: "#cbd5e1",
   fontFamily: "'PT Serif', 'Georgia', serif",
   headingFontFamily: "'Raleway', 'Arial', sans-serif",
   fontSize: "13px",
   headingSize: "31px",
-  subHeadingSize: "19px",
   sectionTitleSize: "15px",
-  listItemSize: "13px",
   lineHeight: "1.65",
   padding: "1.25rem",
   sectionSpacing: "1rem",
   gap: "1.6rem",
-  itemSpacing: "0.5rem",
+  itemSpacing: "5px",
 };
-
 
 export const useThemeStore = create<{
   theme: GenericTheme;

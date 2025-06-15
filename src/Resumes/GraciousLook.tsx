@@ -46,6 +46,7 @@ const GraciousLook = React.forwardRef<HTMLDivElement>((_, ref) => {
           {resumeData.personalInfo.location && `${resumeData.personalInfo.location} | `}
           {resumeData.personalInfo.phone && `${resumeData.personalInfo.phone} | `}
           {resumeData.personalInfo.email}
+             {resumeData.personalInfo.linkedin && ` ${  " | " + resumeData.personalInfo.linkedin}`}
         </p>
       </div>
 

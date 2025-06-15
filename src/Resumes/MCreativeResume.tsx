@@ -7,8 +7,7 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
   const resumeData = useResumeData();
   const theme = useThemeStore((state) => state.theme);
 
-  // CSS variables for dynamic theme and spacing
-  const cssVars: React.CSSProperties = {
+  const cssVars: CSSProperties & Record<string, string | number> = {
     '--background-color': theme.backgroundColor,
     '--text-color': theme.textColor,
     '--secondary-text-color': theme.secondaryTextColor,
@@ -19,21 +18,16 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
     '--gap': theme.gap,
     '--item-spacing': theme.itemSpacing,
     fontFamily: theme.fontFamily,
-    fontSize: theme.fontSize,
     lineHeight: theme.lineHeight,
     backgroundColor: 'var(--background-color)',
     color: 'var(--text-color)',
     padding: 'var(--padding)',
     width: '210mm',
     height: '297mm',
-  } as CSSProperties;
+  };
 
   return (
-    <div
-      ref={ref}
-      className="mx-auto shadow-lg font-sans"
-      style={cssVars}
-    >
+    <div ref={ref} className="mx-auto shadow-lg font-sans" style={cssVars}>
       {/* Header */}
       <header style={{ marginBottom: 'var(--section-spacing)' }}>
         <div className="flex flex-col md:flex-row md:items-end md:justify-between">
@@ -48,18 +42,48 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
             >
               {resumeData.personalInfo.name}
             </h1>
-            <div className="mt-1 flex flex-wrap gap-x-2 gap-y-1 text-sm justify-center items-center"
-                 style={{ color: 'var(--secondary-text-color)' }}>
-              <span><Locate className='w-4 h-4' style={{color : theme.accentColor}}/></span><span>{resumeData.personalInfo.location}</span>
-               <span><Mail className='w-4 h-4' style={{color : theme.accentColor}}/></span> <span>{resumeData.personalInfo.email}</span>
-              {resumeData.personalInfo.phone &&  <div className='flex mt-1 flex-wrap gap-x-2 gap-y-1 text-sm justify-center items-center'> <span><Phone className='w-4 h-4 ' style={{color : theme.accentColor}}/></span> <span>{resumeData.personalInfo.phone}</span> </div>}
-              {resumeData.personalInfo.linkedin && <div className='flex mt-1 flex-wrap gap-x-2 gap-y-1 text-sm items-center justify-center'>  <span><Link className='w-4 h-4 'style={{color : theme.accentColor}}/></span> <span>{resumeData.personalInfo.linkedin}</span> </div>}
+            <div
+              className="mt-1 flex flex-wrap gap-x-2 gap-y-1 justify-center items-center"
+              style={{ color: 'var(--secondary-text-color)', fontSize: theme.fontSize }}
+            >
+              <span>
+                <Locate className="w-4 h-4" style={{ color: theme.accentColor }} />
+              </span>
+              <span>{resumeData.personalInfo.location}</span>
+
+              <span>
+                <Mail className="w-4 h-4" style={{ color: theme.accentColor }} />
+              </span>
+              <span>{resumeData.personalInfo.email}</span>
+
+              {resumeData.personalInfo.phone && (
+                <div className="flex mt-1 flex-wrap gap-x-2 gap-y-1 justify-center items-center">
+                  <span>
+                    <Phone className="w-4 h-4" style={{ color: theme.accentColor }} />
+                  </span>
+                  <span>{resumeData.personalInfo.phone}</span>
+                </div>
+              )}
+
+              {resumeData.personalInfo.linkedin && (
+                <div className="flex mt-1 flex-wrap gap-x-2 gap-y-1 items-center justify-center">
+                  <span>
+                    <Link className="w-4 h-4" style={{ color: theme.accentColor }} />
+                  </span>
+                  <span>{resumeData.personalInfo.linkedin}</span>
+                </div>
+              )}
             </div>
           </div>
+
           <div className="mt-3 md:mt-0 text-right">
             <span
-              className="text-xs font-medium tracking-wide uppercase"
-              style={{ color: 'var(--accent-color)', letterSpacing: '0.08em' }}
+              className="font-medium tracking-wide uppercase"
+              style={{
+                color: 'var(--accent-color)',
+                letterSpacing: '0.08em',
+                fontSize: theme.fontSize,
+              }}
             >
               {resumeData.JobTitle}
             </span>
@@ -67,7 +91,7 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
         </div>
       </header>
 
-      {/* Education at Top */}
+      {/* Education */}
       <section style={{ marginBottom: 'var(--section-spacing)' }}>
         <h2
           className="font-bold uppercase tracking-widest mb-2"
@@ -81,22 +105,28 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
         </h2>
         <div>
           {resumeData.education.map((edu, i) => (
-            <div key={i}
-              className="flex justify-between items-baseline"
+            <div
+              key={i}
+              className="flex flex-col sm:flex-row justify-between gap-1 sm:items-baseline"
               style={{ marginBottom: i < resumeData.education.length - 1 ? 'var(--item-spacing)' : 0 }}
             >
               <div>
-                <span className="font-semibold">{edu.degree}</span>
-                <span className="ml-2" style={{ color: 'var(--secondary-text-color)' }}>
+                <span className="font-semibold" style={{ fontSize: theme.fontSize }}>
+                  {edu.degree}
+                </span>
+                <span className="ml-2" style={{ color: 'var(--secondary-text-color)', fontSize: theme.fontSize }}>
                   {edu.institution}
                 </span>
                 {edu.details && (
-                  <div className="text-xs mt-1" style={{ color: 'var(--secondary-text-color)' }}>
+                  <div className="mt-1" style={{ color: 'var(--secondary-text-color)', fontSize: theme.fontSize }}>
                     {edu.details}
                   </div>
                 )}
               </div>
-              <div className="text-xs text-right" style={{ color: 'var(--secondary-text-color)' }}>
+              <div
+                className="sm:text-right"
+                style={{ color: 'var(--secondary-text-color)', fontSize: theme.fontSize }}
+              >
                 {edu.period}
                 {edu.location && <span className="ml-2">{edu.location}</span>}
               </div>
@@ -105,7 +135,7 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
         </div>
       </section>
 
-      {/* Summary/Profile */}
+      {/* Profile */}
       <section style={{ marginBottom: 'var(--section-spacing)' }}>
         <h2
           className="font-bold uppercase tracking-widest mb-2"
@@ -117,9 +147,7 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
         >
           Profile
         </h2>
-        <p className="text-sm" style={{ color: 'var(--text-color)' }}>
-          {resumeData.summary}
-        </p>
+        <p style={{ color: 'var(--text-color)', fontSize: theme.fontSize }}>{resumeData.summary}</p>
       </section>
 
       {/* Experience */}
@@ -137,29 +165,38 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
           </h2>
           <div>
             {resumeData.experience.map((exp, i) => (
-              <div key={i}
+              <div
+                key={i}
                 style={{ marginBottom: i < resumeData.experience.length - 1 ? 'var(--item-spacing)' : 0 }}
               >
-                <div className="flex justify-between items-baseline">
+                <div className="flex flex-col sm:flex-row justify-between sm:items-baseline">
                   <div>
-                    <span className="font-semibold">{exp.title}</span>
-                    <span className="ml-2" style={{ color: 'var(--secondary-text-color)' }}>
+                    <span className="font-semibold" style={{ fontSize: theme.fontSize }}>
+                      {exp.title}
+                    </span>
+                    <span className="ml-2" style={{ color: 'var(--secondary-text-color)', fontSize: theme.fontSize }}>
                       {exp.company}
                     </span>
                     {exp.location && (
-                      <span className="ml-2" style={{ color: 'var(--secondary-text-color)' }}>
+                      <span className="ml-2" style={{ color: 'var(--secondary-text-color)', fontSize: theme.fontSize }}>
                         {exp.location}
                       </span>
                     )}
                   </div>
-                  <div className="text-xs text-right" style={{ color: 'var(--secondary-text-color)' }}>
+                  <div
+                    className="sm:text-right"
+                    style={{ color: 'var(--secondary-text-color)', fontSize: theme.fontSize }}
+                  >
                     {`${exp.startDate} - ${exp.endDate}`}
                   </div>
                 </div>
                 {exp.description && (
-                  <ul className="list-disc ml-6 mt-1 text-sm">
+                  <ul className="list-disc ml-6 mt-1" style={{ fontSize: theme.fontSize }}>
                     {exp.description.map((desc, j) => (
-                      <li key={j} style={{ marginBottom: 'calc(var(--item-spacing) / 2)' }}>
+                      <li
+                        key={j}
+                        style={{ marginBottom: 'calc(var(--item-spacing) / 2)' }}
+                      >
                         {desc}
                       </li>
                     ))}
@@ -171,7 +208,7 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
         </section>
       )}
 
-      {/* Skills (Grouped) */}
+      {/* Skills */}
       <section style={{ marginBottom: 'var(--section-spacing)' }}>
         <h2
           className="font-bold uppercase tracking-widest mb-2"
@@ -185,18 +222,17 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
         </h2>
         <div className="flex flex-wrap" style={{ gap: 'var(--gap)' }}>
           {resumeData.skills.map((skill, i) => (
-            <div key={i} style={{ minWidth: 120 }}>
-              <div className="font-semibold text-xs uppercase tracking-wide"
-                style={{ color: 'var(--secondary-text-color)' }}>
+            <div key={i} style={{ minWidth: 120, fontSize: theme.fontSize }}>
+              <div className="font-semibold uppercase tracking-wide" style={{ color: 'var(--secondary-text-color)', fontSize: theme.fontSize }}>
                 {skill.category}
               </div>
-              <div className="text-sm">{Array.isArray(skill.skills) ? skill.skills.join(', ') : skill.skills}</div>
+              <div>{Array.isArray(skill.skills) ? skill.skills.join(', ') : skill.skills}</div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Certifications/Additional */}
+      {/* Certifications */}
       {resumeData.hasCerifications && (
         <section style={{ marginBottom: 'var(--section-spacing)' }}>
           <h2
@@ -209,9 +245,12 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
           >
             Certifications
           </h2>
-          <ul className="list-disc ml-6 text-sm">
+          <ul className="list-disc ml-6" style={{ fontSize: theme.fontSize }}>
             {resumeData.certifications.map((cert, i) => (
-              <li key={i} style={{ marginBottom: i < resumeData.certifications.length - 1 ? 'var(--item-spacing)' : 0 }}>
+              <li
+                key={i}
+                style={{ marginBottom: i < resumeData.certifications.length - 1 ? 'var(--item-spacing)' : 0 }}
+              >
                 {cert}
               </li>
             ))}
@@ -219,7 +258,7 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
         </section>
       )}
 
-      {/* Projects/Additional Sections */}
+      {/* Projects */}
       {resumeData.hasProjects && (
         <section>
           <h2
@@ -232,9 +271,12 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
           >
             Projects
           </h2>
-          <ul className="list-disc ml-6 text-sm">
+          <ul className="list-disc ml-6" style={{ fontSize: theme.fontSize }}>
             {resumeData.projects.map((proj, i) => (
-              <li key={i} style={{ marginBottom: i < resumeData.projects.length - 1 ? 'var(--item-spacing)' : 0 }}>
+              <li
+                key={i}
+                style={{ marginBottom: i < resumeData.projects.length - 1 ? 'var(--item-spacing)' : 0 }}
+              >
                 <span className="font-semibold">{proj.name}:</span> {proj.description}
               </li>
             ))}
@@ -246,4 +288,5 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
 });
 
 HarvardResume.displayName = 'HarvardResume';
+
 export default HarvardResume;
