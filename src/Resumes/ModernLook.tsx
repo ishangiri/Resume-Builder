@@ -1,6 +1,6 @@
 import { useResumeData } from "../hooks/useResumeData";
 import React from "react";
-import { useModernLookthemeStore } from "../store/themeStores/ModernLookthemestore";
+import { useThemeStore } from "../store/themeStores/ModernLookthemestore";
 import type { GenericTheme } from "../types/GenericTheme";
 
 interface ModernLookProps {
@@ -11,7 +11,7 @@ interface ModernLookProps {
 
 const ModernLook = React.forwardRef<HTMLDivElement, ModernLookProps>(({ sectionSpacing, headerColor, accentColor }, ref) => {
   const resumeData = useResumeData();
-  const { theme } = useModernLookthemeStore();
+  const { theme } = useThemeStore();
 
   const effectiveAccentColor = accentColor || theme.accentColor;
   const effectiveHeaderColor = headerColor || theme.headerColor;

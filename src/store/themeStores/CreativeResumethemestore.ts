@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import type { GenericTheme } from '../../types/GenericTheme';
-
+import { persist } from 'zustand/middleware';
 export const harvardTheme: GenericTheme = {
   backgroundColor: "#f9fafb",
   textColor: "#21243d",
@@ -73,16 +73,22 @@ export const cambridgeTheme: GenericTheme = {
   itemSpacing: "5px",
 };
 
-export const useThemeStore = create<{
-  theme: GenericTheme;
-  setTheme: (theme: GenericTheme) => void;
-  loadTheme: (theme: GenericTheme) => void;
-}>((set) => ({
-  theme: harvardTheme,
-  setTheme: (theme) => set({ theme }),
-  loadTheme: (data: GenericTheme) => set({
-    theme: { ...data }
-  })
-}));
+
+export const useThemeStore = create(
+  persist<{
+    theme: GenericTheme;
+    setTheme: (theme: GenericTheme) => void;
+    loadTheme: (theme: GenericTheme) => void;
+  }>(
+    (set) => ({
+      theme: harvardTheme,
+      setTheme: (theme) => set({ theme }),
+      loadTheme: (data: GenericTheme) => set({ theme: { ...data } }),
+    }),
+    {
+      name: 'theme-store', // name of the item in localStorage
+    }
+  )
+);
 
 export const resumeThemeStore = useThemeStore;

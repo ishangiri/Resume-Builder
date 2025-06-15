@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 import  type { GenericTheme } from '../../types/GenericTheme';
-
+import { persist } from 'zustand/middleware';
 
 // Base Themes
 export const defaultGraciousTheme: GenericTheme = {
@@ -83,13 +83,21 @@ export const vibrantModern: GenericTheme = {
   projectNameColor: "#0ea5e9",
   educationTitleColor: "#1e3a8a",
 };
-export const useThemeStore = create<{theme: GenericTheme; setTheme: (theme: GenericTheme) => void; loadTheme: (theme : GenericTheme) => void}>((set) => ({
-  theme: defaultGraciousTheme,
-  setTheme: (theme) => set({ theme }),
-  loadTheme : (data : GenericTheme) => set({
-    ...data
-  })
-}));
-
+export const useThemeStore = create(
+  persist<{
+    theme: GenericTheme;
+    setTheme: (theme: GenericTheme) => void;
+    loadTheme: (theme: GenericTheme) => void;
+  }>(
+    (set) => ({
+      theme: defaultGraciousTheme,
+      setTheme: (theme) => set({ theme }),
+      loadTheme: (data: GenericTheme) => set({ theme: { ...data } }),
+    }),
+    {
+      name: 'theme-store', // name of the item in localStorage
+    }
+  )
+);
 
 export const graciousStore = useThemeStore;

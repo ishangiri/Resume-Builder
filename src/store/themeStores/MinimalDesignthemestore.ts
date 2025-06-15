@@ -1,5 +1,5 @@
 import { create } from "zustand";
-
+import { persist } from "zustand/middleware";
 import type { GenericTheme } from '../../types/GenericTheme';
 
 interface theme {
@@ -61,12 +61,17 @@ export const elegantNightTheme: GenericTheme = {
 };
 
 
-export const useMinimalThemeStore = create<theme>((set) =>({
-  theme: defaultTheme,
-  setTheme: (theme) => set({ theme }),
-  loadTheme : (data : GenericTheme) => set({
-    ...data
-  })
-}));
+export const useMinimalThemeStore = create<theme>()(
+  persist(
+    (set) => ({
+      theme: defaultTheme,
+      setTheme: (theme) => set({ theme }),
+      loadTheme: (data) => set({ theme: { ...data } }),
+    }),
+    {
+      name: 'theme-store', // key in localStorage
+    }
+  )
+);
 
 export const minimalDesignStore = useMinimalThemeStore;

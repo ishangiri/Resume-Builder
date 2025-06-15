@@ -2,7 +2,7 @@ import { useThemeStore as useProfessional , defaultTheme as defaultPro, elegantT
 import { useThemeStore as useModern, defaultTheme, executiveSlateTheme, corporateEmeraldTheme, modernCharcoalTheme} from "../store/themeStores/ModernResumethemeStore";
 import { useThemeStore as useGracious, defaultGraciousTheme, elegantGraciousDark, minimalCleanLight, vibrantModern } from "../store/themeStores/GraciousthemeStore";
 import { useMinimalThemeStore, defaultTheme as defaultMinimal, softGreenTheme, warmSandTheme, elegantNightTheme} from "../store/themeStores/MinimalDesignthemestore";
-import { useModernLookthemeStore, defaultModerntheme, corporateBlueTheme, sophisticatedSerifTheme, elegantGrayTheme } from "../store/themeStores/ModernLookthemestore";
+import { useThemeStore as useModernLook, defaultModerntheme, corporateBlueTheme, sophisticatedSerifTheme, elegantGrayTheme } from "../store/themeStores/ModernLookthemestore";
 import { useThemeStore as useHarvardTheme, harvardTheme, oxfordTheme, mitTheme, cambridgeTheme } from "../store/themeStores/CreativeResumethemestore";
 import { useThemeStore as useAcademic, minimalistGreenTheme, modernBlueTheme, elegantDarkTheme, defaultTheme as defaultAcademic  } from "../store/themeStores/AcademicThemeStore";
 //takes one template argument
@@ -12,7 +12,7 @@ export function useUnifiedThemeStore(template : string) {
   const modern = useModern();
   const gracious = useGracious();
   const minimal = useMinimalThemeStore();
-  const modernLook = useModernLookthemeStore();
+  const modernLook = useModernLook();
   const greenTheme = useHarvardTheme();
   const academicStore = useAcademic();
 

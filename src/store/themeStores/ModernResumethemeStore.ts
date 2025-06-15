@@ -1,5 +1,6 @@
 // store/graciousThemeStore.ts
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 import type { GenericTheme } from '../../types/GenericTheme';
 
@@ -73,16 +74,21 @@ export const modernCharcoalTheme: GenericTheme = {
 //   setTheme: (newTheme) => set((state) => ({ theme: { ...state.theme, ...newTheme } })),
 // }));
 
-export const useThemeStore = create<{
-  theme: GenericTheme;
-  setTheme: (theme: GenericTheme) => void;
-  loadTheme : (theme : GenericTheme) => void;
-}>((set) => ({
-  theme: defaultTheme,
-  setTheme: (theme) => set({ theme }),
-  loadTheme : (data : GenericTheme) => set({
-    theme : { ...data }
-  })
-}));
+export const useThemeStore = create(
+  persist<{
+    theme: GenericTheme;
+    setTheme: (theme: GenericTheme) => void;
+    loadTheme: (theme: GenericTheme) => void;
+  }>(
+    (set) => ({
+      theme: defaultTheme,
+      setTheme: (theme) => set({ theme }),
+      loadTheme: (data: GenericTheme) => set({ theme: { ...data } }),
+    }),
+    {
+      name: 'theme-store', // name of the item in localStorage
+    }
+  )
+);
 
 export const modernStore = useThemeStore;

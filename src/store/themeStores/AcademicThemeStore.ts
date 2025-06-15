@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import type { GenericTheme } from "../../types/GenericTheme";
-
+import { persist } from "zustand/middleware";
  export const defaultTheme: GenericTheme = {
     backgroundColor: "#ffffff",
     textColor: "#111827",
@@ -80,19 +80,22 @@ export const minimalistGreenTheme: GenericTheme = {
 
 
 
-  export const useThemeStore = create<{
+export const useThemeStore = create(
+  persist<{
     theme: GenericTheme;
     setTheme: (theme: GenericTheme) => void;
-    loadTheme : (theme : GenericTheme) => void;
-  }>((set) => ({
-    theme: defaultTheme,
-    setTheme: (theme) => set({ theme }),
-    loadTheme : (data : GenericTheme) => set({
-      theme: {
-     ...data
-      }
-    })
-  }));
+    loadTheme: (theme: GenericTheme) => void;
+  }>(
+    (set) => ({
+      theme: defaultTheme,
+      setTheme: (theme) => set({ theme }),
+      loadTheme: (data: GenericTheme) => set({ theme: { ...data } }),
+    }),
+    {
+      name: 'theme-store', // name of the item in localStorage
+    }
+  )
+);
 
 
  export const academicStore = useThemeStore

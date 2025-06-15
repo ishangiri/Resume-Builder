@@ -1,11 +1,6 @@
 import { create } from "zustand";
 import type { GenericTheme } from "../../types/GenericTheme";
-
-interface theme {
-  theme : GenericTheme,
-  setTheme : (theme : GenericTheme) => void
-  loadTheme : (theme : GenericTheme) => void
-}
+import { persist } from "zustand/middleware";
 
 export const defaultModerntheme: GenericTheme = {
   fontSize: "14px",
@@ -68,12 +63,21 @@ export const elegantGrayTheme: GenericTheme = {
 };
 
 
-export const useModernLookthemeStore = create<theme>((set) => ({
-   theme : defaultModerntheme,
-   setTheme: (theme) => set({ theme }),
-   loadTheme : (data : GenericTheme) => set({
-    ...data
-   })
-}))
+export const useThemeStore = create(
+  persist<{
+    theme: GenericTheme;
+    setTheme: (theme: GenericTheme) => void;
+    loadTheme: (theme: GenericTheme) => void;
+  }>(
+    (set) => ({
+      theme: defaultModerntheme ,
+      setTheme: (theme) => set({ theme }),
+      loadTheme: (data: GenericTheme) => set({ theme: { ...data } }),
+    }),
+    {
+      name: 'theme-store', // name of the item in localStorage
+    }
+  )
+);
 
-export const modernLookStore = useModernLookthemeStore;
+export const modernLookStore = useThemeStore;
