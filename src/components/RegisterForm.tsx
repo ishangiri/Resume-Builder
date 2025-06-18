@@ -19,7 +19,6 @@ const handleSubmit = async (e : React.FormEvent) => {
   setLoading(true);
   try {
     const user = await register(email, password, username);
-    console.log("User registered:", user);
     navigate({ to: "/dashboard" });
   } catch (err: unknown) {
     if (err instanceof Error) {

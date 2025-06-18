@@ -28,7 +28,7 @@ function RouteComponent() {
   const resetData = useResumeStore((state) => state.resetResume)
 
   const userId = user?.uid;
-  const { data, isLoading, isError, error } = useFetchResume(userId);
+  const { data, isLoading, isError, error, isFetching } = useFetchResume(userId);
   const {mutate, isPending} = useDeleteResume();
 
   // Extract resumes array from API response
@@ -50,7 +50,7 @@ function RouteComponent() {
       <ProtectedRoute>
         <div className="min-h-screen bg-slate-50">
           <Navbar />
-          <div className="text-center py-12 text-blue-500">Loading your resumes...</div>
+          <LoadingOverlay  message='Loading your resumes...' spinnerSize='large' isVisible={isLoading} />
         </div>
       </ProtectedRoute>
     );
@@ -164,8 +164,9 @@ return (
       >
       <p>This cannot be undone.</p>
       </Dialog>
-          <LoadingOverlay spinnerSize='small' message='Loading data...' isVisible={loading} />
-          <LoadingOverlay  spinnerSize='small' message='Deleting data...' isVisible={isPending} />
+          <LoadingOverlay spinnerSize='large'   message='Loading data...' backgroundColor='white' isVisible={loading} />
+          <LoadingOverlay  spinnerSize='large' message='Deleting data...' backgroundColor='white' isVisible={isPending} />
+          <LoadingOverlay  message='Fetching data...' spinnerSize='large' backgroundColor='white'  isVisible={isFetching} />
         {/* Header Section */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
           <div className="text-center sm:text-left">

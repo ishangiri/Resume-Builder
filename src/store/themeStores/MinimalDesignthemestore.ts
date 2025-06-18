@@ -69,7 +69,7 @@ export const useMinimalThemeStore = create<theme>()(
       loadTheme: (data) => set({ theme: { ...data } }),
     }),
     {
-      name: 'theme-store', // key in localStorage
+      name: 'minimal-theme-store', // key in localStorage
     }
   )
 );

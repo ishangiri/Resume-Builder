@@ -86,7 +86,7 @@ export const useThemeStore = create(
       loadTheme: (data: GenericTheme) => set({ theme: { ...data } }),
     }),
     {
-      name: 'theme-store', // name of the item in localStorage
+      name: 'modern-theme-store', // name of the item in localStorage
     }
   )
 );

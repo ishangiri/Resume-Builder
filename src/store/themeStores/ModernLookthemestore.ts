@@ -75,7 +75,7 @@ export const useThemeStore = create(
       loadTheme: (data: GenericTheme) => set({ theme: { ...data } }),
     }),
     {
-      name: 'theme-store', // name of the item in localStorage
+      name: 'modernlook-theme-store', // name of the item in localStorage
     }
   )
 );

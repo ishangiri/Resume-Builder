@@ -20,11 +20,12 @@ const LoginForm = () => {
     try {
       await login(email, password);
       navigate({ to: '/dashboard' });
-      console.log('Login successful');
       
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
+        console.log(err.message);
+        
       } else {
         setError('An unknown error occurred.');
       }

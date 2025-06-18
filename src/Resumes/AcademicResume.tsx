@@ -135,10 +135,10 @@ const AcademicResume = forwardRef<HTMLDivElement>((_, ref) => {
                 <span className="text-[var(--accent-color)]"><LocationIcon /></span>
                 <span>{resumeData.personalInfo.location}</span>
               </div>
-                 <div className="flex items-center gap-3">
+                 {resumeData.personalInfo.linkedin && <div className="flex items-center gap-3">
                 <span className="text-[var(--accent-color)]"><Link className='h-4 w-4' /></span>
                 <span>{resumeData.personalInfo.linkedin}</span>
-              </div>
+              </div> }
             </section>
             <hr className="border-[var(--divider-color)] my-4" />
 
