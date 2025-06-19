@@ -18,11 +18,11 @@ const handleSubmit = async (e : React.FormEvent) => {
   setError("");
   setLoading(true);
   try {
-    const user = await register(email, password, username);
+    await register(email, password, username);
     navigate({ to: "/dashboard" });
   } catch (err: unknown) {
     if (err instanceof Error) {
-      setError(err.message);
+      setError("Invalid email");
     } else {
       setError("Registration failed");
     }

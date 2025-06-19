@@ -23,9 +23,7 @@ const LoginForm = () => {
       
     } catch (err) {
       if (err instanceof Error) {
-        setError(err.message);
-        console.log(err.message);
-        
+        setError("Invalid email or password");    
       } else {
         setError('An unknown error occurred.');
       }
