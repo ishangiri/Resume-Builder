@@ -75,6 +75,7 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
               )}
             </div>
           </div>
+          
 
           <div className="mt-3 md:mt-0 text-right">
             <span

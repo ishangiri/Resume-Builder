@@ -1,18 +1,18 @@
 import { useResumeStore } from '../../store/ResumeStore';
+import { Plus, Sparkles, Trash2 } from 'lucide-react';
 
 const SkillsSection = () => {
-  const skills = useResumeStore(state => state.skills);
-  const setSkills = useResumeStore(state => state.setSkills);
+  const skills = useResumeStore((state) => state.skills);
+  const setSkills = useResumeStore((state) => state.setSkills);
 
   const updateCategory = (index: number, field: 'category' | 'skills', value: string) => {
-    const newSkills = [...skills];
+    const updatedSkills = [...skills];
     if (field === 'category') {
-      newSkills[index].category = value;
+      updatedSkills[index].category = value;
     } else {
-      // Store the raw user input as a single-element array to fit store type
-      newSkills[index].skills = [value];
+      updatedSkills[index].skills = [value];
     }
-    setSkills(newSkills);
+    setSkills(updatedSkills);
   };
 
   const addCategory = () => {
@@ -20,53 +20,73 @@ const SkillsSection = () => {
   };
 
   const removeCategory = (index: number) => {
-    setSkills(skills.filter((_, i) => i !== index));
+    const filtered = skills.filter((_, i) => i !== index);
+    setSkills(filtered);
+  };
+
+  const generateSkills = () => {
+    console.log('Generating skills...');
   };
 
   return (
-    <div>
-      <h2 className="text-lg font-semibold mb-4">Skills</h2>
+    <div className="space-y-6">
+      <h2 className="text-xl font-semibold text-gray-800">Skills</h2>
 
-      {skills.map((cat, idx) => (
-        <div key={idx} className="mb-6 p-4 border rounded-md bg-gray-50">
-          <div className="flex justify-between items-center mb-2">
-            <h3 className="font-medium">Category #{idx + 1}</h3>
-            <button
-              type="button"
-              onClick={() => removeCategory(idx)}
-              className="text-red-500 hover:text-red-700"
-            >
-              Remove
-            </button>
+      <div className="space-y-5">
+        {skills.map((cat, idx) => (
+          <div
+            key={idx}
+            className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm space-y-3"
+          >
+            <div className="flex justify-between items-center">
+              <h3 className="text-sm font-medium text-gray-700">Category #{idx + 1}</h3>
+              <button
+                type="button"
+                onClick={() => removeCategory(idx)}
+                className="text-red-500 hover:text-red-700 text-xs flex items-center gap-1"
+              >
+                <Trash2 className="w-4 h-4" /> Remove
+              </button>
+            </div>
+
+            <input
+              type="text"
+              placeholder="e.g., Programming Languages"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm"
+              value={cat.category}
+              onChange={(e) => updateCategory(idx, 'category', e.target.value)}
+            />
+
+            <input
+              type="text"
+              placeholder="e.g., JavaScript, TypeScript, Python"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm"
+              value={cat.skills[0] || ''}
+              onChange={(e) => updateCategory(idx, 'skills', e.target.value)}
+            />
           </div>
+        ))}
+      </div>
 
-          <input
-            type="text"
-            placeholder="Category (e.g., Programming Languages)"
-            className="w-full mb-2 px-3 py-2 border rounded"
-            value={cat.category}
-            onChange={e => updateCategory(idx, 'category', e.target.value)}
-          />
-
-          <input
-            type="text"
-            placeholder="Skills (raw input)"
-            className="w-full px-3 py-2 border rounded"
-            value={cat.skills[0] || ''}
-            onChange={e => updateCategory(idx, 'skills', e.target.value)}
-          />
-        </div>
-      ))}
-
-        
+      <div className="flex flex-col sm:flex-row gap-3 w-full mt-4">
         <button
           type="button"
           onClick={addCategory}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className="w-full sm:w-auto px-4 py-2 bg-blue-600 text-white text-sm rounded-md font-medium flex items-center justify-center gap-2 hover:bg-blue-700 transition-colors"
         >
-          + Add Skill Category
+          <Plus className="w-4 h-4" />
+          Add Category
         </button>
-      
+
+        <button
+          type="button"
+          onClick={generateSkills}
+          className="w-full sm:w-auto px-4 py-2 bg-purple-600 text-white text-sm rounded-md font-medium flex items-center justify-center gap-2 hover:bg-purple-700 transition-colors"
+        >
+          <Sparkles className="w-4 h-4" />
+          Generate AI Skills
+        </button>
+      </div>
     </div>
   );
 };

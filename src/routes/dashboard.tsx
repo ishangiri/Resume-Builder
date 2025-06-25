@@ -134,7 +134,7 @@ return (
     <div className="min-h-screen bg-slate-50">
       <Navbar />
       {/* Main Content */}
-      <div className="pt-4 pb-12">
+      <div className="pt-4 h-screen pb-12">
         <Dialog 
        isOpen = {showErrorDialog}
        type='error'
@@ -170,8 +170,8 @@ return (
         {/* Header Section */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
           <div className="text-center sm:text-left">
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
-              Welcome back, {user?.username}!
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-700 mb-2">
+            Welcome back,   <span className='text-blue-500'>{user?.username}!</span>
             </h1>
             <p className="text-gray-600 text-lg">
               Manage your resumes and create new ones to land your dream job.
@@ -186,7 +186,7 @@ return (
               {/* Section Heading */}
               <div className="mb-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">Your Resumes</h2>
-                <p className="text-gray-600">Create new resumes or edit your existing ones.</p>
+                <p className="text-blue-500">Create new resumes or edit your existing ones.</p>
               </div>
 
               {/* Grid */}
@@ -213,7 +213,7 @@ return (
             // Empty State
             <div className="col-span-full text-center py-12">
               <h3 className="text-xl font-semibold text-gray-900 mb-2">No resumes yet</h3>
-              <p className="text-gray-600 mb-6">Create your first resume to get started!</p>
+              <p className="text-blue-500 mb-6">Create your first resume to get started!</p>
               <CreateNewResume onClick={
                 () => {
                   navigate({ to: "/" })

@@ -1,65 +1,162 @@
-import { useState } from 'react';
-import AccordionItem from './AccordionItem';
-import { User, FileText, Code, Briefcase, GraduationCap, Award, Trophy } from 'lucide-react';
-import PersonalDetails from './FormSections/PersonalDetails';
-import SummarySection from './FormSections/SummarySection';
-import SkillsSection from './FormSections/SkillSection';
-import ExperienceSection from './FormSections/ExperienceSection';
-import EducationSection from './FormSections/EducationSection';
-import ProjectsSection from './FormSections/ProjectSection';
-import CertificationsSection from './FormSections/CertificateSection';
-import JobTitleSection from './FormSections/JobTitleSection';
+import React, { useState } from 'react';
+import {
+  User, FileText, Code, Briefcase, GraduationCap,
+  Award, Trophy, ChevronRight, ChevronLeft, Check
+} from 'lucide-react';
+import {
+  PersonalDetails, EducationSection, SkillSection, SummarySection,
+  ExperienceSection, JobTitleSection, CertificationSection, ProjectSection
+} from './FormSections';
 
-const ResumeForm = () => {
-  const [openItems, setOpenItems] = useState(['personal-details']);
+interface props{
+  saveResume: () => void;
+}
 
-  const toggleItem = (value: string) => {
-    setOpenItems(prev =>
-      prev.includes(value) ? prev.filter(item => item !== value) : [value]
-    );
+
+const ResumeForm = ({saveResume} : props) => {
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const steps = [
+    { id: 'personal-details', title: 'Personal Details', icon: User, component: PersonalDetails },
+    { id: 'job-title', title: 'Job Title', icon: Briefcase, component: JobTitleSection },
+    { id: 'skills', title: 'Skills', icon: Code, component: SkillSection },
+    { id: 'experience', title: 'Work Experience', icon: Briefcase, component: ExperienceSection },
+    { id: 'education', title: 'Education', icon: GraduationCap, component: EducationSection },
+    { id: 'projects', title: 'Projects', icon: Award, component: ProjectSection },
+    { id: 'certifications', title: 'Certifications', icon: Trophy, component: CertificationSection },
+    { id: 'summary', title: 'Professional Summary', icon: FileText, component: SummarySection },
+  ];
+
+  const nextStep = () => {
+    if (currentStep < steps.length - 1) setCurrentStep(currentStep + 1);
   };
 
+  const prevStep = () => {
+    if (currentStep > 0) setCurrentStep(currentStep - 1);
+  };
+
+  const goToStep = (index: number) => {
+    setCurrentStep(index);
+  };
+
+  const CurrentStepComponent = steps[currentStep].component;
+  const currentStepData = steps[currentStep];
+
   return (
-    <div className=" bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-8 px-4">
-      <div className="min-w-5xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-xl font-bold text-blue-500 mb-2">Start filling the form to see live changes in resume</h1>
-          <p className="text-gray-600">Create your professional resume in minutes</p>
+    <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-10 px-4 min-h-screen">
+      <div className="max-w-6xl mx-auto">
+
+        {/* Header */}
+        <div className="text-center mb-6">
+          <h1 className="text-3xl font-bold text-blue-600 mb-2">Create Your Resume</h1>
+          <p className="text-gray-600">Fill out each section step by step to build your professional resume</p>
         </div>
 
-        <div className="bg-white rounded-xl shadow-xl p-8 border border-gray-100 space-y-8">
-          <AccordionItem value="personal-details" title="Personal Details" icon={User} openItems={openItems} toggleItem={toggleItem}>
-            <PersonalDetails />
-          </AccordionItem>
+        {/* Mobile Progress Indicator */}
+        <div className="sm:hidden mb-6 text-center">
+          <progress
+            className="w-full h-2 rounded-full overflow-hidden"
+            value={(currentStep / (steps.length - 1)) * 100}
+            max={100}
+          ></progress>
+          <p className="text-sm mt-2 text-gray-600">
+            Step {currentStep + 1} of {steps.length}
+          </p>
+        </div>
 
-             <AccordionItem value="Job Title" title="Job Title" icon={Briefcase} openItems={openItems} toggleItem={toggleItem}>
-           <JobTitleSection />
-          </AccordionItem>
+        {/* Top Navigation Buttons (Visible on sm+ screens) */}
+        <div className="hidden sm:flex flex-wrap justify-center gap-3 mb-10">
+          {steps.map((step, index) => {
+            const isCompleted = index < currentStep;
+            const isCurrent = index === currentStep;
 
-          <AccordionItem value="summary" title="Professional Summary" icon={FileText} openItems={openItems} toggleItem={toggleItem}>
-            <SummarySection />
-          </AccordionItem>
+            return (
+              <button
+                key={step.id}
+                onClick={() => goToStep(index)}
+                className={`flex items-center px-4 py-2 rounded-full border-2 text-sm font-medium transition-all
+                  ${isCurrent
+                    ? 'border-blue-600 bg-blue-50 text-blue-700'
+                    : isCompleted
+                      ? 'border-green-600 bg-green-50 text-green-700'
+                      : 'border-gray-300 text-gray-500 hover:bg-gray-100'
+                  }`}
+              >
+                <div className={`w-6 h-6 flex items-center justify-center rounded-full mr-2
+                  ${isCurrent
+                    ? 'bg-blue-600 text-white'
+                    : isCompleted
+                      ? 'bg-green-500 text-white'
+                      : 'bg-gray-200 text-gray-600'}`}>
+                  {isCompleted ? <Check className="w-4 h-4" /> : index + 1}
+                </div>
+                {step.title}
+              </button>
+            );
+          })}
+        </div>
 
-          <AccordionItem value="skills" title="Skills" icon={Code} openItems={openItems} toggleItem={toggleItem}>
-            <SkillsSection />
-          </AccordionItem>
+        {/* Main Form Content */}
+        <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-10">
+          {/* Step Header */}
+          <div className="flex items-center space-x-3 mb-6 pb-4 border-b">
+            {React.createElement(currentStepData.icon, { className: "w-8 h-8 text-blue-600" })}
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-800">{currentStepData.title}</h2>
+              <p className="text-gray-600 text-sm">Step {currentStep + 1} of {steps.length}</p>
+            </div>
+          </div>
 
-          <AccordionItem value="experience" title="Work Experience" icon={Briefcase} openItems={openItems} toggleItem={toggleItem}>
-            <ExperienceSection />
-          </AccordionItem>
+          {/* Current Step Form Section */}
+          <div className="mb-8">
+            <CurrentStepComponent />
+          </div>
 
-          <AccordionItem value="education" title="Education" icon={GraduationCap} openItems={openItems} toggleItem={toggleItem}>
-            <EducationSection />
-          </AccordionItem>
+          {/* Navigation Buttons */}
+          <div className="flex flex-col sm:flex-row justify-between items-center pt-6 border-t gap-4">
+            <button
+              onClick={prevStep}
+              disabled={currentStep === 0}
+              className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all w-full sm:w-auto
+                ${currentStep === 0
+                  ? 'text-gray-400 cursor-not-allowed bg-gray-100'
+                  : 'text-gray-700 bg-gray-200 hover:bg-gray-300'
+                }`}
+            >
+              <ChevronLeft className="w-4 h-4" />
+              <span>Previous</span>
+            </button>
 
-          <AccordionItem value="projects" title="Projects" icon={Award} openItems={openItems} toggleItem={toggleItem}>
-            <ProjectsSection />
-          </AccordionItem>
+            {/* Step Indicator Circles */}
+            <div className="flex space-x-1">
+              {steps.map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-3 h-3 rounded-full transition-all ${
+                    index === currentStep
+                      ? 'bg-blue-600 w-4'
+                      : index < currentStep
+                        ? 'bg-green-500'
+                        : 'bg-gray-300'
+                  }`}
+                />
+              ))}
+            </div>
 
-          <AccordionItem value="certifications" title="Certifications" icon={Trophy} openItems={openItems} toggleItem={toggleItem}>
-            <CertificationsSection />
-          </AccordionItem>
-
+            {currentStep === steps.length - 1 ? (
+              <button onClick={saveResume} className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-medium transition-colors shadow-lg">
+                Generate Resume
+              </button>
+            ) : (
+              <button
+                onClick={nextStep}
+                className="flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-lg w-full sm:w-auto"
+              >
+                <span>Next</span>
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

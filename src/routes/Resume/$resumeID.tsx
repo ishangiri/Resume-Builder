@@ -2,7 +2,7 @@
 import { createFileRoute, useParams, useNavigate } from '@tanstack/react-router';
 import { useReactToPrint } from 'react-to-print';
 import { useRef, useState } from 'react';
-import { FileUp, Download, Eye, Edit, Palette, Layout, UploadIcon } from 'lucide-react';
+import {  Download, Eye, Edit, Palette, Layout, UploadIcon } from 'lucide-react';
 import { Dialog } from '../../components/ui/Dialog';
 import { templates } from '../../utils/constant';
 import { LoadingSpinner } from '../../components/ui/LoadingSpinner';
@@ -178,7 +178,7 @@ function Resumepage() {
     
     switch (activeTab) {
       case 'form':
-        return <ResumeForm />;
+        return <ResumeForm saveResume={reactToPrintFn}/>;
       
       case 'theme':
         return (
@@ -204,7 +204,7 @@ function Resumepage() {
         );
       
       default:
-        return <ResumeForm />;
+        return <ResumeForm saveResume={reactToPrintFn} />;
     }
   };
 
@@ -227,9 +227,9 @@ function Resumepage() {
         }
         
         /* Small mobile scaling */
-        @media (max-width: 480px) {
+        @media (max-width: 500px) {
           .resume-preview-container {
-            transform: scale(0.50);
+            transform: scale(0.45);
             transform-origin: top left;
           }
         }
@@ -432,7 +432,7 @@ function Resumepage() {
 
           {/* Scrollable Content Area */}
           <div className="h-screen overflow-y-auto scroll-smooth">
-            <div className="p-4 sm:p-6 lg:max-w-full lg:mx-auto space-y-6">
+            <div className="sm:p-6 max-w-full mx-auto space-y-6">
               {/* Render content based on active tab */}
               {renderLeftPanelContent()}
             </div>
@@ -455,15 +455,6 @@ function Resumepage() {
   {/* Right: Action buttons (always horizontal) */}
   <div className="flex flex-row items-center gap-2">
     <Button2 
-      onSubmit={reactToPrintFn} 
-      text={
-        <div className="flex items-center gap-1">
-          <FileUp className="w-4 h-4" />
-          <span className="hidden sm:inline">PDF</span>
-        </div>
-      } 
-    />
-    <Button2 
       onSubmit={saveResume}
       text={
         isPending ? (
@@ -471,7 +462,7 @@ function Resumepage() {
         ) : (
           <div className="flex items-center gap-1">
             <Download className="w-4 h-4" />
-            <span className="hidden sm:inline">Save New</span>
+            <span className="hidden sm:inline">Save Online</span>
           </div>
         )
       } 
@@ -493,8 +484,6 @@ function Resumepage() {
     )}
   </div>
 </div>
-
-            
             {/* Resume Preview Container with responsive scaling */}
             <div className="flex-1 bg-slate-200 mx-2 mb-2 rounded-lg shadow-xl overflow-y-auto">
               <div className="w-full h-full flex items-start justify-center p-1 sm:p-4">
