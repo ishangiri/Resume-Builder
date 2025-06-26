@@ -8,90 +8,38 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-// Import Routes
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as ResumeResumeIDRouteImport } from './routes/Resume/$resumeID'
+import { Route as AuthRoutesRegisterpageRouteImport } from './routes/AuthRoutes/registerpage'
+import { Route as AuthRoutesLoginpageRouteImport } from './routes/AuthRoutes/loginpage'
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as DashboardImport } from './routes/dashboard'
-import { Route as IndexImport } from './routes/index'
-import { Route as ResumeResumeIDImport } from './routes/Resume/$resumeID'
-import { Route as AuthRoutesRegisterpageImport } from './routes/AuthRoutes/registerpage'
-import { Route as AuthRoutesLoginpageImport } from './routes/AuthRoutes/loginpage'
-
-// Create/Update Routes
-
-const DashboardRoute = DashboardImport.update({
+const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const IndexRoute = IndexImport.update({
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const ResumeResumeIDRoute = ResumeResumeIDImport.update({
+const ResumeResumeIDRoute = ResumeResumeIDRouteImport.update({
   id: '/Resume/$resumeID',
   path: '/Resume/$resumeID',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const AuthRoutesRegisterpageRoute = AuthRoutesRegisterpageImport.update({
+const AuthRoutesRegisterpageRoute = AuthRoutesRegisterpageRouteImport.update({
   id: '/AuthRoutes/registerpage',
   path: '/AuthRoutes/registerpage',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const AuthRoutesLoginpageRoute = AuthRoutesLoginpageImport.update({
+const AuthRoutesLoginpageRoute = AuthRoutesLoginpageRouteImport.update({
   id: '/AuthRoutes/loginpage',
   path: '/AuthRoutes/loginpage',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-// Populate the FileRoutesByPath interface
-
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardImport
-      parentRoute: typeof rootRoute
-    }
-    '/AuthRoutes/loginpage': {
-      id: '/AuthRoutes/loginpage'
-      path: '/AuthRoutes/loginpage'
-      fullPath: '/AuthRoutes/loginpage'
-      preLoaderRoute: typeof AuthRoutesLoginpageImport
-      parentRoute: typeof rootRoute
-    }
-    '/AuthRoutes/registerpage': {
-      id: '/AuthRoutes/registerpage'
-      path: '/AuthRoutes/registerpage'
-      fullPath: '/AuthRoutes/registerpage'
-      preLoaderRoute: typeof AuthRoutesRegisterpageImport
-      parentRoute: typeof rootRoute
-    }
-    '/Resume/$resumeID': {
-      id: '/Resume/$resumeID'
-      path: '/Resume/$resumeID'
-      fullPath: '/Resume/$resumeID'
-      preLoaderRoute: typeof ResumeResumeIDImport
-      parentRoute: typeof rootRoute
-    }
-  }
-}
-
-// Create and export the route tree
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -100,7 +48,6 @@ export interface FileRoutesByFullPath {
   '/AuthRoutes/registerpage': typeof AuthRoutesRegisterpageRoute
   '/Resume/$resumeID': typeof ResumeResumeIDRoute
 }
-
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
@@ -108,16 +55,14 @@ export interface FileRoutesByTo {
   '/AuthRoutes/registerpage': typeof AuthRoutesRegisterpageRoute
   '/Resume/$resumeID': typeof ResumeResumeIDRoute
 }
-
 export interface FileRoutesById {
-  __root__: typeof rootRoute
+  __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/AuthRoutes/loginpage': typeof AuthRoutesLoginpageRoute
   '/AuthRoutes/registerpage': typeof AuthRoutesRegisterpageRoute
   '/Resume/$resumeID': typeof ResumeResumeIDRoute
 }
-
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
@@ -142,13 +87,52 @@ export interface FileRouteTypes {
     | '/Resume/$resumeID'
   fileRoutesById: FileRoutesById
 }
-
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
   AuthRoutesLoginpageRoute: typeof AuthRoutesLoginpageRoute
   AuthRoutesRegisterpageRoute: typeof AuthRoutesRegisterpageRoute
   ResumeResumeIDRoute: typeof ResumeResumeIDRoute
+}
+
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/Resume/$resumeID': {
+      id: '/Resume/$resumeID'
+      path: '/Resume/$resumeID'
+      fullPath: '/Resume/$resumeID'
+      preLoaderRoute: typeof ResumeResumeIDRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/AuthRoutes/registerpage': {
+      id: '/AuthRoutes/registerpage'
+      path: '/AuthRoutes/registerpage'
+      fullPath: '/AuthRoutes/registerpage'
+      preLoaderRoute: typeof AuthRoutesRegisterpageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/AuthRoutes/loginpage': {
+      id: '/AuthRoutes/loginpage'
+      path: '/AuthRoutes/loginpage'
+      fullPath: '/AuthRoutes/loginpage'
+      preLoaderRoute: typeof AuthRoutesLoginpageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+  }
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -158,39 +142,6 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoutesRegisterpageRoute: AuthRoutesRegisterpageRoute,
   ResumeResumeIDRoute: ResumeResumeIDRoute,
 }
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/",
-        "/dashboard",
-        "/AuthRoutes/loginpage",
-        "/AuthRoutes/registerpage",
-        "/Resume/$resumeID"
-      ]
-    },
-    "/": {
-      "filePath": "index.tsx"
-    },
-    "/dashboard": {
-      "filePath": "dashboard.tsx"
-    },
-    "/AuthRoutes/loginpage": {
-      "filePath": "AuthRoutes/loginpage.tsx"
-    },
-    "/AuthRoutes/registerpage": {
-      "filePath": "AuthRoutes/registerpage.tsx"
-    },
-    "/Resume/$resumeID": {
-      "filePath": "Resume/$resumeID.tsx"
-    }
-  }
-}
-ROUTE_MANIFEST_END */

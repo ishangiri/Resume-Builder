@@ -185,6 +185,9 @@ def generate_resume_summary(data: ResumeSummary):
         skills = data.skills
         experience = data.experience
         
+        if not name or not job_title or not skills or not experience or not education:
+            raise HTTPException(status_code=400, detail='Missing one of the required fields: name, job_title, skills, experience, or education')
+
         # Flatten skills into string
         flat_skills = [", ".join(s.skills) for s in skills]
         all_skills = "; ".join(flat_skills)
@@ -197,7 +200,10 @@ def generate_resume_summary(data: ResumeSummary):
         # Build experience context
         experience_context = ""
         if experience:
-            experience_context = f"Work Experience: {', '.join(experience)}. "
+            experience_context = "Work Experience: " + "; ".join(
+            [f"{e.jobTitle} at {e.company} ({e.period})" for e in experience]
+        ) + "."
+
         else:
             experience_context = "Fresh graduate with strong academic foundation. "
         
@@ -211,14 +217,16 @@ CANDIDATE PROFILE:
 - {experience_context}
 
 REQUIREMENTS:
-1. Write 2-3 sentences (60-80 words)
+1. Just Write 2-3 sentences (60-80 words)
 2. Start with years of experience OR "Recent graduate" if no experience
-3. Include 2-3 most relevant technical skills naturally
-4. Highlight ONE specific key achievement or strength
+4. Highlight ONE specific key achievement or strength from experience otherwise dont include anything if no experience
 5. End with value proposition for employers
 6. Use action verbs and quantifiable terms where possible
 7. Optimize for ATS with industry keywords
 8. Avoid buzzwords like "passionate," "hardworking," "team player"
+9. Avoid personal pronouns like "I" or "my"
+10.Avoid organization names and specific project names
+11.No need to include everything about education or skills in the summary
 
 TONE: Professional, confident, results-focused
 FORMAT: Single paragraph, no bullet points"""
@@ -242,8 +250,8 @@ FORMAT: Single paragraph, no bullet points"""
                     "content": prompt
                 }
             ],
-            max_tokens=200,  # Reduced for more concise output
-            temperature=0.3,  # Lower temperature for more consistent, professional output
+            max_tokens=150,  # Reduced for more concise output
+            temperature=0.6,  # Lower temperature for more consistent, professional output
         )
         
         return {"summary": response.choices[0].message.content.strip()}
@@ -251,6 +259,8 @@ FORMAT: Single paragraph, no bullet points"""
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating summary: {str(e)}")
      
+
+#skills generation with category or generate skills based with categories     
 @app.post('/generate-skills')
 def generate_skills(data : SkillSuggestionRequest):
     category = data.category
@@ -261,7 +271,7 @@ def generate_skills(data : SkillSuggestionRequest):
     
         
     try:
-        prompt = f"""Generate a list of 10-15 technical skills for a {JobTitle} position in this category {category}.
+        prompt = f"""Generate a list of 10-20 technical skills for a {JobTitle} position in this category {category}.
         Focus on the most relevant and in-demand skills in the industry.
         Provide the skills as a comma-separated list without any additional text."""
         
@@ -278,7 +288,7 @@ def generate_skills(data : SkillSuggestionRequest):
                 }
             ],
             max_tokens=100,
-            temperature=0.6,
+            temperature=0.7,
         )
         
         skills = response.choices[0].message.content.strip()

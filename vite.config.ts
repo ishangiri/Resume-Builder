@@ -13,7 +13,7 @@ export default defineConfig({
   server : {
     proxy : {
       '/api': {
-        target: 'https://resume-builder-f514.onrender.com',
+        target: "http://0.0.0.0:8000",
         changeOrigin: true,
         secure: true,
          rewrite: (path) => path.replace(/^\/api/, ''),

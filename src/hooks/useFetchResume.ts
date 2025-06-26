@@ -18,9 +18,8 @@ const fetchResumes = async (user : string | undefined) => {
         }
         return error;
     }
-
-
 }
+
 
 export const fetchResumeById = async (id : number | undefined) => {
     try{

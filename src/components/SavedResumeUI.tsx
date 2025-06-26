@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { FileText, Edit3, Trash2 } from 'lucide-react';
 
 type SavedResumeUIProps = {

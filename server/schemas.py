@@ -49,10 +49,17 @@ class ProjectItem(BaseModel):
     name: str
     description: str
 
+class ExperienceItem(BaseModel):
+    jobTitle: str
+    company: str
+    period: str
+    location: str
+    description: List[str]
+
 class ResumeSummary(BaseModel):
     personalInfo: PersonalInfo
     JobTitle: str
-    experience: List[str] 
+    experience: List[ExperienceItem] 
     education: List[EducationItem]
     skills: List[SkillCategory]
     projects: List[ProjectItem]
