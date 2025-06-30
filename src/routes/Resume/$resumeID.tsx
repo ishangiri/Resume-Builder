@@ -217,6 +217,7 @@ const generatePDFMobile = async () => {
     link.click();
   } catch (error) {
     console.error("Error generating PDF:", error);
+    setLoadingMobile(false);
   }
 };
 
