@@ -7,9 +7,14 @@ const [_, __, htmlPath, pdfPath] = process.argv;
 (async () => {
   try {
     const html = fs.readFileSync(htmlPath, "utf8");
-    const browser = await puppeteer.launch({
-      headless: "new",
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    const browser = await puppeteer.launch({  headless: 'new',
+  args: [
+    '--no-sandbox',
+    '--disable-setuid-sandbox',
+    '--disable-dev-shm-usage',
+    '--disable-web-security',
+    '--disable-features=VizDisplayCompositor'
+  ],
     });
     const page = await browser.newPage();
 
