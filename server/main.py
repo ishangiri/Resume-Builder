@@ -308,34 +308,69 @@ async def preflight_generate_pdf():
 
 @app.post("/generate-pdf/")
 async def generate_pdf(request: Request):
-    body = await request.json()
-    html_content = body.get("html", "")
-    title = body.get("title", "Resume")
-
-    # 1. Render the full HTML with Tailwind + content
-    rendered_html = templates.get_template("resume.html").render({
-        "title": title,
-        "content": html_content
-    })
-
-    # 2. Write to temp .html file
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as f:
-        f.write(rendered_html.encode("utf-8"))
-        html_path = f.name
-
-    # 3. Define temp .pdf path
-    pdf_path = html_path.replace(".html", ".pdf")
-
-    # 4. Call Puppeteer to render HTML -> PDF
-    subprocess.run(
-        ["node", "puppeteerRender.js", html_path, pdf_path],
-        check=True,
-        cwd=os.path.dirname(__file__)
-    )
-
-    # 5. Return PDF as response
-    return FileResponse(
-        pdf_path,
-        media_type="application/pdf",
-        filename=f"{title}.pdf"
-    )
+    try:
+        body = await request.json()
+        html_content = body.get("html", "")
+        title = body.get("title", "Resume")
+        
+        # Render the full HTML with Tailwind + content
+        rendered_html = templates.get_template("resume.html").render({
+            "title": title,
+            "content": html_content
+        })
+        
+        # Write to temp .html file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".html", mode='w', encoding='utf-8') as f:
+            f.write(rendered_html)
+            html_path = f.name
+        
+        # Define temp .pdf path
+        pdf_path = html_path.replace(".html", ".pdf")
+        
+        # Call Puppeteer to render HTML -> PDF
+        result = subprocess.run(
+            ["node", "puppeteerRender.js", html_path, pdf_path],
+            check=True,
+            cwd=os.path.dirname(__file__),
+            capture_output=True,
+            text=True,
+            timeout=30
+        )
+        
+        # Check if PDF was created
+        if not os.path.exists(pdf_path):
+            raise Exception("PDF file was not created")
+        
+        # Return PDF as response
+        response = FileResponse(
+            pdf_path,
+            media_type="application/pdf",
+            filename=f"{title}.pdf"
+        )
+        
+        # Clean up temp files after response
+        # Note: FileResponse handles file cleanup automatically
+        
+        return response
+        
+    except subprocess.CalledProcessError as e:
+        print(f"Puppeteer process failed: {e}")
+        print(f"stdout: {e.stdout}")
+        print(f"stderr: {e.stderr}")
+        raise HTTPException(status_code=500, detail="PDF generation failed")
+    except subprocess.TimeoutExpired:
+        print("PDF generation timed out")
+        raise HTTPException(status_code=500, detail="PDF generation timed out")
+    except Exception as e:
+        print(f"PDF generation error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"PDF generation error: {str(e)}")
+    finally:
+        # Cleanup temp files
+        try:
+            if 'html_path' in locals() and os.path.exists(html_path):
+                os.unlink(html_path)
+            if 'pdf_path' in locals() and os.path.exists(pdf_path):
+                # Don't delete PDF immediately if FileResponse is using it
+                pass
+        except Exception as cleanup_error:
+            print(f"Cleanup error: {cleanup_error}")

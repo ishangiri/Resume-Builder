@@ -6,9 +6,33 @@ services:
       # Install Node.js
       curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
       apt-get install -y nodejs
+      
+      # Verify Node.js installation
+      node --version
+      npm --version
+      
       # Install Python dependencies
       pip install -r requirements.txt
-      # Install Node dependencies and Chrome
+      
+      # Install Node dependencies
       npm install
-      npm install puppeteer
-    startCommand: gunicorn main:app --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT
+      
+      # Verify puppeteer installation
+      npm list puppeteer
+      
+      # Ensure Chrome is downloaded
+      npx puppeteer browsers install chrome
+      
+      # Verify Chrome installation
+      ls -la /opt/render/.cache/puppeteer/chrome/ || echo "Chrome cache not found"
+      
+    startCommand: |
+      cd server || cd src/server || echo "Using current directory"
+      gunicorn main:app --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT
+    
+    # Optional: Add environment variables
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
+        value: false

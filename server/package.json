@@ -4,7 +4,6 @@
   "main": "puppeteerRender.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "npx puppeteer browsers install chrome"
   },
   "keywords": [],
@@ -12,6 +11,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "puppeteer": "^24.11.1"
+    "puppeteer": "^21.0.0"
   }
 }
