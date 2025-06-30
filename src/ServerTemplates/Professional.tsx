@@ -1,33 +1,28 @@
 import { forwardRef } from 'react';
-import { useResumeData } from '../hooks/useResumeData';
-import { useThemeStore } from '../store/themeStores/ProfessionalthemeStore';
+import type { serverData } from '../types/fetchedData';
+import type { GenericTheme } from '../types/GenericTheme';
 import { Phone, Link, Locate, Mail } from 'lucide-react';
 
+interface Props extends React.HTMLProps<HTMLDivElement> {
+  resumeData: serverData;
+  theme: GenericTheme;
+}
 
-
-
-const ProfessionalTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>(
-  (props, ref) => {
-    const resumeData = useResumeData();
-    const { theme } = useThemeStore();
-    
- 
-    return (
-      <div
-        {...props}
-        ref={ref}
-        className="flex-1 w-full h-full mx-auto overflow-hidden"
-        style={{
-          width: '210mm',
-          height: '297mm',
-          backgroundColor: theme.backgroundColor,
-          color: theme.textColor,
-          fontFamily: theme.fontFamily,
-          fontSize: theme.fontSize,
-          lineHeight: theme.lineHeight,
-          padding: theme.spacing,
-          borderRadius: theme.borderRadius,
-        }}
+const ProfessionalTemplate = forwardRef<HTMLDivElement, Props>(({ resumeData, theme, ...props }, ref) => {
+  return (
+    <div
+      {...props}
+      ref={ref}
+      style={{
+        width: '210mm',
+        height: '297mm',
+        backgroundColor: theme.backgroundColor,
+        color: theme.textColor,
+        fontFamily: theme.fontFamily,
+        fontSize: theme.fontSize,
+        padding: theme.spacing,
+        lineHeight: theme.lineHeight,
+      }}
       >
         {/* Header */}
         <div className="flex flex-col gap-2 mb-4 text-center">

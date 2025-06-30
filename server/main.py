@@ -10,7 +10,10 @@ from schemas import UpdatePayLoad, SkillSuggestionRequest
 import openai
 from dotenv import load_dotenv
 import os
-from pydantic import Field
+from fastapi.responses import FileResponse
+from jinja2 import Environment, FileSystemLoader
+from fastapi import Request
+import subprocess, tempfile
 
 load_dotenv()
 openai.api_key = os.getenv("API_KEY")
@@ -42,7 +45,7 @@ def read_root():
     return {"message" : "App is running"}
 
 @app.post('/save-resume')
-def test_save_resume_api(data: ResumePayload, db: Session = Depends(get_db)):
+def save_resume_api(data: ResumePayload, db: Session = Depends(get_db)):
     try:
         user_obj = db.get(User, data.user.user_id)
         if not user_obj:
@@ -105,9 +108,6 @@ def get_resume_byID(id : int, db : Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Server Error : {str(e)}")
     
-    
-# @app.put('/update-resumeById')
-# def update_resume_byId(id : str, db : Session = Depends(get_db)):
 
                        
 
@@ -296,3 +296,42 @@ def generate_skills(data : SkillSuggestionRequest):
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating skills: {str(e)}")
+
+
+
+# Template loader
+templates = Environment(loader=FileSystemLoader("templates"))
+
+@app.post("/generate-pdf/")
+async def generate_pdf(request: Request):
+    body = await request.json()
+    html_content = body.get("html", "")
+    title = body.get("title", "Resume")
+
+    # 1. Render the full HTML with Tailwind + content
+    rendered_html = templates.get_template("resume.html").render({
+        "title": title,
+        "content": html_content
+    })
+
+    # 2. Write to temp .html file
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as f:
+        f.write(rendered_html.encode("utf-8"))
+        html_path = f.name
+
+    # 3. Define temp .pdf path
+    pdf_path = html_path.replace(".html", ".pdf")
+
+    # 4. Call Puppeteer to render HTML -> PDF
+    subprocess.run(
+        ["node", "puppeteerRender.js", html_path, pdf_path],
+        check=True,
+        cwd=os.path.dirname(__file__)
+    )
+
+    # 5. Return PDF as response
+    return FileResponse(
+        pdf_path,
+        media_type="application/pdf",
+        filename=f"{title}.pdf"
+    )

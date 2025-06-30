@@ -8,6 +8,9 @@ import { templates } from '../../utils/constant';
 import { LoadingSpinner } from '../../components/ui/LoadingSpinner';
 import { useResumeStore } from '../../store/ResumeStore';
 import { useUpdateResume } from '../../hooks/useUpdateAndDelete';
+import  {RenderResumeToHTML} from '../../utils/getResumeTemplate';
+import  fetchApi  from '../../lib/fetchUtil';
+import LoadingOverlay from '../../components/ui/LoadingComponent';
 
 // Resume templates
 import {
@@ -42,6 +45,9 @@ function Resumepage() {
   
   // Desktop left panel state - controls which tab is active in desktop left panel (form/theme/template)
   const [desktopLeftTab, setDesktopLeftTab] = useState<'form' | 'theme' | 'template'>('form');
+
+  //loading state for downloading in mobile
+  const [loadingMobile, setLoadingMobile] = useState<boolean>(false);
 
   const { resumeID } = useParams({ from: '/Resume/$resumeID' });
   
@@ -134,11 +140,7 @@ function Resumepage() {
        setMobileActiveView('preview');
   }
 
-//download function for mobile browsers
-  const generatePDFMobile = () => {
-    console.log("Mobile View Download Clicked");
-    
-  }
+
 
 
 //function to update resume
@@ -188,6 +190,35 @@ function Resumepage() {
         return <div className="text-center text-gray-500">No template selected</div>;
     }
   }
+
+
+  //download function for mobile browsers
+const generatePDFMobile = async () => {
+  try {
+     setLoadingMobile(true);
+    const html = RenderResumeToHTML({ templateID: resumeID, resumeData, theme : settings }); 
+    const response = await fetchApi.post(
+      "/generate-pdf/",
+      {
+        html,
+        title: "Resume",
+      },
+      {
+        responseType: "blob", // Ensure the response is treated as a blob
+      }
+    );
+
+    setLoadingMobile(false);
+    const blob = new Blob([response.data], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "resume.pdf";
+    link.click();
+  } catch (error) {
+    console.error("Error generating PDF:", error);
+  }
+};
 
   // Function to render the content based on active tab/view
   const renderLeftPanelContent = () => {
@@ -337,7 +368,7 @@ function Resumepage() {
       >
       <p>Something went wrong while updating resume.</p>
       </Dialog>
-      
+<LoadingOverlay spinnerSize='large'   message='Downloading Pdf.....' backgroundColor='white' isVisible={loadingMobile} />
       <Navbar />
       
       {/* Mobile Navigation -with options : Form, Theme, Template, Preview */}

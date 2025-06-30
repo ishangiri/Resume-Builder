@@ -44,6 +44,38 @@ export type fetchedData = {
   certifications: string[] | null,
 }
 
+export type serverData = {
+     personalInfo: {
+        name: string
+        email: string
+        phone: string
+        linkedin: string
+        location: string
+      },
+  hasExperience: boolean
+  hasCerifications : boolean
+  hasProjects : boolean
+  JobTitle : string
+  summary: string
+  skills: {
+    category: string
+    skills: string[] 
+  }[]
+  experience: Experience[],
+  education: {
+    degree: string
+    institution: string
+    period: string
+    location: string
+    details?: string
+  }[],
+  projects: {
+    name: string
+    description: string
+  }[],
+  certifications: string[],
+}
+
 
 interface ResumeContent {
   JobTitle?: string,
