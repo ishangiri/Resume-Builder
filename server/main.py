@@ -14,6 +14,7 @@ from fastapi.responses import FileResponse
 from jinja2 import Environment, FileSystemLoader
 from fastapi import Request
 import subprocess, tempfile
+from fastapi.responses import Response
 
 load_dotenv()
 openai.api_key = os.getenv("API_KEY")
@@ -27,10 +28,9 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[  # Changed from 'origins' to 'allow_origins'
         "https://resume-builder-ishan-giris-projects.vercel.app",
-        "http://localhost:3000",
         "http://localhost:5173",
     ],
-    allow_credentials=False,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -301,6 +301,10 @@ def generate_skills(data : SkillSuggestionRequest):
 
 # Template loader
 templates = Environment(loader=FileSystemLoader("templates"))
+
+@app.options("/generate-pdf/")
+async def preflight_generate_pdf():
+    return Response(status_code=204)
 
 @app.post("/generate-pdf/")
 async def generate_pdf(request: Request):
