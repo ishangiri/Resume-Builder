@@ -1,5 +1,5 @@
 import * as  React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   User, FileText, Code, Briefcase, GraduationCap,
   Award, Trophy, ChevronRight, ChevronLeft, Check
@@ -11,11 +11,14 @@ import {
 
 interface props{
   saveResume: () => void;
+  completeResume: () => void;
 }
 
+const ResumeForm = ({saveResume, completeResume} : props) => {
+const [currentStep, setCurrentStep] = useState(0);
 
-const ResumeForm = ({saveResume} : props) => {
-  const [currentStep, setCurrentStep] = useState(0);
+const [mobileView, setMobileView] = useState(false);
+
 
   const steps = [
     { id: 'personal-details', title: 'Personal Details', icon: User, component: PersonalDetails },
@@ -43,18 +46,24 @@ const ResumeForm = ({saveResume} : props) => {
   const CurrentStepComponent = steps[currentStep].component;
   const currentStepData = steps[currentStep];
 
+useEffect(() => {
+ if(window.innerWidth < 1024){
+    setMobileView(true);
+ }
+}, []);
+
   return (
     <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-10 px-4 min-h-screen">
       <div className="max-w-6xl mx-auto">
 
         {/* Header */}
-        <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold text-blue-600 mb-2">Create Your Resume</h1>
-          <p className="text-gray-600">Fill out each section step by step to build your professional resume</p>
+        <div className="text-center sm:mb-6 mb-4">
+          <h1 className="sm:text-3xl text-xl font-bold text-blue-600 sm:mb-2 mb-1">Create Your Resume</h1>
+          <p className="text-gray-600 text-sm sm:text-md">Fill out each section step by step to build your professional resume</p>
         </div>
 
         {/* Mobile Progress Indicator */}
-        <div className="sm:hidden mb-6 text-center">
+        <div className="sm:hidden sm:mb-6 mb-4 text-center">
           <progress
             className="w-full h-2 rounded-full overflow-hidden"
             value={(currentStep / (steps.length - 1)) * 100}
@@ -70,7 +79,6 @@ const ResumeForm = ({saveResume} : props) => {
           {steps.map((step, index) => {
             const isCompleted = index < currentStep;
             const isCurrent = index === currentStep;
-
             return (
               <button
                 key={step.id}
@@ -83,7 +91,7 @@ const ResumeForm = ({saveResume} : props) => {
                       : 'border-gray-300 text-gray-500 hover:bg-gray-100'
                   }`}
               >
-                <div className={`w-6 h-6 flex items-center justify-center rounded-full mr-2
+                 <div className={`w-6 h-6 flex items-center justify-center rounded-full mr-2
                   ${isCurrent
                     ? 'bg-blue-600 text-white'
                     : isCompleted
@@ -145,8 +153,8 @@ const ResumeForm = ({saveResume} : props) => {
             </div>
 
             {currentStep === steps.length - 1 ? (
-              <button onClick={saveResume} className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-medium transition-colors shadow-lg">
-                Generate Resume
+              <button onClick={mobileView ? completeResume : saveResume } className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-medium transition-colors shadow-lg">
+                {mobileView? "Complete Resume" : "Generate PDF"}
               </button>
             ) : (
               <button

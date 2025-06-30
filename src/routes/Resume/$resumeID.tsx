@@ -57,7 +57,9 @@ function Resumepage() {
   Object.entries(presets).find(([_, theme]) => JSON.stringify(theme) === JSON.stringify(settings))?.[0] 
    
   const contentRef = useRef<HTMLDivElement>(null);
-  const reactToPrintFn = useReactToPrint({ 
+
+  //download function for desktop browsers
+  const generatePDF = useReactToPrint({ 
     contentRef: contentRef,
     documentTitle : 'Resume'
    });
@@ -86,13 +88,11 @@ function Resumepage() {
         theme : {
                name : themeName || "Custom Theme",
               settings : settings
-            }
+          }
     }
     
 
-
   //save resume payload
-
   const resumePayload = {
       user : {
         user_id : user?.uid,
@@ -109,7 +109,8 @@ function Resumepage() {
             }
       }
 
-  //function to save the resume created by user
+
+  //function to save the resume created by user in desktop
   const saveResume = () => {
     if(!user){
       setShowDialog(true)
@@ -128,6 +129,18 @@ function Resumepage() {
     }
   }
 
+  const changeTemplate = (resumeID : string) => {
+       navigate({ to: `/Resume/${resumeID}` })
+       setMobileActiveView('preview');
+  }
+
+//download function for mobile browsers
+  const generatePDFMobile = () => {
+    console.log("Mobile View Download Clicked");
+    
+  }
+
+
 //function to update resume
   const updateResume = () => {
     if(!user || !updateID){
@@ -145,6 +158,11 @@ function Resumepage() {
     
     )
     
+  }
+
+  const completeResume = () => {
+    console.log("Mobile View Complete Resume Clicked");
+    setMobileActiveView('preview');
   }
 
 
@@ -178,7 +196,7 @@ function Resumepage() {
     
     switch (activeTab) {
       case 'form':
-        return <ResumeForm saveResume={reactToPrintFn}/>;
+        return <ResumeForm saveResume={generatePDF} completeResume={completeResume}/>;
       
       case 'theme':
         return (
@@ -196,7 +214,7 @@ function Resumepage() {
                 <ResumePreview
                   key={template.resumeID}
                   src={template.src}
-                  chooseResume={() => navigate({ to: `/Resume/${template.resumeID}` })}
+                  chooseResume={ () => changeTemplate(template.resumeID)}
                 />
               ))}
             </div>
@@ -204,7 +222,7 @@ function Resumepage() {
         );
       
       default:
-        return <ResumeForm saveResume={reactToPrintFn} />;
+        return <ResumeForm saveResume={generatePDF} completeResume={completeResume} />;
     }
   };
 
@@ -229,7 +247,7 @@ function Resumepage() {
         /* Small mobile scaling */
         @media (max-width: 500px) {
           .resume-preview-container {
-            transform: scale(0.45);
+            transform: scale(0.44);
             transform-origin: top left;
           }
         }
@@ -322,13 +340,13 @@ function Resumepage() {
       
       <Navbar />
       
-      {/* Mobile Navigation - Now includes all 4 options: Form, Theme, Template, Preview */}
-      <div className="lg:hidden bg-white border-b border-gray-200 px-2 py-3">
+      {/* Mobile Navigation -with options : Form, Theme, Template, Preview */}
+      <div className="lg:hidden bg-white border-b border-gray-200  py-2 px-2">
         <div className="grid grid-cols-4 gap-1">
           {/* Mobile Form Tab */}
           <button
             onClick={() => setMobileActiveView('form')}
-            className={`flex flex-col items-center justify-center px-2 py-2 rounded-lg font-medium transition-colors text-xs ${
+            className={`flex flex-col items-center justify-center py-1 px-1 rounded-lg font-medium transition-colors text-xs ${
               mobileActiveView === 'form'
                 ? 'bg-blue-500 text-white'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -337,11 +355,10 @@ function Resumepage() {
             <Edit className="w-4 h-4 mb-1" />
             Form
           </button>
-
           {/* Mobile Theme Tab */}
           <button
             onClick={() => setMobileActiveView('theme')}
-            className={`flex flex-col items-center justify-center px-2 py-2 rounded-lg font-medium transition-colors text-xs ${
+            className={`flex flex-col items-center justify-center py-1 px-1 rounded-lg font-medium transition-colors text-xs ${
               mobileActiveView === 'theme'
                 ? 'bg-blue-500 text-white'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -354,7 +371,7 @@ function Resumepage() {
           {/* Mobile Template Tab */}
           <button
             onClick={() => setMobileActiveView('template')}
-            className={`flex flex-col items-center justify-center px-2 py-2 rounded-lg font-medium transition-colors text-xs ${
+            className={`flex flex-col items-center justify-center py-1 px-1 rounded-lg font-medium transition-colors text-xs ${
               mobileActiveView === 'template'
                 ? 'bg-blue-500 text-white'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -367,7 +384,7 @@ function Resumepage() {
           {/* Mobile Preview Tab */}
           <button
             onClick={() => setMobileActiveView('preview')}
-            className={`flex flex-col items-center justify-center px-2 py-2 rounded-lg font-medium transition-colors text-xs ${
+            className={`flex flex-col items-center justify-center py-1 px-1 rounded-lg font-medium transition-colors text-xs ${
               mobileActiveView === 'preview'
                 ? 'bg-blue-500 text-white'
                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -448,7 +465,7 @@ function Resumepage() {
          <div className="flex flex-col sm:flex-row items-center justify-between p-4 bg-white border-b border-gray-200">
   {/* Left: Title and subtitle */}
   <div className="mb-3 sm:mb-0 text-center sm:text-left">
-    <h2 className="text-lg font-semibold text-gray-700">Live Preview</h2>
+    <h2 className="text-lg font-semibold text-gray-700"> {mobileActiveView === 'preview' ? 'Preview' : 'Live Preview'}</h2>
     <p className="text-xs text-gray-500">Changes will appear here in real-time</p>
   </div>
 
@@ -462,11 +479,25 @@ function Resumepage() {
         ) : (
           <div className="flex items-center gap-1">
             <Download className="w-4 h-4" />
-            <span className="hidden sm:inline">Save Online</span>
+            <span className="sm:inline">Save Online</span>
           </div>
         )
       } 
     />
+    {mobileActiveView === 'preview' && ( <Button2 
+      onSubmit={generatePDFMobile}
+      text={
+        isPending ? (
+          <LoadingSpinner size="sm" text="Saving..." />
+        ) : (
+          <div className="flex items-center gap-1">
+            <Download className="w-4 h-4" />
+            <span className="sm:inline">Download PDF</span>
+          </div>
+        )
+      } 
+    />)}
+
     {updateID !== 0 && user && (
       <Button2
         onSubmit={updateResume}

@@ -4,7 +4,7 @@ const Logo = () => {
       <img
         src="/Logo.png"
         alt="Logo"
-        className="h-32 w-32 object-contain"
+        className=" sm:w-32  w-20 object-contain"
       />
     </div>
   );

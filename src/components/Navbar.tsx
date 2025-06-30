@@ -26,9 +26,9 @@ const Navbar = () => {
     };
 
   return (
-    <nav className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+    <nav className="bg-white/95 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50  shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center sm:h-16 h-14">
           {/* Logo/Brand */}
           <div className="flex items-center">
           <Logo />
@@ -116,7 +116,7 @@ const Navbar = () => {
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => navigate({ to: '/AuthRoutes/loginpage' })}
-                className="flex items-center px-4 py-2 text-gray-700 hover:text-blue-500 font-medium transition-colors duration-200 rounded-lg hover:bg-blue-50"
+                className="flex text-xs sm:text-sm items-center px-4 py-2 text-gray-700 hover:text-blue-500 font-medium transition-colors duration-200 rounded-lg hover:bg-blue-50"
               >
                 <LogIn className="w-4 h-4 mr-2" />
                 Login
@@ -124,7 +124,7 @@ const Navbar = () => {
               
               <button
                 onClick={() => navigate({ to: '/AuthRoutes/registerpage' })}
-                className="flex items-center px-6 py-2.5 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+                className="flex text-xs sm:text-sm items-center px-2 py-2 sm:px-6 sm:py-2.5 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
               >
                 <UserPlus className="w-4 h-4 mr-2" />
                 Sign Up

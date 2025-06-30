@@ -158,12 +158,11 @@ const SkillsSection = () => {
   }, []);
 
   return (
-    <div className="space-y-6">
+    <div className="sm:space-y-6 space-y-4">
       <h2 className="text-xl font-semibold text-gray-800">Skills</h2>
-        <p className="text-sm font-bold text-blue-500 flex items-center">
-           <Sparkles className='inline w-4 h-4'/> AI suggestions for skills will appear as you type.
+        <p className="sm:text-sm text-xs font-bold text-blue-500 flex items-center">
+           <Sparkles className='inline sm:w-4 w-3'/> AI suggestions for skills will appear as you type.
           </p>
-
       {skills.map((cat, idx) => (
         <div
           key={idx}
