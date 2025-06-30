@@ -9,3 +9,5 @@ sqlalchemy
 gunicorn
 psycopg2-binary==2.9.9
 openai
+jinja2
+python-multipart
