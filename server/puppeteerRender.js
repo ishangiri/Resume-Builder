@@ -8,6 +8,7 @@ const [_, __, htmlPath, pdfPath] = process.argv;
   try {
     const html = fs.readFileSync(htmlPath, "utf8");
     const browser = await puppeteer.launch({  headless: 'new',
+  executablePath: '/opt/render/.cache/puppeteer/chrome/linux-138.0.7204.49/chrome-linux64/chrome',
   args: [
     '--no-sandbox',
     '--disable-setuid-sandbox',
