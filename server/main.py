@@ -287,7 +287,9 @@ def generate_skills(data : SkillSuggestionRequest):
         )
         
         skills = response.choices[0].message.content.strip()
+        print(f"Generated skills: {skills}")  # Debugging line to check generated skills
         return {"skills": skills.split(",")}
+        
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating skills: {str(e)}")
