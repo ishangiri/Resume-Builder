@@ -24,16 +24,12 @@ app.add_middleware(
     allow_origins=[  # Changed from 'origins' to 'allow_origins'
         "https://resume-builder-ishan-giris-projects.vercel.app",
         "http://localhost:5173",
-    ],
+        ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-
 Base.metadata.create_all(bind = engine)
-
 
 @app.get('/')
 def read_root():
@@ -180,17 +176,20 @@ def generate_resume_summary(data: ResumeSummary):
         skills = data.skills
         experience = data.experience
         
-        if not name or not job_title or not skills or not experience or not education:
-            raise HTTPException(status_code=400, detail='Missing one of the required fields: name, job_title, skills, experience, or education')
+        if not name or not job_title or not skills or not education:
+            raise HTTPException(status_code=400, detail='Missing one of the required fields: name, job_title, skills, or education')
 
         # Flatten skills into string
         flat_skills = [", ".join(s.skills) for s in skills]
         all_skills = "; ".join(flat_skills)
         
         # Flatten education
-        edu_summary = "; ".join(
+        if education:
+            edu_summary = "; ".join(
             [f"{e.degree} at {e.institution} ({e.period})" for e in education]
-        )
+            )
+        else:
+            edu_summary = "No formal education details provided."
         
         # Build experience context
         experience_context = ""

@@ -4,6 +4,7 @@ import { Sparkles } from 'lucide-react';
 import { useResumeData } from '../../hooks/useResumeData';
 import fetchApi from '../../lib/fetchUtil';
 import { useState } from 'react';
+import { Dialog } from '../ui/Dialog';
 
 const SummarySection = () => {
   const summary = useResumeStore(state => state.summary);
@@ -12,7 +13,9 @@ const SummarySection = () => {
   const resumeData = useResumeData();
 
   const [loading, setLoading] = useState(false);
+  const [showErrorDialog, setShowErrorDialog] = useState(false);
   const [localSummary, setLocalSummary] = useState(summary);
+  const [showServerError, setShowServerError] = useState(false);
 
   const summaryPayload = {
     personalInfo: resumeData.personalInfo,
@@ -59,13 +62,19 @@ const SummarySection = () => {
 
   const generateSummary = async () => {
     setLoading(true);
+    setShowErrorDialog(false);
+    setShowServerError(false);
     try {
       const response = await fetchApi.post('/generate-resume-summary', summaryPayload);
       if (response.status === 200) {
         typeSummary(response.data.summary);
-      } else {
+      } else if (response.status === 500) {
+        console.log("Server error", response.statusText);
+        setShowErrorDialog(true);
+       } else {
         console.error("Failed to generate summary:", response.statusText);
         setLoading(false);
+        setShowServerError(true);
       }
     } catch (error: any) {
       console.error("Error generating summary:", error);
@@ -75,6 +84,34 @@ const SummarySection = () => {
 
   return (
     <div>
+      <Dialog 
+       isOpen = {showErrorDialog}
+       type='error'
+       closeOnBackdrop={true}
+       onClose={() => setShowErrorDialog(false)}
+       title='Missing Information to Generate Summary'
+       showCloseButton = {false}
+       primaryButtonText='Ok'
+       primaryButtonVariant='red'
+       closeOnEscape = {true}
+      >
+      <p>Please make sure to fill personal information, jobTitle, skills and education before generating AI summary.</p>
+      </Dialog>
+      <Dialog 
+       isOpen = {showServerError}
+       type='error'
+       closeOnBackdrop={true}
+       onClose={() => setShowServerError(false)}
+       title='Server Error'
+       showCloseButton = {false}
+       primaryButtonText='Ok'
+       primaryButtonVariant='red'
+       secondaryButtonText='Retry'
+       onSecondaryClick={generateSummary}
+       closeOnEscape = {true}
+      >
+      <p>Please make sure to fill personal information, jobTitle, skills and education before generating AI summary.</p>
+      </Dialog>
       <textarea
         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors duration-200 bg-white min-h-[120px]"
         placeholder="Write a brief summary about yourself"

@@ -553,10 +553,7 @@ const generatePDFMobile = async () => {
     {mobileActiveView === 'preview' && ( <Button2 
       onSubmit={generatePDFMobile}
       text={
-        isPending ? (
-          <LoadingSpinner size="sm" text="Saving..." />
-        ) : (
-          <div className="flex items-center gap-1">
+ ( <div className="flex items-center gap-1">
             <Download className="w-4 h-4" />
             <span className="sm:inline">Download PDF</span>
           </div>

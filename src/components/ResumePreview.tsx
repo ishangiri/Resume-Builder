@@ -5,11 +5,6 @@ interface ResumePreviewProps {
 
 const ResumePreview = ({ src, chooseResume} : ResumePreviewProps) => {
 
-     const fileName = src.split('/').pop()?.split('.')[0] || '';
-     const name = fileName
-    .replace(/[-_]/g, ' ')
-    .replace(/\b\w/g, (char) => char.toUpperCase());
-
   return (
     <div>
            <div className="flex flex-col items-center gap-4 bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
@@ -23,7 +18,6 @@ const ResumePreview = ({ src, chooseResume} : ResumePreviewProps) => {
                />
              </div>
              <div className="flex flex-col items-center gap-2">
-               <h3 className="text-lg font-semibold text-gray-800">{name}</h3>
              </div>
            </div>     
     </div>

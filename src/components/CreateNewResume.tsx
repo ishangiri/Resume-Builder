@@ -3,9 +3,12 @@ import { Plus } from 'lucide-react';
 
 type NewResumeProps = {
   onClick?: () => void;
+  title : string;
+  paragraph : string;
+  buttonText : string
 };
 
-const CreateNewResume: React.FC<NewResumeProps> = ({ onClick }) => {
+const CreateNewResume: React.FC<NewResumeProps> = ({ onClick, title, paragraph, buttonText }) => {
   return (
     <div
       onClick={onClick}
@@ -21,10 +24,10 @@ const CreateNewResume: React.FC<NewResumeProps> = ({ onClick }) => {
       {/* Text content */}
       <div className="text-center px-6 py-4">
         <h3 className="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors duration-200">
-          Create New Resume
+          {title}
         </h3>
         <p className="text-sm text-gray-500 mt-1">
-          Start from scratch or use a pre-built template to get going.
+          {paragraph}
         </p>
       </div>
 
@@ -48,7 +51,7 @@ const CreateNewResume: React.FC<NewResumeProps> = ({ onClick }) => {
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         <div className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg shadow-sm hover:bg-blue-700 transition-colors">
           <Plus className="w-4 h-4 mr-2" />
-          Get Started
+         {buttonText}
         </div>
       </div>
     </div>

@@ -59,10 +59,10 @@ class ExperienceItem(BaseModel):
 class ResumeSummary(BaseModel):
     personalInfo: PersonalInfo
     JobTitle: str
-    experience: List[ExperienceItem] 
-    education: List[EducationItem]
+    experience: List[ExperienceItem] | None = None 
+    education: List[EducationItem] | None = None
     skills: List[SkillCategory]
-    projects: List[ProjectItem]
+    projects: List[ProjectItem] | None = None
 
 class SkillSuggestionRequest(BaseModel):
     JobTitle: str

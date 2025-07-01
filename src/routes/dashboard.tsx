@@ -191,10 +191,14 @@ return (
 
               {/* Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-                 <CreateNewResume onClick={
+                 <CreateNewResume title='Get Started' paragraph='Start building resumes from scratch' buttonText='Get Started' onClick={
                 () => {
-                  navigate({ to: "/" })
+                  navigate({ to: "/templates" })
                    resetData();  
+                }} />
+                   <CreateNewResume title='Continue Builing' paragraph='Continue Building where you left off' buttonText='Continue' onClick={
+                () => {
+                  navigate({ to: "/templates" }) 
                 }} />
                 {resumes.map((resume) => (
                   <SavedResumeUI
@@ -214,11 +218,17 @@ return (
             <div className="col-span-full text-center py-12">
               <h3 className="text-xl font-semibold text-gray-900 mb-2">No resumes yet</h3>
               <p className="text-blue-500 mb-6">Create your first resume to get started!</p>
-              <CreateNewResume onClick={
+               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+              <CreateNewResume title='Get Started' paragraph='Start building from scratch' buttonText='Get Started' onClick={
                 () => {
-                  navigate({ to: "/" })
+                  navigate({ to: "/templates" })
                    resetData();  
                 }} />
+                   <CreateNewResume title='Continue Building' paragraph='Continue building where you left off' buttonText='Continue' onClick={
+                () => {
+                  navigate({ to: "/templates" })  
+                }} />
+                </div>
             </div>
           )}
         </div>
