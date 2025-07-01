@@ -5,3 +5,7 @@ const fetchApi = axios.create({
 })
 
 export default fetchApi;
+
+export const fetchApiPDF = axios.create({
+    baseURL :  import.meta.env.VITE_PDF_URL,
+})

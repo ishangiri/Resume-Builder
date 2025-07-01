@@ -9,7 +9,7 @@ import { LoadingSpinner } from '../../components/ui/LoadingSpinner';
 import { useResumeStore } from '../../store/ResumeStore';
 import { useUpdateResume } from '../../hooks/useUpdateAndDelete';
 import  {RenderResumeToHTML} from '../../utils/getResumeTemplate';
-import  fetchApi  from '../../lib/fetchUtil';
+import  { fetchApiPDF }  from '../../lib/fetchUtil';
 import LoadingOverlay from '../../components/ui/LoadingComponent';
 
 // Resume templates
@@ -195,26 +195,60 @@ function Resumepage() {
   //download function for mobile browsers
 const generatePDFMobile = async () => {
   try {
-     setLoadingMobile(true);
-    const html = RenderResumeToHTML({ templateID: resumeID, resumeData, theme : settings }); 
-    const response = await fetchApi.post(
+    setLoadingMobile(true);
+
+    // Render the HTML string for the resume
+    const html = RenderResumeToHTML({
+      templateID: resumeID,
+      resumeData,
+      theme: settings,
+    });
+
+    // Send HTML to the PDF microservice
+    const response = await fetchApiPDF.post(
       "/generate-pdf/",
+      JSON.stringify({
+        title: "My Resume",
+        content: html,
+      }),
       {
-        html,
-        title: "Resume",
-      },
-      {
-        responseType: "blob", // Ensure the response is treated as a blob
+        headers: { "Content-Type": "application/json" },
+        responseType: "blob", // Receive PDF blob
       }
     );
 
     setLoadingMobile(false);
+
     const blob = new Blob([response.data], { type: "application/pdf" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "resume.pdf";
-    link.click();
+
+    // Compatibility fix for mobile browsers
+    const isSafariMobile = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+    if (isSafariMobile || isIOS) {
+      // Safari and iOS don't allow automatic download of blobs — open in a new tab
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (typeof reader.result === "string") {
+          const opened = window.open(reader.result, "_blank");
+          if (!opened) alert("Please allow popups to view the PDF.");
+        } else {
+          alert("Failed to generate PDF preview.");
+        }
+      };
+      reader.readAsDataURL(blob); // Convert to base64 and open in new tab
+    } else {
+      // For Chrome/Firefox/Android browsers: standard download
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "MyResume.pdf";
+      document.body.appendChild(link); // Required for Firefox
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url); // Clean up
+    }
+
   } catch (error) {
     console.error("Error generating PDF:", error);
     setLoadingMobile(false);
