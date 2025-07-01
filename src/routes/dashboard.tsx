@@ -196,7 +196,7 @@ return (
                   navigate({ to: "/templates" })
                    resetData();  
                 }} />
-                   <CreateNewResume title='Continue Builing' paragraph='Continue Building where you left off' buttonText='Continue' onClick={
+                   <CreateNewResume title='Continue Building' paragraph='Continue Building where you left off' buttonText='Continue' onClick={
                 () => {
                   navigate({ to: "/templates" }) 
                 }} />
