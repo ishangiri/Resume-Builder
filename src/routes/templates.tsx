@@ -7,11 +7,11 @@ import { templates } from '../utils/constant';
 function App() {
   const navigate = useNavigate();
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-200 via-blue-500 to-indigo-500">
       <Navbar />
 
       {/* Header Section */}
-      <div className="flex flex-row items-center justify-center bg-gray-100 gap-4 p-8">
+      <div className="flex flex-row items-center justify-center  gap-4 p-8">
         <div className="flex flex-col items-center gap-2">
           <h1 className="md:text-3xl text-md font-bold text-blue-500">Choose a template to build.</h1>
         </div>

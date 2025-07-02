@@ -4,6 +4,8 @@ import { useResumeStore } from '../../store/ResumeStore';
 const inputClasses = "w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors duration-200 bg-white";
 
 const PersonalDetails = () => {
+
+
   const firstName = useResumeStore(state => state.firstName);
   const lastName = useResumeStore(state => state.lastName);
   const phone = useResumeStore(state => state.phone);

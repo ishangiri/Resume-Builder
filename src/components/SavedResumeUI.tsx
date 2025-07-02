@@ -84,7 +84,7 @@ const SavedResumeUI: React.FC<SavedResumeUIProps> = ({
       </div>
 
       {/* Template ID + Delete */}
-      <div className="mt-2 flex items-center justify-center gap-2 text-sm text-gray-500">
+      <div className="mt-2 flex items-center justify-center gap-2 text-sm text-white">
         <span>{template}</span>
         {onDelete && (
           <button

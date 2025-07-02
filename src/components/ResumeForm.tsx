@@ -53,7 +53,7 @@ useEffect(() => {
 }, []);
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-10 px-4 min-h-screen">
+    <div className="bg-gradient-to-br from-slate-200  to-blue-500 py-10 px-4 min-h-screen">
       <div className="max-w-6xl mx-auto">
 
         {/* Header */}
@@ -63,6 +63,34 @@ useEffect(() => {
         </div>
 
         {/* Mobile Progress Indicator */}
+
+   <div className="sm:hidden mb-4 text-center">
+            <p className='text-blue-600 text-sm mb-2'>Navigate Steps</p>
+          <div className='flex flex-wrap gap-2 justify-center'>
+           {steps.map((step, index) => {
+            const isCurrent = index === currentStep;
+            return (
+              <button
+                key={step.id}
+                onClick={() => goToStep(index)}
+                className={`flex items-center px-4 py-2 rounded-full border-1 text-sm font-medium transition-all
+                  ${isCurrent
+                    ? 'border-blue-600 bg-blue-50 text-blue-700' : 'bg-blue-50 text-blue-500'
+                
+                  }`}
+              >
+                 <div className={`w-6 h-6 flex items-center justify-center rounded-full
+                  ${isCurrent
+                    && 'bg-blue-600 text-white'
+                   }`}>
+                  { index + 1}
+                </div>
+              </button>
+            );
+          })}
+          </div>
+        </div>
+
         <div className="sm:hidden sm:mb-6 mb-4 text-center">
           <progress
             className="w-full h-2 rounded-full overflow-hidden"
@@ -106,7 +134,7 @@ useEffect(() => {
         </div>
 
         {/* Main Form Content */}
-        <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-10">
+        <div className="max-w-4xl mx-auto bg-gradient-to-br from-slate-200 to-blue-500 rounded-xl shadow-lg p-6 sm:p-10">
           {/* Step Header */}
           <div className="flex items-center space-x-3 mb-6 pb-4 border-b">
             {React.createElement(currentStepData.icon, { className: "w-8 h-8 text-blue-600" })}

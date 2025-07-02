@@ -104,7 +104,7 @@ const MinimalDesign = React.forwardRef<HTMLDivElement>((_, ref) => {
             <div key={i}>
               <h3 className="text-sm font-semibold text-gray-700">{group.category}</h3>
               <div className="flex mt-1" style={{ color: theme.textColor }}>
-                {group.skills}
+                {group.skills.join(', ')}
               </div>
             </div>
           ))}

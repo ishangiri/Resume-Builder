@@ -90,7 +90,7 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({ template }) => {
   );
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden w-full max-w-md sm:max-w-2xl mx-auto transition-all">
+    <div className="bg-slate-200 border border-gray-200 rounded-xl shadow-lg overflow-hidden w-full max-w-md sm:max-w-2xl mx-auto transition-all">
       {/* Header */}
       <div className="px-4 py-3 sm:px-6 sm:py-4 bg-gradient-to-r from-slate-50 to-blue-50 border-b border-gray-100">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">

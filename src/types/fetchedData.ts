@@ -47,7 +47,7 @@ export type fetchedData = {
 export type serverData = {
      personalInfo: {
         name: string
-        email: string
+        email: string | null | undefined
         phone: string
         linkedin: string
         location: string

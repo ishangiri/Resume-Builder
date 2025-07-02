@@ -43,8 +43,8 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
               {resumeData.personalInfo.name}
             </h1>
             <div
-              className="mt-1 flex flex-wrap gap-x-2 gap-y-1 justify-center items-center"
-              style={{ color: 'var(--secondary-text-color)', fontSize: theme.fontSize }}
+              className="mt-1 flex flex-wrap gap-x-2 gap-y-1 text-xs justify-center items-center"
+              style={{ color: 'var(--secondary-text-color)' }}
             >
               <span>
                 <Locate className="w-4 h-4" style={{ color: theme.accentColor }} />
@@ -83,7 +83,7 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
               style={{
                 color: 'var(--accent-color)',
                 letterSpacing: '0.08em',
-                fontSize: theme.fontSize,
+                fontSize: theme.sectionTitleSize,
               }}
             >
               {resumeData.JobTitle}
@@ -104,36 +104,40 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
         >
           Education
         </h2>
-        <div>
-          {resumeData.education.map((edu, i) => (
-            <div
-              key={i}
-              className="flex flex-col sm:flex-row justify-between gap-1 sm:items-baseline"
-              style={{ marginBottom: i < resumeData.education.length - 1 ? 'var(--item-spacing)' : 0 }}
-            >
-              <div>
-                <span className="font-semibold" style={{ fontSize: theme.fontSize }}>
-                  {edu.degree}
-                </span>
-                <span className="ml-2" style={{ color: 'var(--secondary-text-color)', fontSize: theme.fontSize }}>
-                  {edu.institution}
-                </span>
-                {edu.details && (
-                  <div className="mt-1" style={{ color: 'var(--secondary-text-color)', fontSize: theme.fontSize }}>
-                    {edu.details}
-                  </div>
-                )}
-              </div>
-              <div
-                className="sm:text-right"
-                style={{ color: 'var(--secondary-text-color)', fontSize: theme.fontSize }}
-              >
-                {edu.period}
-                {edu.location && <span className="ml-2">{edu.location}</span>}
-              </div>
-            </div>
-          ))}
+    <div className="space-y-[var(--item-spacing)]">
+  {resumeData.education.map((edu, i) => (
+    <div key={i} className="flex justify-between items-start">
+      {/* Left side: Degree + Institution + Details */}
+      <div className="flex-1">
+        <div className="font-semibold" style={{ fontSize: theme.fontSize }}>
+          {edu.degree}
         </div>
+        <div
+          style={{ color: theme.textColor, fontSize: theme.fontSize }}
+        >
+          {edu.institution}
+        </div>
+        {edu.details && (
+          <div
+            className="mt-1"
+            style={{ color: theme.textColor, fontSize: theme.fontSize }}
+          >
+            {edu.details}
+          </div>
+        )}
+      </div>
+
+      {/* Right side: Period */}
+      <div
+        className="text-right whitespace-nowrap"
+        style={{ color: 'var(--secondary-text-color)', fontSize: theme.fontSize }}
+      >
+        {edu.period}
+      </div>
+    </div>
+  ))}
+</div>
+
       </section>
 
       {/* Profile */}
@@ -148,7 +152,7 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
         >
           Profile
         </h2>
-        <p style={{ color: 'var(--text-color)', fontSize: theme.fontSize }}>{resumeData.summary}</p>
+        <p style={{ color: theme.textColor, fontSize: theme.fontSize }}>{resumeData.summary}</p>
       </section>
 
       {/* Experience */}

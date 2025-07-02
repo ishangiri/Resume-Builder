@@ -74,7 +74,7 @@ const ModernLook = React.forwardRef<HTMLDivElement, ModernLookProps>(({ sectionS
                   <div style={{ color: effectiveAccentColor }} className="font-medium">
                     {skill.category + ' :'}
                   </div>
-                  <div>{skill.skills || skill}</div>
+                  <div> {skill.skills.join(', ')}</div>
                 </div>
               ))}
             </div>

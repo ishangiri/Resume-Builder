@@ -1,13 +1,18 @@
-   import { useResumeStore } from "../store/ResumeStore";
-   
+import { useResumeStore } from "../store/ResumeStore";
+import { useAuthStore } from "../store/auth/authStore";
 
-   
-   export const useResumeData = () => {
-  
+ export const useResumeData = () => {
+
+  let userEmail;
+  const user = useAuthStore((state) => state?.user)
+
+  if(user){
+   userEmail  = user?.email 
+  }
 
     const firstName = useResumeStore((state) => state.firstName);     
     const lastName = useResumeStore((state) => state.lastName);
-    const email = useResumeStore((state) => state.email);
+    const email =  useResumeStore((state) => state.email);
     const phone = useResumeStore((state) => state.phone);
     const address = useResumeStore((state) => state.address);
     const link = useResumeStore((state) => state.link)
@@ -21,14 +26,12 @@
     const hasCerifications = useResumeStore((state) => state.hasCerifications);
     const hasProjects = useResumeStore((state) => state.hasProjects)
     const JobTitle  = useResumeStore((state) => state.JobTitle)
-  
-
 
 
       return {
         personalInfo: {
         name: `${firstName || 'John'} ${lastName || 'Doe'}`,
-        email: email || 'abc@gmail.com',
+        email:  email || userEmail,
         phone: phone || '+1 (123) 456-7890',
         linkedin: link,
         location: address || 'New York, NY'

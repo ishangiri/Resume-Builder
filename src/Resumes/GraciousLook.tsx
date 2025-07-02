@@ -93,7 +93,7 @@ const GraciousLook = React.forwardRef<HTMLDivElement>((_, ref) => {
           {resumeData.skills.map((group, i) => (
             <div key={i} style={{ display: "flex", flexWrap: "wrap", gap: "0.25rem" }}>
               <span style={{ fontWeight: 600 }}>{group.category}:</span>
-              <span>{group.skills}</span>
+              <span> {group.skills.join(', ')}</span>
             </div>
           ))}
         </div>
@@ -163,7 +163,7 @@ const GraciousLook = React.forwardRef<HTMLDivElement>((_, ref) => {
               <h4 style={{ fontWeight: 600, color: theme.projectNameColor || theme.textColor }}>
                 {project.name || `Project ${i + 1}`}
               </h4>
-              <p style={{ fontSize: "0.75rem" }}>{project.description}</p>
+              <p style={{ fontSize: theme.fontSize }}>{project.description}</p>
             </div>
           ))}
         </section>

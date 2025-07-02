@@ -127,14 +127,12 @@ function RouteComponent() {
       }
 }
 
-
-  // Normal UI (no error)
 return (
   <ProtectedRoute>
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen  bg-gradient-to-br from-slate-200 via-blue-500 to-indigo-500">
       <Navbar />
       {/* Main Content */}
-      <div className="pt-4 h-screen pb-12">
+      <div className="pt-4  pb-12">
         <Dialog 
        isOpen = {showErrorDialog}
        type='error'
@@ -170,13 +168,24 @@ return (
         {/* Header Section */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
           <div className="text-center sm:text-left">
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-700 mb-2">
-            Welcome back,   <span className='text-blue-500'>{user?.username}!</span>
+            <h1 className="text-2xl sm:text-4xl font-bold text-blue-500 mb-2">
+            Welcome back,   <span className='text-purple-500'>{user?.username}!</span>
             </h1>
-            <p className="text-gray-600 text-lg">
+            <p className="text-blue-600 mb-6 text-lg">
               Manage your resumes and create new ones to land your dream job.
             </p>
           </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+               <CreateNewResume title='Get Started' paragraph='Start building resumes from scratch. This will reset the forms and you will lose your progress.' buttonText='Get Started' onClick={
+                () => {
+                  navigate({ to: "/templates" })
+                   resetData();  
+                }} />
+                   <CreateNewResume title='Continue Building' paragraph='Continue Building where you left off.' buttonText='Continue' onClick={
+                () => {
+                  navigate({ to: "/templates" }) 
+                }} />
+                </div>
         </div>
 
         {/* Resume Section */}
@@ -186,20 +195,10 @@ return (
               {/* Section Heading */}
               <div className="mb-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">Your Resumes</h2>
-                <p className="text-blue-500">Create new resumes or edit your existing ones.</p>
               </div>
 
               {/* Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-                 <CreateNewResume title='Get Started' paragraph='Start building resumes from scratch' buttonText='Get Started' onClick={
-                () => {
-                  navigate({ to: "/templates" })
-                   resetData();  
-                }} />
-                   <CreateNewResume title='Continue Building' paragraph='Continue Building where you left off' buttonText='Continue' onClick={
-                () => {
-                  navigate({ to: "/templates" }) 
-                }} />
                 {resumes.map((resume) => (
                   <SavedResumeUI
                     key={resume.resume.id}    
@@ -217,18 +216,7 @@ return (
             // Empty State
             <div className="col-span-full text-center py-12">
               <h3 className="text-xl font-semibold text-gray-900 mb-2">No resumes yet</h3>
-              <p className="text-blue-500 mb-6">Create your first resume to get started!</p>
-               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
-              <CreateNewResume title='Get Started' paragraph='Start building from scratch' buttonText='Get Started' onClick={
-                () => {
-                  navigate({ to: "/templates" })
-                   resetData();  
-                }} />
-                   <CreateNewResume title='Continue Building' paragraph='Continue building where you left off' buttonText='Continue' onClick={
-                () => {
-                  navigate({ to: "/templates" })  
-                }} />
-                </div>
+              <p className="text-blue-900 mb-6">Create your first resume to get started!</p>
             </div>
           )}
         </div>
