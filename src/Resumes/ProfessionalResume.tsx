@@ -172,9 +172,9 @@ const ProfessionalTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivE
             {resumeData.skills.map((skill, index) => (
               <div key={index} className="mb-2">
                 <span className="font-medium text-sm" style={{ color: theme.textColor }}>
-                  {skill.category}:
+                  {skill.category && skill.category + ": "}
                 </span>
-                <span className="ml-1">{skill.skills.join(', ')}</span>
+                <span>{skill.skills.join(', ')}</span>
               </div>
             ))}
           </div>

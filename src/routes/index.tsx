@@ -58,7 +58,7 @@ const features = [
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-200 via-blue-500 to-indigo-500 relative overflow-hidden">
       <div
-        className="fixed inset-0 opacity-30 pointer-events-none "
+        className="fixed inset-0 opacity-30 pointer-events-none"
         style={{
           background: `radial-gradient(600px circle at ${mousePosition.x}% ${mousePosition.y}%, rgba(0, 0, 0, 0.5), transparent 40%)`
         }}

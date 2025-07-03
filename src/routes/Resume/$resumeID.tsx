@@ -579,7 +579,7 @@ const generatePDFMobile = async () => {
   </div>
 </div>
             {/* Resume Preview Container with responsive scaling */}
-            <div className="flex-1 bg-gradient-to-br from-slate-200  to-blue-500 mx-2 mb-2 rounded-lg shadow-xl overflow-y-auto">
+            <div className="flex-1 bg-gradient-to-br from-slate-200 to-blue-500 mx-2 mb-2 rounded-lg shadow-xl overflow-y-auto">
               <div className="w-full h-full flex items-start justify-center p-1 sm:p-4">
                 <div className="w-full max-w-full overflow-hidden">
                   <div className="resume-preview-container">

@@ -85,7 +85,7 @@ const ModernTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement
 
         {/* Skills */}
         {resumeData.skills && resumeData.skills.length > 0 && (
-          <div className="mb-4">
+          <div className='mb-2'>
             <h2 
               className="text-sm font-semibold pl-2 mb-3 border-l-4" 
               style={{
@@ -97,9 +97,10 @@ const ModernTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
               {resumeData.skills.map((skillItem, i) => (
-                <div key={i} className="mb-2">
+                <div style={{color: theme.textColor}} key={i} className="mb-2 font-extrabold">
+                 {skillItem.category && skillItem.category + ": " }  
                   <div className="text-sm font-semibold" style={{ color: theme.mediumTextColor }}>
-                    {skillItem.skills?.join(', ')}
+                   {skillItem.skills?.join(', ')}
                   </div>
                 </div>
               ))}

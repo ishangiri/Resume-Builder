@@ -73,35 +73,29 @@ useEffect(() => {
               <button
                 key={step.id}
                 onClick={() => goToStep(index)}
-                className={`flex items-center px-4 py-2 rounded-full border-1 text-sm font-medium transition-all
+                className={`flex items-center px-4 py-2 rounded-full border-2 border-blue-500 text-xs font-bold transition-all
                   ${isCurrent
-                    ? 'border-blue-600 bg-blue-50 text-blue-700' : 'bg-blue-50 text-blue-500'
+                    ? 'border-whte bg-green-500 text-white' : 'bg-blue-50 text-blue-500'
                 
                   }`}
               >
-                 <div className={`w-6 h-6 flex items-center justify-center rounded-full
+                 <div style={{fontSize : "10px"}} className={`w-10 h-10 flex items-center justify-center rounded-full
                   ${isCurrent
-                    && 'bg-blue-600 text-white'
+                    && 'border-blue-600 text-white'
                    }`}>
-                  { index + 1}
+                    {step.title}
+                
                 </div>
               </button>
+              
             );
           })}
+           
+              
           </div>
         </div>
 
-        <div className="sm:hidden sm:mb-6 mb-4 text-center">
-          <progress
-            className="w-full h-2 rounded-full overflow-hidden"
-            value={(currentStep / (steps.length - 1)) * 100}
-            max={100}
-          ></progress>
-          <p className="text-sm mt-2 text-gray-600">
-            Step {currentStep + 1} of {steps.length}
-          </p>
-        </div>
-
+    
         {/* Top Navigation Buttons (Visible on sm+ screens) */}
         <div className="hidden sm:flex flex-wrap justify-center gap-3 mb-10">
           {steps.map((step, index) => {

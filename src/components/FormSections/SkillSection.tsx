@@ -61,7 +61,7 @@ const SkillsSection = () => {
 
   const generateSkills = async (index: number, inputValue: string) => {
     const category = skills[index]?.category || '';
-    if (!resumeJobTitle || !category) return;
+    if (!resumeJobTitle ) return;
     
     // Create cache key based on job title, category, and input
     const cacheKey = `${resumeJobTitle.toLowerCase()}-${category.toLowerCase()}`;
@@ -72,7 +72,14 @@ const SkillsSection = () => {
       const filteredSuggestions = skillsCache[cacheKey].filter((skill: string) => 
         !existingSkills.has(skill.toLowerCase())
       );
-      setSuggestedSkills(prev => ({ ...prev, [index]: filteredSuggestions }));
+      // Include the user-typed input at the top if it's not already suggested
+         const includeTyped = inputValue.trim();
+         const finalSuggestions = includeTyped && !filteredSuggestions.includes(includeTyped)
+             ? [includeTyped, ...filteredSuggestions]
+                  : filteredSuggestions;
+
+      setSuggestedSkills(prev => ({ ...prev, [index]: finalSuggestions }));
+
       setShowSuggestions(prev => ({ ...prev, [index]: true }));
       return;
     }
@@ -94,7 +101,7 @@ const SkillsSection = () => {
       const filteredSuggestions = suggestions.filter((skill: string) => 
         !existingSkills.has(skill.toLowerCase())
       );
-      setSuggestedSkills(prev => ({ ...prev, [index]: filteredSuggestions }));
+      setSuggestedSkills(prev => ({ ...prev, inputValue,  [index]: filteredSuggestions }));
       setShowSuggestions(prev => ({ ...prev, [index]: true }));
     } catch (error) {
       console.error('AI generation failed', error);
@@ -160,8 +167,8 @@ const SkillsSection = () => {
   return (
     <div className="sm:space-y-6 space-y-4">
       <h2 className="text-xl font-semibold text-gray-800">Skills</h2>
-        <p className="sm:text-sm text-xs font-bold text-blue-500 flex items-center">
-           <Sparkles className='inline sm:w-4 w-3'/> AI suggestions for skills will appear as you type.
+        <p className="sm:text-sm text-xs font-bold text-blue-900 flex items-center">
+           <Sparkles className='sm:w-4 w-2'/> AI suggestions for skills will appear as you type.
           </p>
       {skills.map((cat, idx) => (
         <div
@@ -181,7 +188,7 @@ const SkillsSection = () => {
 
           <input
             type="text"
-            placeholder="e.g., Programming Languages"
+            placeholder="e.g. FrontEnd (optional)"
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm"
             value={cat.category}
             onChange={(e) => updateCategory(idx, e.target.value)}

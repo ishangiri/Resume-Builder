@@ -229,7 +229,7 @@ const HarvardResume = React.forwardRef<HTMLDivElement>((_, ref) => {
           {resumeData.skills.map((skill, i) => (
             <div key={i} style={{ minWidth: 120, fontSize: theme.fontSize }}>
               <div className="font-semibold uppercase tracking-wide" style={{ color: 'var(--secondary-text-color)', fontSize: theme.fontSize }}>
-                {skill.category}
+               {skill.category && skill.category}
               </div>
               <div>{Array.isArray(skill.skills) ? skill.skills.join(', ') : skill.skills}</div>
             </div>

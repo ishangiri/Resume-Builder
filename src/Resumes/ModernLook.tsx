@@ -72,7 +72,7 @@ const ModernLook = React.forwardRef<HTMLDivElement, ModernLookProps>(({ sectionS
               {resumeData.skills.map((skill, i) => (
                 <div key={i}>
                   <div style={{ color: effectiveAccentColor }} className="font-medium">
-                    {skill.category + ' :'}
+                    {skill.category && skill.category + ' :'}
                   </div>
                   <div> {skill.skills.join(', ')}</div>
                 </div>

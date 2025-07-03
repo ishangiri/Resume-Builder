@@ -183,8 +183,8 @@ const AcademicResume = forwardRef<HTMLDivElement>((_, ref) => {
               </h2>
               {resumeData.skills.map((skill, index) => (
                 <div key={index} style={{ marginTop: index === 0 ? '1rem' : theme.itemSpacing }}>
-                  <h4 className="font-bold" style={{ fontSize: theme.fontSize }}>{skill.category}</h4>
-                  <p className="text-[var(--secondary-text-color)] leading-relaxed" style={{ fontSize: theme.fontSize }}>
+                  {skill.category && <h4 className="font-bold" style={{ fontSize: theme.fontSize }}>{skill.category}</h4> }
+                  <p className="text-[var(--primary-text-color)] leading-relaxed" style={{ fontSize: theme.fontSize }}>
                     {skill.skills.join(', ')}
                   </p>
                 </div>

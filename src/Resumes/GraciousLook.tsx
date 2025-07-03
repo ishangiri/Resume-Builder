@@ -92,7 +92,7 @@ const GraciousLook = React.forwardRef<HTMLDivElement>((_, ref) => {
         <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
           {resumeData.skills.map((group, i) => (
             <div key={i} style={{ display: "flex", flexWrap: "wrap", gap: "0.25rem" }}>
-              <span style={{ fontWeight: 600 }}>{group.category}:</span>
+              {group.category && <span style={{ fontWeight: 600 }}>{group.category}:</span> }
               <span> {group.skills.join(', ')}</span>
             </div>
           ))}

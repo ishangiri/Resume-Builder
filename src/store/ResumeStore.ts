@@ -67,6 +67,7 @@ type ResumeStore = {
 };
 
 export const useResumeStore = create<ResumeStore>()(
+
   persist(
     (set) => ({
       hasExperience: true,
