@@ -84,9 +84,9 @@ const features = [
               <span className="text-slate-600 text-3xl md:text-4xl lg:text-5xl">in Minutes</span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-slate-600 mb-12 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-slate-900 mb-12 max-w-4xl mx-auto leading-relaxed">
               Create professional resumes with this AI-powered platform.
-              Choose from expert-designed templates and let AI help you craft compelling content.
+              Choose any template and let AI help you craft your resume.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
@@ -120,10 +120,7 @@ const features = [
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6">
-              Why Choose this Resume Builder?
-            </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+            <p className="text-xl text-slate-600 font-bold max-w-3xl mx-auto">
               Easy to Use, No friction, AI integration for skills and summary generation
             </p>
           </div>
@@ -224,7 +221,7 @@ const features = [
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-white py-12">
+      <footer className="bg-slate-600 text-white py-12">
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-3">

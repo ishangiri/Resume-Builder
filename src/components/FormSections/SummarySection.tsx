@@ -113,7 +113,7 @@ const SummarySection = () => {
       <p>Please make sure to fill personal information, jobTitle, skills and education before generating AI summary.</p>
       </Dialog>
       <textarea
-        className="w-full px-2 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors duration-200 bg-white h-auto"
+        className="w-full px-2 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors duration-200 bg-white h-52"
         placeholder="Write a brief summary about yourself"
         value={loading ? localSummary : summary}
         onChange={e => {setSummary(e.target.value)

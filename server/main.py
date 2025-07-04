@@ -282,7 +282,7 @@ def generate_skills(data : SkillSuggestionRequest):
                 }
             ],
             max_tokens=100,
-            temperature=0.7,
+            temperature=0.6,
         )
         
         skills = response.choices[0].message.content.strip()

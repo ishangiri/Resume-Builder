@@ -1,7 +1,7 @@
 // External libraries
 import { createFileRoute, useParams, useNavigate } from '@tanstack/react-router';
 import { useReactToPrint } from 'react-to-print';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {  Download, Eye, Edit, Palette, Layout, UploadIcon } from 'lucide-react';
 import { Dialog } from '../../components/ui/Dialog';
 import { templates } from '../../utils/constant';
@@ -78,6 +78,23 @@ function Resumepage() {
     const [showErrorDialog, setShowErrorDialog] = useState<boolean>(false);
     const [updateDialog, setShowUpdateDialog] = useState<boolean>(false);
     const[updateErrordialog, setUpdateErrorDIalog] = useState<boolean>(false);
+    const [mobileView, setMobileView] = useState<boolean>(false);
+
+useEffect(() => {
+    const handleResize = () => {
+        setMobileView(window.innerWidth < 768); // You can tweak the breakpoint
+    };
+
+    // Run on initial render
+    handleResize();
+
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+
+    // Clean up listener on unmount
+    return () => window.removeEventListener('resize', handleResize);
+}, []);
+
 
 
     //get resume id to update
@@ -163,7 +180,6 @@ function Resumepage() {
   }
 
   const completeResume = () => {
-    console.log("Mobile View Complete Resume Clicked");
     setMobileActiveView('preview');
   }
 
@@ -318,10 +334,10 @@ const generatePDFMobile = async () => {
           }
         }
         
-        /* Desktop - no scaling */
+        /* Desktop - desktop scaling */
         @media (min-width: 1024px) {
           .resume-preview-container {
-            transform: scale(0.72);
+            transform: scale(0.70);
             transform-origin: top center;
           }
         }
@@ -550,7 +566,7 @@ const generatePDFMobile = async () => {
         )
       } 
     />
-    {mobileActiveView === 'preview' && ( <Button2 
+    {mobileView && ( <Button2 
       onSubmit={generatePDFMobile}
       text={
  ( <div className="flex items-center gap-1">
@@ -570,7 +586,7 @@ const generatePDFMobile = async () => {
           ) : (
             <div className="flex items-center gap-1">
               <UploadIcon className="w-4 h-4" />
-              <span className="hidden sm:inline">Update Resume</span>
+              <span className="sm:inline">Update Resume</span>
             </div>
           )
         }
