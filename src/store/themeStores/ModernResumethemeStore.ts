@@ -17,7 +17,9 @@ export const defaultTheme: GenericTheme = {
   lineHeight: "1.25",
   accentColor: "#3b82f6", // blue-500 (original border-blue-500)
   subtleTextColor: "#6b7280", // text-gray-500
-  mediumTextColor: "#4b5563", // text-gray-600 (original uses gray-600 and 700 often)
+  mediumTextColor: "#4b5563",// text-gray-600 (original uses gray-600 and 700 often)
+  sectionHeadingSize : "16px"
+   
 };
 // Theme 1: Executive Slate - Professional dark accent theme
 export const executiveSlateTheme: GenericTheme = {
@@ -33,6 +35,7 @@ export const executiveSlateTheme: GenericTheme = {
   accentColor: "#475569", // slate-600 - sophisticated gray-blue
   subtleTextColor: "#64748b", // slate-500
   mediumTextColor: "#374151", // gray-700
+  sectionHeadingSize : "16px",
 };
 
 // Theme 2: Corporate Emerald - Professional green theme
@@ -49,6 +52,7 @@ export const corporateEmeraldTheme: GenericTheme = {
   accentColor: "#10b981", // emerald-500 - professional green
   subtleTextColor: "#6b7280", // gray-500
   mediumTextColor: "#4b5563", // gray-600
+  sectionHeadingSize : "16px",
 };
 
 // Theme 3: Modern Charcoal - Minimalist dark theme
@@ -65,6 +69,7 @@ export const modernCharcoalTheme: GenericTheme = {
   accentColor: "#374151", // gray-700 - sophisticated charcoal
   subtleTextColor: "#9ca3af", // gray-400
   mediumTextColor: "#6b7280", // gray-500
+  sectionHeadingSize : "16px"
 };
 
 

@@ -23,7 +23,7 @@ const ModernTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement
           fontSize: theme.fontSize,
           lineHeight: theme.lineHeight,
           padding: theme.spacing,
-          boxSizing: 'border-box',
+          boxSizing: 'border-box'
         }}
       >
         {/* Header */}
@@ -50,15 +50,16 @@ const ModernTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement
         {resumeData.summary && (
           <div className="mb-4">
             <h2 
-              className="text-sm font-semibold pl-2 mb-3 border-l-4" 
+              className="font-semibold pl-2 mb-3 border-l-4" 
               style={{
                 color: theme.sectionTitleTextColor,
                 borderLeftColor: theme.accentColor,
+                fontSize : theme.sectionHeadingSize
               }}
             >
               Summary
             </h2>
-            <p className="text-sm">{resumeData.summary}</p>
+            <p style={{fontSize : theme.fontSize}}>{resumeData.summary}</p>
           </div>
         )}
 
@@ -66,18 +67,19 @@ const ModernTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement
         {resumeData.hasProjects && resumeData.projects && resumeData.projects.length > 0 && (
           <div className="mb-4">
             <h2 
-              className="text-sm font-semibold pl-2 mb-3 border-l-4" 
+              className=" font-semibold pl-2 mb-3 border-l-4" 
               style={{
                 color: theme.sectionTitleTextColor,
                 borderLeftColor: theme.accentColor,
+                fontSize : theme.sectionHeadingSize
               }}
             >
               Projects
             </h2>
             {resumeData.projects.map((proj, i) => (
-              <div key={i} className="mb-2 text-sm">
+              <div style={{fontSize : theme.fontSize}} key={i} className="mb-2">
                 <span className="font-semibold" style={{ color: theme.textColor }}>{proj.name}:</span>{' '}
-                <span style={{ color: theme.mediumTextColor }}>{proj.description}</span>
+                <span style={{ color: theme.mediumTextColor, }}>{proj.description}</span>
               </div>
             ))}
           </div>
@@ -87,7 +89,7 @@ const ModernTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement
         {resumeData.skills && resumeData.skills.length > 0 && (
           <div className='mb-2'>
             <h2 
-              className="text-sm font-semibold pl-2 mb-3 border-l-4" 
+              className="font-semibold pl-2 mb-3 border-l-4" 
               style={{
                 color: theme.sectionTitleTextColor,
                 borderLeftColor: theme.accentColor,
@@ -95,11 +97,11 @@ const ModernTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement
             >
               Skills
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6">
+            <div className="grid grid-cols-2 gap-x-6">
               {resumeData.skills.map((skillItem, i) => (
-                <div style={{color: theme.textColor}} key={i} className="mb-2 font-extrabold">
+                <div style={{color: theme.textColor, fontSize : theme.fontSize}} key={i} className="mb-2 font-semibold">
                  {skillItem.category && skillItem.category + ": " }  
-                  <div className="text-sm font-semibold" style={{ color: theme.mediumTextColor }}>
+                  <div className="font-medium mt-1" style={{ color: theme.mediumTextColor, fontSize : theme.fontSize }}>
                    {skillItem.skills?.join(', ')}
                   </div>
                 </div>
@@ -112,10 +114,11 @@ const ModernTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement
         {resumeData.hasExperience && resumeData.experience && resumeData.experience.length > 0 && (
           <div className="mb-4">
             <h2 
-              className="text-sm font-semibold pl-2 mb-3 border-l-4" 
+              className="font-semibold pl-2 mb-3 border-l-4" 
               style={{
                 color: theme.sectionTitleTextColor,
                 borderLeftColor: theme.accentColor,
+                fontSize : theme.sectionHeadingSize
               }}
             >
               Experience
@@ -123,14 +126,14 @@ const ModernTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement
             {resumeData.experience.map((exp, i) => (
               <div key={i} className="mb-4">
                 <div className="flex justify-between items-baseline">
-                  <div className="font-semibold" style={{ color: theme.textColor }}>{exp.title}</div>
-                  <div className="text-sm" style={{ color: theme.subtleTextColor }}> {`${exp.startDate} - ${exp.endDate}`}</div>
+                  <div className="font-semibold" style={{ color: theme.textColor, fontSize : theme.fontSize }}>{exp.title}</div>
+                  <div className="text-xs" style={{ color: theme.subtleTextColor }}> {`${exp.startDate} - ${exp.endDate}`}</div>
                 </div>
                 <div className="flex justify-between items-baseline mb-1">
-                  <div className="text-sm" style={{ color: theme.mediumTextColor }}>{exp.company}</div>
-                  <div className="text-sm" style={{ color: theme.subtleTextColor }}>{exp.location}</div>
+                  <div className="text-xs" style={{ color: theme.mediumTextColor }}>{exp.company}</div>
+                  <div className="text-xs" style={{ color: theme.subtleTextColor }}>{exp.location}</div>
                 </div>
-                <ul className="list-disc ml-5 space-y-1 text-sm" style={{ color: theme.mediumTextColor }}>
+                <ul className="list-disc ml-5 space-y-1" style={{ color: theme.mediumTextColor, fontSize : theme.fontSize }}>
                   {exp.description?.map((desc, index) => (
                     <li key={index}>{desc}</li>
                   ))}
@@ -144,10 +147,11 @@ const ModernTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement
         {resumeData.education && resumeData.education.length > 0 && (
           <div className="mb-4">
             <h2 
-              className="text-sm font-semibold pl-2 mb-3 border-l-4" 
+              className="font-semibold pl-2 mb-3 border-l-4" 
               style={{
                 color: theme.sectionTitleTextColor,
                 borderLeftColor: theme.accentColor,
+                fontSize : theme.sectionHeadingSize
               }}
             >
               Education
@@ -156,13 +160,13 @@ const ModernTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement
               <div key={index} className="mb-3">
                 <div className="flex justify-between items-baseline">
                   <div className="font-medium" style={{ color: theme.textColor }}>{edu.degree}</div>
-                  <div className="text-sm" style={{ color: theme.subtleTextColor }}>{edu.period}</div>
+                  <div className="text-xs" style={{ color: theme.subtleTextColor }}>{edu.period}</div>
                 </div>
                 <div className="flex justify-between items-baseline mb-0.5">
                   <div className="text-sm" style={{ color: theme.mediumTextColor }}>{edu.institution}</div>
-                  <div className="text-sm" style={{ color: theme.subtleTextColor }}>{edu.location}</div>
+                  <div className="text-xs" style={{ color: theme.subtleTextColor }}>{edu.location}</div>
                 </div>
-                {edu.details && <p className="text-sm mt-1" style={{ color: theme.mediumTextColor }}>{edu.details}</p>}
+                {edu.details && <p className=" mt-1" style={{ color: theme.mediumTextColor, fontSize : theme.fontSize }}>{edu.details}</p>}
               </div>
             ))}
           </div>
@@ -172,10 +176,11 @@ const ModernTemplate = forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement
         {resumeData.hasCerifications && resumeData.certifications && resumeData.certifications.length > 0 && (
           <div className="mb-4">
             <h2 
-              className="text-sm font-semibold pl-2 mb-3 border-l-4" 
+              className= "font-semibold pl-2 mb-3 border-l-4" 
               style={{
                 color: theme.sectionTitleTextColor,
                 borderLeftColor: theme.accentColor,
+                fontSize : theme.sectionHeadingSize
               }}
             >
               Certifications

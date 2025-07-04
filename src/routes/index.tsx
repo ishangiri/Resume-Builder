@@ -85,7 +85,7 @@ const features = [
             </h1>
 
             <p className="text-xl md:text-2xl text-slate-600 mb-12 max-w-4xl mx-auto leading-relaxed">
-              Create professional resumes with our AI-powered platform.
+              Create professional resumes with this AI-powered platform.
               Choose from expert-designed templates and let AI help you craft compelling content.
             </p>
 
@@ -124,7 +124,7 @@ const features = [
               Why Choose this Resume Builder?
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Powered by advanced AI technology and designed by career experts
+              Easy to Use, No friction, AI integration for skills and summary generation
             </p>
           </div>
 

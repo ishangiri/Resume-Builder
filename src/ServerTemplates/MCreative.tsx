@@ -34,7 +34,7 @@ const HarvardResume = React.forwardRef<HTMLDivElement, Props>(({resumeData, them
     <div ref={ref} className="mx-auto shadow-lg font-sans" style={cssVars}>
       {/* Header */}
       <header style={{ marginBottom: 'var(--section-spacing)' }}>
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between">
+        <div className="flex flex-row items-end justify-between">
           <div>
             <h1
               className="font-extrabold tracking-tight"
@@ -81,7 +81,7 @@ const HarvardResume = React.forwardRef<HTMLDivElement, Props>(({resumeData, them
           </div>
           
 
-          <div className="mt-3 md:mt-0 text-right">
+          <div className="mt-0 text-right">
             <span
               className="font-medium tracking-wide uppercase"
               style={{
@@ -112,7 +112,7 @@ const HarvardResume = React.forwardRef<HTMLDivElement, Props>(({resumeData, them
           {resumeData.education.map((edu, i) => (
             <div
               key={i}
-              className="flex flex-col sm:flex-row justify-between gap-1 sm:items-baseline"
+              className="flex flex-row justify-between gap-1 items-baseline"
               style={{ marginBottom: i < resumeData.education.length - 1 ? 'var(--item-spacing)' : 0 }}
             >
               <div>
@@ -129,7 +129,7 @@ const HarvardResume = React.forwardRef<HTMLDivElement, Props>(({resumeData, them
                 )}
               </div>
               <div
-                className="sm:text-right"
+                className="text-right"
                 style={{ color: 'var(--secondary-text-color)', fontSize: theme.fontSize }}
               >
                 {edu.period}
@@ -174,7 +174,7 @@ const HarvardResume = React.forwardRef<HTMLDivElement, Props>(({resumeData, them
                 key={i}
                 style={{ marginBottom: i < resumeData.experience.length - 1 ? 'var(--item-spacing)' : 0 }}
               >
-                <div className="flex flex-col sm:flex-row justify-between sm:items-baseline">
+                <div className="flex flex-row justify-between items-baseline">
                   <div>
                     <span className="font-semibold" style={{ fontSize: theme.fontSize }}>
                       {exp.title}
@@ -189,7 +189,7 @@ const HarvardResume = React.forwardRef<HTMLDivElement, Props>(({resumeData, them
                     )}
                   </div>
                   <div
-                    className="sm:text-right"
+                    className="text-right"
                     style={{ color: 'var(--secondary-text-color)', fontSize: theme.fontSize }}
                   >
                     {`${exp.startDate} - ${exp.endDate}`}

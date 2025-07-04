@@ -1,7 +1,7 @@
 import { useResumeData } from '../../hooks/useResumeData';
 import fetchApi from '../../lib/fetchUtil';
 import { useResumeStore } from '../../store/ResumeStore';
-import { Plus, Trash2, X, Sparkles } from 'lucide-react';
+import { Plus, Trash2, X, Sparkles, PlusCircle } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
 const SkillsSection = () => {
@@ -61,7 +61,7 @@ const SkillsSection = () => {
 
   const generateSkills = async (index: number, inputValue: string) => {
     const category = skills[index]?.category || '';
-    if (!resumeJobTitle ) return;
+    if (!resumeJobTitle) return;
     
     // Create cache key based on job title, category, and input
     const cacheKey = `${resumeJobTitle.toLowerCase()}-${category.toLowerCase()}`;
@@ -73,13 +73,12 @@ const SkillsSection = () => {
         !existingSkills.has(skill.toLowerCase())
       );
       // Include the user-typed input at the top if it's not already suggested
-         const includeTyped = inputValue.trim();
-         const finalSuggestions = includeTyped && !filteredSuggestions.includes(includeTyped)
-             ? [includeTyped, ...filteredSuggestions]
-                  : filteredSuggestions;
+      const includeTyped = inputValue.trim();
+      const finalSuggestions = includeTyped && !filteredSuggestions.includes(includeTyped)
+        ? [includeTyped, ...filteredSuggestions]
+        : filteredSuggestions;
 
       setSuggestedSkills(prev => ({ ...prev, [index]: finalSuggestions }));
-
       setShowSuggestions(prev => ({ ...prev, [index]: true }));
       return;
     }
@@ -101,7 +100,7 @@ const SkillsSection = () => {
       const filteredSuggestions = suggestions.filter((skill: string) => 
         !existingSkills.has(skill.toLowerCase())
       );
-      setSuggestedSkills(prev => ({ ...prev, inputValue,  [index]: filteredSuggestions }));
+      setSuggestedSkills(prev => ({ ...prev, [index]: filteredSuggestions }));
       setShowSuggestions(prev => ({ ...prev, [index]: true }));
     } catch (error) {
       console.error('AI generation failed', error);
@@ -119,10 +118,10 @@ const SkillsSection = () => {
     }
     
     // Set new timeout for API call
-    if (value.trim() && value.length >= 2) { // Only search if 2+ characters
+    if (value.trim() && value.length >= 1) { // Only search if 1+ characters
       const timeout = setTimeout(() => {
         generateSkills(index, value);
-      }, 100); // Increased debounce to 100ms
+      }, 50); // Increased debounce to 100ms
       setDebounceTimeout(timeout);
     } else {
       setShowSuggestions(prev => ({ ...prev, [index]: false }));
@@ -143,6 +142,13 @@ const SkillsSection = () => {
 
   const handleSuggestionClick = (index: number, skill: string) => {
     addSkill(index, skill);
+  };
+
+  const handleAddSkillClick = (index: number) => {
+    const value = skillInputs[index] || '';
+    if (value.trim()) {
+      addSkill(index, value);
+    }
   };
 
   // Click outside to close suggestions
@@ -167,9 +173,9 @@ const SkillsSection = () => {
   return (
     <div className="sm:space-y-6 space-y-4">
       <h2 className="text-xl font-semibold text-gray-800">Skills</h2>
-        <p className="sm:text-sm text-xs font-bold text-blue-900 flex items-center">
-           <Sparkles className='sm:w-4 w-2'/> AI suggestions for skills will appear as you type.
-          </p>
+      <p className="sm:text-sm text-xs font-bold text-blue-900 flex items-center">
+        <Sparkles className='sm:w-4 w-2'/> AI suggestions for skills will appear as you type.
+      </p>
       {skills.map((cat, idx) => (
         <div
           key={idx}
@@ -196,25 +202,37 @@ const SkillsSection = () => {
 
           {/* Skills Input with Suggestions */}
           <div className="relative">
-            <input
-              ref={(el) => {
-                inputRefs.current[idx] = el;
-              }}
-              type="text"
-              placeholder="Type a skill and press Enter (e.g., JavaScript, React, Node.js)"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm"
-              value={skillInputs[idx] || ''}
-              onChange={(e) => handleSkillInputChange(idx, e.target.value)}
-              onKeyDown={(e) => handleSkillInputKeyDown(idx, e)}
-            />
-            
+            <div className="flex gap-2">
+              <input
+                ref={(el) => {
+                  inputRefs.current[idx] = el;
+                }}
+                type="text"
+                placeholder="Type a skill and press Enter (e.g., JavaScript, React, Node.js)"
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm"
+                value={skillInputs[idx] || ''}
+                onChange={(e) => handleSkillInputChange(idx, e.target.value)}
+                onKeyDown={(e) => handleSkillInputKeyDown(idx, e)}
+              />
+              <button
+                type="button"
+                onClick={() => handleAddSkillClick(idx)}
+                disabled={!skillInputs[idx]?.trim()}
+                className="p-1 sm:p-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center gap-1 sm:text-sm text-xs"
+              >
+                <PlusCircle className="w-4 h-4" />
+                Add
+              </button>
+            </div>
+
             {/* Loading indicator */}
-            {loadingIndex === idx && (
-              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                <div className="animate-spin h-4 w-4 border-2 border-blue-500 border-t-transparent rounded-full"></div>
+             {loadingIndex === idx && (
+              <div className="absolute right-20 top-1/2 transform -translate-y-1/2 bg-blue-50 px-2 py-1 rounded-md border border-blue-200 flex items-center gap-1 sm:gap-2">
+                <div className="animate-spin h-3 w-3 border-2 border-blue-500 border-t-transparent rounded-full"></div>
+                <span className="hidden sm:inline text-xs text-blue-700 font-medium">AI generating skills...</span>
+                <span className="sm:hidden text-xs text-blue-700 font-medium">AI...</span>
               </div>
             )}
-
             {/* Suggestions dropdown */}
             {showSuggestions[idx] && suggestedSkills[idx] && suggestedSkills[idx].length > 0 && (
               <div className="suggestions-dropdown absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-40 overflow-y-auto">
