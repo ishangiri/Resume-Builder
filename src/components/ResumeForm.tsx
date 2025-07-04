@@ -8,6 +8,8 @@ import {
   PersonalDetails, EducationSection, SkillSection, SummarySection,
   ExperienceSection, JobTitleSection, CertificationSection, ProjectSection
 } from './FormSections';
+import { useResumeStore } from '../store/ResumeStore';
+import { useAuthStore } from '../store/auth/authStore';
 
 interface props{
   saveResume: () => void;
@@ -19,6 +21,8 @@ const [currentStep, setCurrentStep] = useState(0);
 
 const [mobileView, setMobileView] = useState(false);
 
+const {id : updateID} = useResumeStore();
+const {user} = useAuthStore();
 
   const steps = [
     { id: 'personal-details', title: 'Personal Details', icon: User, component: PersonalDetails },
@@ -58,8 +62,8 @@ useEffect(() => {
 
         {/* Header */}
         <div className="text-center sm:mb-6 mb-4">
-          <h1 className="sm:text-3xl text-xl font-bold text-blue-600 sm:mb-2 mb-1">Create Your Resume</h1>
-          <p className="text-gray-600 text-sm sm:text-md">Fill out each section step by step to build your professional resume</p>
+          <h1 className="sm:text-3xl text-xl font-bold text-blue-600 sm:mb-2 mb-1">{updateID !== 0 && user ? "Update Your Resume" : "Create Your Resume"}</h1>
+          {updateID === 0 && <p className="text-gray-600 text-sm sm:text-md">Fill out each section step by step to build your professional resume</p>}
         </div>
 
         {/* Mobile Progress Indicator */}
