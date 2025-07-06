@@ -44,8 +44,11 @@ git clone https://github.com/your-username/ai-resume-builder.git
 
 ### 2. create your .env files with these required fields.
 
-for server 
-OPENAI_API_KEY 
+for server
+
+OPENAI_API_KEY
+
+
 DATABASE_URL
 
 
@@ -60,8 +63,11 @@ VITE_FIREBASE_API_KEY
 
 
 ### 3. run your project
+
 npm run dev
+
 cd server
+
 fastapi run main.py --reload
 
 
